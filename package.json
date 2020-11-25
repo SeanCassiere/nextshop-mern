@@ -11,7 +11,7 @@
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
-    "data:destroy": "node backend/seeder -d"    
+    "data:destroy": "node backend/seeder -d"
   },
   "keywords": [],
   "author": "Sean Cassiere",
@@ -21,6 +21,7 @@
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
     "mongoose": "^5.10.16"
   },
   "devDependencies": {
