@@ -1,3 +1,7 @@
+body {
+  overflow-y: scroll; /* Show scrollbars */
+}
+
 main {
   min-height: 80vh;
 }
