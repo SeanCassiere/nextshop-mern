@@ -11,19 +11,20 @@ const Product = ({ product }) => {
       </Link>
 
       <Card.Body>
-      <Link to={`/product/${product._id}`}>
-        <Card.Title key={product._id} as='div'>
-          <strong>{product.name}</strong>
-        </Card.Title>
-      </Link>
+        <Link to={`/product/${product._id}`}>
+          <Card.Title key={product._id} as='div'>
+            <strong>{product.name}</strong>
+          </Card.Title>
+        </Link>
 
         <Card.Text as='div'>
-          <Rating rating={product.rating} text={`${product.numReviews} reviews`} />
+          <Rating
+            rating={product.rating}
+            text={`${product.numReviews} reviews`}
+          />
         </Card.Text>
 
-        <Card.Text as='h3'>
-          ${product.price}
-        </Card.Text>
+        <Card.Text as='h3'>${product.price}</Card.Text>
       </Card.Body>
     </Card>
   )
