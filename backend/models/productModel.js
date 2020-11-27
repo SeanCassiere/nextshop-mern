@@ -22,7 +22,7 @@ const productSchema = mongoose.Schema(
     price: { type: Number, required: true, default: 0 },
     countInStock: { type: Number, required: true, default: 0 },
   },
-  { timeStamps: true }
+  { timestamps: true }
 )
 
 const Product = mongoose.model('product', productSchema)

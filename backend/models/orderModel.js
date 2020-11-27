@@ -41,7 +41,7 @@ const orderSchema = mongoose.Schema(
     isDeliver: { type: Boolean, required: true, default: false },
     deliveredAt: { type: Date },
   },
-  { timeStamps: true }
+  { timestamps: true }
 )
 
 const Order = mongoose.model('order', orderSchema)
