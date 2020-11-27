@@ -24,12 +24,12 @@ const OrderScreen = ({ match }) => {
   const orderPay = useSelector((state) => state.orderPay)
   const { success: successPay, loading: loadingPay } = orderPay
 
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2)
+  }
+
   if (!loading) {
     // Calculating Prices
-    const addDecimals = (num) => {
-      return (Math.round(num * 100) / 100).toFixed(2)
-    }
-
     order.itemsPrice = addDecimals(
       order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
     )
@@ -163,14 +163,14 @@ const OrderScreen = ({ match }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>${order.shippingPrice}</Col>
+                  <Col>${addDecimals(order.shippingPrice)}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${order.taxPrice}</Col>
+                  <Col>${addDecimals(order.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -180,9 +180,13 @@ const OrderScreen = ({ match }) => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              <ListGroup.Item>
-                {error && <Message variant='danger'>{error}</Message>}
-              </ListGroup.Item>
+
+              {error && (
+                <ListGroup.Item>
+                  <Message variant='danger'>{error}</Message>
+                </ListGroup.Item>
+              )}
+
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
