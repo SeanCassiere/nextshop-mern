@@ -154,7 +154,14 @@ const updateUser = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
-    if (req.body.isAdmin !== undefined) {
+
+    if (
+      String(req.user._id) === String(user._id) &&
+      user.isAdmin !== req.body.isAdmin
+    ) {
+      res.status(401)
+      throw new Error('Admin cannot remove their own Admin Status')
+    } else if (req.body.isAdmin !== undefined) {
       user.isAdmin = req.body.isAdmin
     }
 
