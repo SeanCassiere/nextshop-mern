@@ -22,6 +22,9 @@ const UserEditScreen = ({ match, history }) => {
   const userDetails = useSelector((state) => state.userDetails)
   const { loading, error, user } = userDetails
 
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo: userLoginInfo } = userLogin
+
   const userUpdate = useSelector((state) => state.userUpdate)
   const {
     loading: loadingUpdate,
@@ -111,6 +114,7 @@ const UserEditScreen = ({ match, history }) => {
                 type='checkbox'
                 checked={isAdmin}
                 label='Is Admin?'
+                disabled={userLoginInfo._id === userId}
                 onChange={(e) => {
                   setIsAdmin(e.target.checked)
                 }}
