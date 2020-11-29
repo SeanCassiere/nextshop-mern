@@ -28,6 +28,11 @@ import {
 
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
 
+import {
+  CART_RESET_SHIPPING_ADDRESS,
+  CART_RESET,
+} from '../constants/cartConstants'
+
 export const register = (name, email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -70,10 +75,14 @@ export const register = (name, email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
+  localStorage.setItem('cartItems', [])
+  localStorage.setItem('shippingAddress', {})
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_DETAILS_RESET })
   dispatch({ type: ORDER_LIST_MY_RESET })
   dispatch({ type: USER_LIST_RESET })
+  dispatch({ type: CART_RESET_SHIPPING_ADDRESS })
+  dispatch({ type: CART_RESET })
 }
 
 export const login = (email, password) => async (dispatch) => {
