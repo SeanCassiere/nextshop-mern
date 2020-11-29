@@ -6,7 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 
-import { listAllProducts, deleteProduct } from '../actions/productActions'
+import {
+  listAllProducts,
+  deleteProduct,
+  createProduct,
+} from '../actions/productActions'
+
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch()
@@ -21,20 +27,39 @@ const ProductListScreen = ({ history, match }) => {
     error: deleteError,
   } = productDelete
 
+  const productCreate = useSelector((state) => state.productCreate)
+  const {
+    loading: createLoading,
+    error: createError,
+    success: createSuccess,
+    product: createdProduct,
+  } = productCreate
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   useEffect(() => {
+    dispatch({ type: PRODUCT_CREATE_RESET })
+
     if (userInfo && userInfo.isAdmin) {
       dispatch(listAllProducts())
     } else {
       history.push('/login')
     }
-  }, [dispatch, history, userInfo, deleteSuccess])
+    if (createSuccess) {
+      history.push(`/admin/product/${createdProduct._id}/edit`)
+    }
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    deleteSuccess,
+    createSuccess,
+    createdProduct,
+  ])
 
   const createProductHandler = (product) => {
-    // Create Product
-    console.log(`creating product`)
+    dispatch(createProduct())
   }
 
   const deleteHandler = (id) => {
@@ -56,10 +81,11 @@ const ProductListScreen = ({ history, match }) => {
           </Button>
         </Col>
       </Row>
-      {deleteLoading && <Loader />}
+      {(loading || deleteLoading || createLoading) && <Loader />}
       {deleteError && <Message variant='danger'>{deleteError}</Message>}
+      {createError && <Message variant='danger'>{createError}</Message>}
       {loading ? (
-        <Loader />
+        ''
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
