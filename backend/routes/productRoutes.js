@@ -1,15 +1,17 @@
 import express from 'express'
 import {
   getProductById,
-  getProducts,
+  getActiveProducts,
   deleteProductById,
+  getAllProducts,
 } from '../controllers/productController.js'
 
 import { protect, isAdmin } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/').get(getProducts)
+router.route('/all').get(protect, isAdmin, getAllProducts)
+router.route('/').get(getActiveProducts)
 router
   .route('/:id')
   .get(getProductById)

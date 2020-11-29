@@ -1,11 +1,19 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
 
-// @desc Fetch all products
+// @desc Fetch all Active products
 // @route GET /api/products
 // @access Public
-const getProducts = asyncHandler(async (req, res) => {
+const getActiveProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({ isActive: true })
+  res.json(products)
+})
+
+// @desc Fetch all products
+// @route GET /api/products
+// @access Private/Admin
+const getAllProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
   res.json(products)
 })
 
@@ -36,4 +44,4 @@ const deleteProductById = asyncHandler(async (req, res) => {
   }
 })
 
-export { getProducts, getProductById, deleteProductById }
+export { getActiveProducts, getProductById, deleteProductById, getAllProducts }
