@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 
-import { listProducts, deleteProduct } from '../actions/productActions'
+import { listAllProducts, deleteProduct } from '../actions/productActions'
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch()
 
-  const productList = useSelector((state) => state.productList)
-  const { loading, error, products } = productList
+  const productListAll = useSelector((state) => state.productListAll)
+  const { loading, error, products } = productListAll
 
   const productDelete = useSelector((state) => state.productDelete)
   const {
@@ -26,7 +26,7 @@ const ProductListScreen = ({ history, match }) => {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts())
+      dispatch(listAllProducts())
     } else {
       history.push('/login')
     }
