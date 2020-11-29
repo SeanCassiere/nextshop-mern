@@ -76,7 +76,7 @@ export const register = (name, email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
   localStorage.setItem('cartItems', [])
-  localStorage.setItem('shippingAddress', {})
+  localStorage.setItem('shippingAddress', [])
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_DETAILS_RESET })
   dispatch({ type: ORDER_LIST_MY_RESET })
