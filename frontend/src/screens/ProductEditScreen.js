@@ -7,11 +7,8 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 
-import {
-  listProductDetails,
-  updateProductDetails,
-} from '../actions/productActions'
-import { USER_UPDATE_RESET } from '../constants/userConstants'
+import { listProductDetails, updateProduct } from '../actions/productActions'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id
@@ -30,32 +27,57 @@ const ProductEditScreen = ({ match, history }) => {
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
 
+  const productUpdate = useSelector((state) => state.productUpdate)
+  const {
+    loading: updateLoading,
+    error: updateError,
+    success: updateSuccess,
+  } = productUpdate
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const submitHandler = (e) => {
+    e.preventDefault()
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        description,
+        countInStock,
+        isActive,
+      })
+    )
+  }
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      if (!product.name || product._id !== productId) {
+      if (updateSuccess) {
         dispatch(listProductDetails(productId))
+        dispatch({ type: PRODUCT_UPDATE_RESET })
+        history.push('/admin/productlist')
       } else {
-        setName(product.name)
-        setPrice(product.price)
-        setImage(product.image)
-        setBrand(product.brand)
-        setCategory(product.category)
-        setDescription(product.description)
-        setCountInStock(product.countInStock)
-        setIsActive(product.isActive)
+        if (!product.name || product._id !== productId) {
+          dispatch(listProductDetails(productId))
+        } else {
+          setName(product.name)
+          setPrice(product.price)
+          setImage(product.image)
+          setBrand(product.brand)
+          setCategory(product.category)
+          setDescription(product.description)
+          setCountInStock(product.countInStock)
+          setIsActive(product.isActive)
+        }
       }
     } else {
       history.push('/login')
     }
-  }, [dispatch, history, userInfo, productId, product])
-
-  const submitHandler = (e) => {
-    e.preventDefault()
-    //
-  }
+  }, [dispatch, history, userInfo, productId, product, updateSuccess])
 
   return (
     <>
@@ -65,8 +87,8 @@ const ProductEditScreen = ({ match, history }) => {
       <FormContainer>
         <h1>Edit Product</h1>
 
-        {/* {loadingUpdate && <Loader />}
-        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>} */}
+        {updateLoading && <Loader />}
+        {updateError && <Message variant='danger'>{updateError}</Message>}
 
         {loading ? (
           <Loader />
@@ -122,11 +144,12 @@ const ProductEditScreen = ({ match, history }) => {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as='textarea'
+                rows={3}
                 value={description}
                 onChange={(e) => {
                   setDescription(e.target.value)
                 }}
-              ></Form.Control>
+              />
             </Form.Group>
 
             <Row>
@@ -144,7 +167,7 @@ const ProductEditScreen = ({ match, history }) => {
               </Col>
               <Col>
                 <Form.Group controlId='instock'>
-                  <Form.Label>In Stock</Form.Label>
+                  <Form.Label>Stock</Form.Label>
                   <Form.Control
                     type='text'
                     value={countInStock}

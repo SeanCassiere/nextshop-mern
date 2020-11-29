@@ -95,6 +95,7 @@ const ProductListScreen = ({ history, match }) => {
               <th>ID</th>
               <th>Name</th>
               <th>Price</th>
+              <td>Active</td>
               <th>Category</th>
               <th>Brand</th>
               <th></th>
@@ -106,6 +107,13 @@ const ProductListScreen = ({ history, match }) => {
                 <td>{product._id}</td>
                 <td>{product.name}</td>
                 <td>${product.price}</td>
+                <td className='text-center'>
+                  {product.isActive ? (
+                    <i className='fas fa-check' style={{ color: 'green' }}></i>
+                  ) : (
+                    <i className='fas fa-times' style={{ color: 'red' }}></i>
+                  )}
+                </td>
                 <td>{product.category}</td>
                 <td>{product.brand}</td>
                 <td>
