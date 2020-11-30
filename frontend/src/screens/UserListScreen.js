@@ -24,7 +24,7 @@ const UserListScreen = ({ history }) => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listUsers())
     } else {
-      history.push('/login')
+      history.push('/login?redirect=admin/userlist')
     }
   }, [dispatch, history, userInfo, deleteSuccess])
 

@@ -68,7 +68,7 @@ const OrderScreen = ({ match, history }) => {
         }
       }
     } else {
-      history.push('/login')
+      history.push(`/login?redirect=order/${orderId}`)
     }
   }, [history, dispatch, order, orderId, successPay, userInfo])
 
