@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from "react"
+import { LinkContainer } from "react-router-bootstrap"
+import { Table, Button, Row, Col } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
 
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Message from "../components/Message"
+import Loader from "../components/Loader"
 
 import {
   listAllProducts,
   deleteProduct,
   createProduct,
-} from '../actions/productActions'
+} from "../actions/productActions"
 
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import { PRODUCT_CREATE_RESET } from "../constants/productConstants"
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch()
@@ -44,7 +44,7 @@ const ProductListScreen = ({ history, match }) => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listAllProducts())
     } else {
-      history.push('/login')
+      history.push("/login")
     }
     if (createSuccess) {
       history.push(`/admin/product/${createdProduct._id}/edit`)
@@ -64,7 +64,7 @@ const ProductListScreen = ({ history, match }) => {
 
   const deleteHandler = (id) => {
     // Delete Product
-    if (window.confirm('Are you sure you want to delete this product?')) {
+    if (window.confirm("Are you sure you want to delete this product?")) {
       dispatch(deleteProduct(id))
     }
   }
@@ -85,7 +85,7 @@ const ProductListScreen = ({ history, match }) => {
       {deleteError && <Message variant='danger'>{deleteError}</Message>}
       {createError && <Message variant='danger'>{createError}</Message>}
       {loading ? (
-        ''
+        ""
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
@@ -109,9 +109,9 @@ const ProductListScreen = ({ history, match }) => {
                 <td>${product.price}</td>
                 <td className='text-center'>
                   {product.isActive ? (
-                    <i className='fas fa-check' style={{ color: 'green' }}></i>
+                    <i className='fas fa-check' style={{ color: "green" }}></i>
                   ) : (
-                    <i className='fas fa-times' style={{ color: 'red' }}></i>
+                    <i className='fas fa-times' style={{ color: "red" }}></i>
                   )}
                 </td>
                 <td>{product.category}</td>

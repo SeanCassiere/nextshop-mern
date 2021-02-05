@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react"
 //import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col, Table } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import { Form, Button, Row, Col, Table } from "react-bootstrap"
+import { LinkContainer } from "react-router-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
 
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants"
 
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Message from "../components/Message"
+import Loader from "../components/Loader"
 
-import { getUserDetails, updateUserProfile } from '../actions/userActions'
-import { listMyOrders } from '../actions/orderActions'
+import { getUserDetails, updateUserProfile } from "../actions/userActions"
+import { listMyOrders } from "../actions/orderActions"
 
 const ProfileScreen = ({ history }) => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [message, setMessage] = useState(null)
 
   const dispatch = useDispatch()
@@ -35,11 +35,11 @@ const ProfileScreen = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login')
+      history.push("/login")
     } else {
       if (!user.name || success) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET })
-        dispatch(getUserDetails('profile'))
+        dispatch(getUserDetails("profile"))
         dispatch(listMyOrders())
       } else {
         setName(user.name)
@@ -51,7 +51,7 @@ const ProfileScreen = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match')
+      setMessage("Passwords do not match")
     } else {
       dispatch(updateUserProfile({ id: user._id, name, email, password }))
     }
@@ -69,7 +69,7 @@ const ProfileScreen = ({ history }) => {
         ) : loading ? (
           <Loader />
         ) : (
-          ''
+          ""
         )}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
@@ -149,14 +149,14 @@ const ProfileScreen = ({ history }) => {
                     {order.isPaid ? (
                       order.paidAt.substring(0, 10)
                     ) : (
-                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                      <i className='fas fa-times' style={{ color: "red" }}></i>
                     )}
                   </td>
                   <td>
                     {order.isDeliver ? (
                       order.deliveredAt.substring(0, 10)
                     ) : (
-                      <i className='fas fa-times' style={{ color: 'red' }}></i>
+                      <i className='fas fa-times' style={{ color: "red" }}></i>
                     )}
                   </td>
                   <td>
