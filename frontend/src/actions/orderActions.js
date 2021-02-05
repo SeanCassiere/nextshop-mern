@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios"
 import {
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
@@ -15,9 +15,12 @@ import {
   ORDER_LIST_ALL_REQUEST,
   ORDER_LIST_ALL_SUCCESS,
   ORDER_LIST_ALL_FAIL,
-} from '../constants/orderConstants'
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_FAIL,
+} from "../constants/orderConstants"
 
-import { CART_RESET } from '../constants/cartConstants'
+import { CART_RESET } from "../constants/cartConstants"
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -31,7 +34,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
@@ -43,8 +46,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
       payload: data,
     })
     dispatch({ type: CART_RESET })
-    localStorage.setItem('cartItems', [])
-    localStorage.removeItem('cartItems')
+    localStorage.setItem("cartItems", [])
+    localStorage.removeItem("cartItems")
   } catch (error) {
     dispatch({
       type: ORDER_CREATE_FAIL,
@@ -104,7 +107,7 @@ export const payOrder = (orderId, paymentResult) => async (
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
@@ -130,6 +133,36 @@ export const payOrder = (orderId, paymentResult) => async (
   }
 }
 
+export const deliverOrder = (orderId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DELIVER_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    await axios.put(`/api/orders/${orderId}/deliver`, {}, config)
+
+    dispatch({ type: ORDER_DELIVER_SUCCESS })
+  } catch (error) {
+    dispatch({
+      type: ORDER_DELIVER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
 export const listMyOrders = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -142,7 +175,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
@@ -176,7 +209,7 @@ export const listAllOrders = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
