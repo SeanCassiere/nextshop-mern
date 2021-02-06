@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import FormContainer from "../components/FormContainer"
 import CheckoutSteps from "../components/CheckoutSteps"
+import MetaDecorator from "../components/MetaDecorator"
 
 import { savePaymentMethod } from "../actions/cartActions"
 
@@ -27,6 +28,7 @@ const PaymentScreen = ({ history }) => {
 
   return (
     <FormContainer>
+      <MetaDecorator title='NextShop - Payment Method' />
       <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
       <Form onSubmit={submitHandler}>

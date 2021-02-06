@@ -4,8 +4,10 @@ import { PayPalButton } from "react-paypal-button-v2"
 import { Link } from "react-router-dom"
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
+
 import Message from "../components/Message"
 import Loader from "../components/Loader"
+import MetaDecorator from "../components/MetaDecorator"
 
 import {
   ORDER_PAY_RESET,
@@ -94,6 +96,7 @@ const OrderScreen = ({ match, history }) => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
+      <MetaDecorator title={`NextShop - Order: ${order._id}`} />
       <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>

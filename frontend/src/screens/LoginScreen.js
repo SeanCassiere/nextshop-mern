@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
+import MetaDecorator from "../components/MetaDecorator"
 
 import { login } from "../actions/userActions"
 
@@ -33,6 +34,7 @@ const LoginScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
+      <MetaDecorator title='NextShop - Login' description='NextShop - Login' />
       <h1>Sign In</h1>
       {error ? (
         <Message variant='danger'>{error}</Message>

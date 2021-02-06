@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import { Form, Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 
+import MetaDecorator from "../components/MetaDecorator"
+
 import FormContainer from "../components/FormContainer"
 import CheckoutSteps from "../components/CheckoutSteps"
 
@@ -26,6 +28,7 @@ const ShippingScreen = ({ history }) => {
 
   return (
     <FormContainer>
+      <MetaDecorator title='NextShop - Shipping Info' />
       <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>

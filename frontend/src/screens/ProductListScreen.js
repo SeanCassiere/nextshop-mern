@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import Paginate from "../components/Paginate"
+import MetaDecorator from "../components/MetaDecorator"
 
 import {
   listAllProducts,
@@ -75,6 +76,7 @@ const ProductListScreen = ({ history, match }) => {
 
   return (
     <>
+      <MetaDecorator title='Admin - All Products' />
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>

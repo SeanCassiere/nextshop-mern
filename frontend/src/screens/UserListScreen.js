@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import Message from "../components/Message"
 import Loader from "../components/Loader"
+import MetaDecorator from "../components/MetaDecorator"
 
 import { listUsers, deleteUser } from "../actions/userActions"
 
@@ -36,6 +37,7 @@ const UserListScreen = ({ history }) => {
 
   return (
     <>
+      <MetaDecorator title='Admin - All Users' />
       <h1>Users</h1>
       {loading ? (
         <Loader />

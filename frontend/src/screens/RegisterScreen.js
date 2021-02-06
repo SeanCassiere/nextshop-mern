@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
+import MetaDecorator from "../components/MetaDecorator"
 
 import { register } from "../actions/userActions"
 
@@ -40,6 +41,10 @@ const RegisterScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
+      <MetaDecorator
+        title='NextShop - Sign Up'
+        description='NextShop - Sign Up'
+      />
       <h1>Sign Up</h1>
       {message && <Message variant='danger'>{message}</Message>}
       {error ? (

@@ -10,6 +10,7 @@ import {
 } from "../actions/productActions"
 import Loader from "../components/Loader"
 import Message from "../components/Message"
+import MetaDecorator from "../components/MetaDecorator"
 
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants"
 
@@ -62,6 +63,11 @@ const ProductScreen = ({ history, match }) => {
         <Message>{error}</Message>
       ) : (
         <>
+          <MetaDecorator
+            title={product.name}
+            description={product.description}
+            keywords={`${product.category}, ${product.brand}, ${product.name}`}
+          />
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />

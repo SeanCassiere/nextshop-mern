@@ -8,6 +8,7 @@ import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants"
 
 import Message from "../components/Message"
 import Loader from "../components/Loader"
+import MetaDecorator from "../components/MetaDecorator"
 
 import { getUserDetails, updateUserProfile } from "../actions/userActions"
 import { listMyOrders } from "../actions/orderActions"
@@ -58,6 +59,7 @@ const ProfileScreen = ({ history }) => {
   }
   return (
     <Row>
+      <MetaDecorator title={`Profile - ${user.name}`} />
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
@@ -71,6 +73,7 @@ const ProfileScreen = ({ history }) => {
         ) : (
           ""
         )}
+
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
             <Form.Label>Name</Form.Label>

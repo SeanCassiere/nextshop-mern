@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
+import MetaDecorator from "../components/MetaDecorator"
 
 import { getUserDetails, updateUser } from "../actions/userActions"
 import { USER_UPDATE_RESET } from "../constants/userConstants"
@@ -75,56 +76,59 @@ const UserEditScreen = ({ match, history }) => {
         ) : error ? (
           <Message variant='danger'>{error}</Message>
         ) : (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId='userid'>
-              <Form.Label>User Id</Form.Label>
-              <Form.Control
-                type='text'
-                value={user._id}
-                disabled={true}
-              ></Form.Control>
-            </Form.Group>
+          <>
+            <MetaDecorator title={`Edit User: ${user.name}`} />
+            <Form onSubmit={submitHandler}>
+              <Form.Group controlId='userid'>
+                <Form.Label>User Id</Form.Label>
+                <Form.Control
+                  type='text'
+                  value={user._id}
+                  disabled={true}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId='name'>
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Enter Name'
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value)
-                }}
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId='name'>
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter Name'
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value)
+                  }}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId='email'>
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter Email'
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value)
-                }}
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId='email'>
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control
+                  type='email'
+                  placeholder='Enter Email'
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                  }}
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId='isadmin'>
-              <Form.Check
-                type='checkbox'
-                checked={isAdmin}
-                label='Is Admin?'
-                disabled={userLoginInfo._id === userId}
-                onChange={(e) => {
-                  setIsAdmin(e.target.checked)
-                }}
-              ></Form.Check>
-            </Form.Group>
+              <Form.Group controlId='isadmin'>
+                <Form.Check
+                  type='checkbox'
+                  checked={isAdmin}
+                  label='Is Admin?'
+                  disabled={userLoginInfo._id === userId}
+                  onChange={(e) => {
+                    setIsAdmin(e.target.checked)
+                  }}
+                ></Form.Check>
+              </Form.Group>
 
-            <Button type='submit' variant='primary'>
-              Update
-            </Button>
-          </Form>
+              <Button type='submit' variant='primary'>
+                Update
+              </Button>
+            </Form>
+          </>
         )}
       </FormContainer>
     </>
