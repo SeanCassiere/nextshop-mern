@@ -10,6 +10,8 @@
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client-typescript": "npm start --prefix frontend-typescript",
+    "dev-typescript": "concurrently \"npm run server\" \"npm run client-typescript\"",
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -d",
     "productData:import": "node backend/seederProducts",
