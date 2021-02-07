@@ -6,7 +6,7 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from "react-bootstrap"
 import Message from "../components/Message"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { addToCart, removeFromCart } from "../actions/cartActions"
+import { addToCart, removeFromCart } from "../redux/actions/cartActions"
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id

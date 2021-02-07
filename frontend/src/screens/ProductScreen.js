@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from "react-redux"
 import { Row, Col, Image, ListGroup, Card, Button, Form } from "react-bootstrap"
 
 import Rating from "../components/Rating"
-import {
-  listProductDetails,
-  createProductReview,
-} from "../actions/productActions"
 import Loader from "../components/Loader"
 import Message from "../components/Message"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants"
+import {
+  listProductDetails,
+  createProductReview,
+} from "../redux/actions/productActions"
+import { PRODUCT_CREATE_REVIEW_RESET } from "../redux/constants/productConstants"
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1)

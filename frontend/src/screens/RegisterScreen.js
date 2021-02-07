@@ -8,7 +8,7 @@ import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { register } from "../actions/userActions"
+import { register } from "../redux/actions/userActions"
 
 const RegisterScreen = ({ location, history }) => {
   const [name, setName] = useState("")

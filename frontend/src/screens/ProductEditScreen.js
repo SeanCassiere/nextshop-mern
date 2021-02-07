@@ -9,8 +9,11 @@ import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { listProductDetails, updateProduct } from "../actions/productActions"
-import { PRODUCT_UPDATE_RESET } from "../constants/productConstants"
+import {
+  listProductDetails,
+  updateProduct,
+} from "../redux/actions/productActions"
+import { PRODUCT_UPDATE_RESET } from "../redux/constants/productConstants"
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id

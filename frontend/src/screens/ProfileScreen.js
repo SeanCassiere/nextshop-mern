@@ -4,14 +4,13 @@ import { Form, Button, Row, Col, Table } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 
-import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants"
-
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { getUserDetails, updateUserProfile } from "../actions/userActions"
-import { listMyOrders } from "../actions/orderActions"
+import { USER_UPDATE_PROFILE_RESET } from "../redux/constants/userConstants"
+import { getUserDetails, updateUserProfile } from "../redux/actions/userActions"
+import { listMyOrders } from "../redux/actions/orderActions"
 
 const ProfileScreen = ({ history }) => {
   const [name, setName] = useState("")

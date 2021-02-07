@@ -7,7 +7,7 @@ import Message from "../components/Message"
 import CheckoutSteps from "../components/CheckoutSteps"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { createOrder } from "../actions/orderActions"
+import { createOrder } from "../redux/actions/orderActions"
 
 const PlaceOrderScreen = ({ history }) => {
   const addDecimals = (num) => {

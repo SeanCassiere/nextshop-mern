@@ -8,8 +8,8 @@ import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { getUserDetails, updateUser } from "../actions/userActions"
-import { USER_UPDATE_RESET } from "../constants/userConstants"
+import { getUserDetails, updateUser } from "../redux/actions/userActions"
+import { USER_UPDATE_RESET } from "../redux/constants/userConstants"
 
 const UserEditScreen = ({ match, history }) => {
   const userId = match.params.id
@@ -34,19 +34,24 @@ const UserEditScreen = ({ match, history }) => {
   } = userUpdate
 
   useEffect(() => {
-    if (successUpdate) {
-      dispatch({ type: USER_UPDATE_RESET })
-      history.push("/admin/userlist")
-    } else {
-      if (!user.name || user._id !== userId) {
-        dispatch(getUserDetails(userId))
+    if (userLoginInfo && userLoginInfo.isAdmin) {
+      if (successUpdate) {
+        dispatch({ type: USER_UPDATE_RESET })
+        history.push("/admin/userlist")
       } else {
-        setName(user.name)
-        setEmail(user.email)
-        setIsAdmin(user.isAdmin)
+        if (!user.name || user._id !== userId) {
+          dispatch(getUserDetails(userId))
+        } else {
+          setName(user.name)
+          setEmail(user.email)
+          setIsAdmin(user.isAdmin)
+        }
       }
+    } else {
+      console.log("Passing the redirect condition")
+      history.push(`/login?redirect=admin/user/${userId}/edit`)
     }
-  }, [dispatch, history, user, userId, successUpdate])
+  }, [dispatch, history, user, userId, successUpdate, userLoginInfo])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -112,17 +117,19 @@ const UserEditScreen = ({ match, history }) => {
                 ></Form.Control>
               </Form.Group>
 
-              <Form.Group controlId='isadmin'>
-                <Form.Check
-                  type='checkbox'
-                  checked={isAdmin}
-                  label='Is Admin?'
-                  disabled={userLoginInfo._id === userId}
-                  onChange={(e) => {
-                    setIsAdmin(e.target.checked)
-                  }}
-                ></Form.Check>
-              </Form.Group>
+              {userLoginInfo._id && (
+                <Form.Group controlId='isadmin'>
+                  <Form.Check
+                    type='checkbox'
+                    checked={isAdmin}
+                    label='Is Admin?'
+                    disabled={userLoginInfo._id === userId}
+                    onChange={(e) => {
+                      setIsAdmin(e.target.checked)
+                    }}
+                  ></Form.Check>
+                </Form.Group>
+              )}
 
               <Button type='submit' variant='primary'>
                 Update

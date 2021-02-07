@@ -7,7 +7,7 @@ import Message from "../components/Message"
 import Loader from "../components/Loader"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { listAllOrders } from "../actions/orderActions"
+import { listAllOrders } from "../redux/actions/orderActions"
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch()

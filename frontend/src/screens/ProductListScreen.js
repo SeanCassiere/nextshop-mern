@@ -12,9 +12,9 @@ import {
   listAllProducts,
   deleteProduct,
   createProduct,
-} from "../actions/productActions"
+} from "../redux/actions/productActions"
 
-import { PRODUCT_CREATE_RESET } from "../constants/productConstants"
+import { PRODUCT_CREATE_RESET } from "../redux/constants/productConstants"
 
 const ProductListScreen = ({ history, match }) => {
   const pageNumber = match.params.pageNumber || 1

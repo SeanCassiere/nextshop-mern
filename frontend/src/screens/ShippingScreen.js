@@ -3,11 +3,10 @@ import { Form, Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 
 import MetaDecorator from "../components/MetaDecorator"
-
 import FormContainer from "../components/FormContainer"
 import CheckoutSteps from "../components/CheckoutSteps"
 
-import { saveShippingAddress } from "../actions/cartActions"
+import { saveShippingAddress } from "../redux/actions/cartActions"
 
 const ShippingScreen = ({ history }) => {
   const dispatch = useDispatch()

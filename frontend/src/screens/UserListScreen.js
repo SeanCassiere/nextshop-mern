@@ -7,7 +7,7 @@ import Message from "../components/Message"
 import Loader from "../components/Loader"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { listUsers, deleteUser } from "../actions/userActions"
+import { listUsers, deleteUser } from "../redux/actions/userActions"
 
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch()

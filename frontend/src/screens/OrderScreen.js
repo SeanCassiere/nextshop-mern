@@ -12,13 +12,13 @@ import MetaDecorator from "../components/MetaDecorator"
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
-} from "../constants/orderConstants"
+} from "../redux/constants/orderConstants"
 
 import {
   getOrderDetails,
   payOrder,
   deliverOrder,
-} from "../actions/orderActions"
+} from "../redux/actions/orderActions"
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id

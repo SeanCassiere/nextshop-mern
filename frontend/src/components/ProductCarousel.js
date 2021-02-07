@@ -7,7 +7,7 @@ import { Carousel, Image } from "react-bootstrap"
 import Loader from "./Loader"
 import Message from "./Message"
 
-import { listTopProducts } from "../actions/productActions"
+import { listTopProducts } from "../redux/actions/productActions"
 
 const ProductCarousel = () => {
   const dispatch = useDispatch()

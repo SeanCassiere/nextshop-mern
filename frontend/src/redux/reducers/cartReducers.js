@@ -5,7 +5,7 @@ import {
   CART_RESET_SHIPPING_ADDRESS,
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
-} from '../constants/cartConstants'
+} from "../constants/cartConstants"
 
 export const cartReducer = (
   state = { cartItems: [], shippingAddress: {} },

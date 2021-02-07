@@ -6,7 +6,7 @@ import FormContainer from "../components/FormContainer"
 import CheckoutSteps from "../components/CheckoutSteps"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { savePaymentMethod } from "../actions/cartActions"
+import { savePaymentMethod } from "../redux/actions/cartActions"
 
 const PaymentScreen = ({ history }) => {
   const dispatch = useDispatch()

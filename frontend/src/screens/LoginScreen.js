@@ -8,7 +8,7 @@ import Loader from "../components/Loader"
 import FormContainer from "../components/FormContainer"
 import MetaDecorator from "../components/MetaDecorator"
 
-import { login } from "../actions/userActions"
+import { login } from "../redux/actions/userActions"
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState("")
@@ -53,6 +53,7 @@ const LoginScreen = ({ location, history }) => {
             onChange={(e) => {
               setEmail(e.target.value)
             }}
+            autoComplete='true'
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='password'>
@@ -64,6 +65,7 @@ const LoginScreen = ({ location, history }) => {
             onChange={(e) => {
               setPassword(e.target.value)
             }}
+            autoComplete='true'
           ></Form.Control>
         </Form.Group>
         <Button type='submit' variant='primary'>
