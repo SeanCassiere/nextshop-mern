@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { UserDocument } from "../models/userModel";
+import { OrderItemInter, OrderShippingAddressInter } from "../models/orderModel";
 
 export interface CustomRequest<T> extends Request {
 	body: T;
@@ -7,4 +7,14 @@ export interface CustomRequest<T> extends Request {
 
 export interface TokenInterface {
 	id: string;
+}
+
+export interface IncomingOrderInterface {
+	orderItems: OrderItemInter[];
+	shippingAddress: OrderShippingAddressInter;
+	paymentMethod: string;
+	itemsPrice: number;
+	taxPrice: number;
+	shippingPrice: number;
+	totalPrice: number;
 }

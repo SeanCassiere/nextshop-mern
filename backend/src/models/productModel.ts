@@ -42,7 +42,7 @@ const productSchema = new Schema<ProductInter, ProductModel>(
 	{ timestamps: true }
 );
 
-interface ProductInter {
+export interface ProductInter {
 	user: mongoose.Schema.Types.ObjectId;
 	name: string;
 	image: string;
