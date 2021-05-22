@@ -9,10 +9,10 @@ import type { UserDocument } from "./models/userModel";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
-// import productRoutes from "./routes/productRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes";
+import userRoutes from "./routes/userRoutes";
 // import orderRoutes from "./routes/orderRoutes.js";
-// import uploadRoutes from "./routes/uploadRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes";
 
 dotenv.config();
 
@@ -34,14 +34,14 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (_, res: Response) => {
 	res.send("API is Running");
 });
 
-// app.use("/api/products", productRoutes)
+app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 // app.use("/api/orders", orderRoutes)
-// app.use("/api/upload", uploadRoutes)
+app.use("/api/upload", uploadRoutes);
 
 app.get("/api/config/paypal", (_, res) => res.send(process.env.PAYPAL_CLIENT_ID));
 
