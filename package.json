@@ -8,6 +8,7 @@
 		"start": "node backend/build/server",
 		"server": "nodemon",
 		"build:server": "tsc",
+		"build:frontend": "npm run build --prefix frontend",
 		"client": "npm start --prefix frontend",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
 		"data:import": "node backend/src/seeder",
