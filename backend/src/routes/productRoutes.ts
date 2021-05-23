@@ -18,6 +18,33 @@ const router = express.Router();
  * @swagger
  * components:
  *  schemas:
+ *   Review:
+ *    type: object
+ *    required:
+ *     - comment
+ *     - rating
+ *    properties:
+ *     _id:
+ *      type: string
+ *     user:
+ *      type: string
+ *     rating:
+ *      type: number
+ *      description: A rating from 1 - 5
+ *     comment:
+ *      type: string
+ *     createdAt:
+ *      type: string
+ *     updatedAt:
+ *      type: string
+ *    example:
+ *      _id: 601dc2619e65700f34173858
+ *      name: John Doe
+ *      rating: 3
+ *      comment: Could have certainly been better
+ *      user: 5fc2b7d1b9b6255e64167bdb
+ *      createdAt: 2021-02-05T22:10:41.689+00:00
+ *      updatedAt: 2021-02-05T22:10:41.689+00:00
  *   Product:
  *    type: object
  *    required:
@@ -33,40 +60,31 @@ const router = express.Router();
  *    properties:
  *     _id:
  *      type: string
- *      description: The Id of the product
  *     user:
  *      type: string
- *      description: The user who created the product
  *     name:
  *      type: string
- *      description: The name/title of the product
  *     image:
  *      type: string
- *      description: The URL of the product image
  *     brand:
  *      type: string
- *      description: The brand of the product
  *     description:
  *      type: string
- *      description: The description of the product
  *     category:
  *      type: string
- *      description: The category of the product
  *     price:
  *      type: number
- *      description: The price of the product
  *     countInStock:
  *      type: number
- *      description: The number of remaining units in stock for the product
  *     isActive:
  *      type: boolean
- *      description: This controls the availability of the product to the public
+ *     reviews:
+ *      type: array
+ *      $ref: '#/components/schemas/Review'
  *     createdAt:
  *      type: string
- *      description: The created at date
  *     updatedAt:
  *      type: string
- *      description: The created at date
  *     __v:
  *      type: number
  *    example:
@@ -91,6 +109,13 @@ const router = express.Router();
  *   get:
  *     summary: Returns the list of active products
  *     tags: [Products]
+ *     parameters:
+ *      - in: query
+ *        name: pageNumber
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The pagination page number
  *     responses:
  *       200:
  *         description: OK
@@ -123,10 +148,17 @@ router.route("/").get(getActiveProducts).post(protect, isAdmin, createProduct);
  * @swagger
  * /products/all:
  *   get:
- *     summary: Returns the list of top products
+ *     summary: "Returns the list of all products, both Active and Inactive"
  *     tags: [Products]
  *     security:
  *      - bearerAuth: []
+ *     parameters:
+ *      - in: query
+ *        name: pageNumber
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The pagination page number
  *     responses:
  *       200:
  *         description: OK
@@ -172,6 +204,18 @@ router.route("/top").get(getTopProducts);
  *         type: string
  *        required: true
  *        description: The unique id given to the product
+ *     requestBody:
+ *      description: Product review rating and comment
+ *      required: true
+ *      content:
+ *       application/json:
+ *        schema:
+ *         type: object
+ *         properties:
+ *          rating:
+ *           type: number
+ *          comment:
+ *           type: string
  *     responses:
  *       201:
  *         description: Product created
