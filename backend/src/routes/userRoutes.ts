@@ -40,22 +40,23 @@ const router = express.Router();
  *    properties:
  *     _id:
  *      type: string
- *      description: The Id of the product
  *     name:
  *      type: string
- *      description: The user who created the product
+ *     email:
+ *      type: string
+ *     password:
+ *      type: string
  *     isActive:
  *      type: boolean
- *      description: This controls the availability of the product to the public
  *     createdAt:
  *      type: string
- *      description: The created at date
  *     updatedAt:
  *      type: string
- *      description: The created at date
  *    example:
  *     _id: 5fc3c9f5b6003a3dc065c574
- *     user: 5fc2b7d1b9b6255e64167bda
+ *     name: 5fc2b7d1b9b6255e64167bda
+ *     email: 'example@example.com'
+ *     password: 'ahdjkshajkdlhquihejkshadjlkhq9wuhdjklashdsjklahdlk'
  *     isActive: true
  *     createdAt: 2020-11-29T16:19:01.560+00:00
  *     updatedAt: 2020-11-29T16:19:01.560+00:00
@@ -67,22 +68,20 @@ const router = express.Router();
  *    properties:
  *     _id:
  *      type: string
- *      description: The Id of the product
  *     name:
  *      type: string
- *      description: The user who created the product
+ *     email:
+ *      type: string
  *     isActive:
  *      type: boolean
- *      description: This controls the availability of the product to the public
  *     createdAt:
  *      type: string
- *      description: The created at date
  *     updatedAt:
  *      type: string
- *      description: The created at date
  *    example:
  *     _id: 5fc3c9f5b6003a3dc065c574
- *     user: 5fc2b7d1b9b6255e64167bda
+ *     name: John Doe
+ *     email: 'example@example.com'
  *     isActive: true
  *     createdAt: 2020-11-29T16:19:01.560+00:00
  *     updatedAt: 2020-11-29T16:19:01.560+00:00
@@ -92,7 +91,7 @@ const router = express.Router();
  * @swagger
  * /users:
  *   post:
- *     summary: Register a user, PUBLIC
+ *     summary: Register a user
  *     tags: [Users, Public]
  *     requestBody:
  *      description: User data to register the user
@@ -316,6 +315,8 @@ router.route("/profile").get(protect, getUserProfile).put(protect, updateUserPro
  *   get:
  *     summary: Returns a profile without their password by the user Id
  *     tags: [Users, Admin]
+ *     security:
+ *      - bearerAuth: []
  *     parameters:
  *      - in: path
  *        name: id

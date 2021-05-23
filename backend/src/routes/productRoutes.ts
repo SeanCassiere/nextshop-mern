@@ -108,7 +108,7 @@ const router = express.Router();
  * /products:
  *   get:
  *     summary: Returns the list of active products
- *     tags: [Products]
+ *     tags: [Products, Public]
  *     parameters:
  *      - in: query
  *        name: pageNumber
@@ -127,7 +127,7 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/Product'
  *   post:
  *     summary: Create a product
- *     tags: [Products]
+ *     tags: [Products, Admin]
  *     security:
  *      - bearerAuth: []
  *     responses:
@@ -149,7 +149,7 @@ router.route("/").get(getActiveProducts).post(protect, isAdmin, createProduct);
  * /products/all:
  *   get:
  *     summary: "Returns the list of all products, both Active and Inactive"
- *     tags: [Products]
+ *     tags: [Products, Admin]
  *     security:
  *      - bearerAuth: []
  *     parameters:
@@ -176,7 +176,7 @@ router.route("/all").get(protect, isAdmin, getAllProducts);
  * /products/top:
  *   get:
  *     summary: Returns the list of top products
- *     tags: [Products]
+ *     tags: [Products, Public]
  *     responses:
  *       200:
  *         description: OK
@@ -194,7 +194,7 @@ router.route("/top").get(getTopProducts);
  * /products/{productId}/reviews:
  *   post:
  *     summary: Create a product review of a product by the ID
- *     tags: [Products]
+ *     tags: [Products, Private]
  *     security:
  *      - bearerAuth: []
  *     parameters:
@@ -240,7 +240,7 @@ router.route("/:id/reviews").post(protect, createProductReviewById);
  * /products/{id}:
  *   get:
  *     summary: Returns a product by the product Id
- *     tags: [Products]
+ *     tags: [Products, Public]
  *     parameters:
  *      - in: path
  *        name: id
@@ -261,7 +261,7 @@ router.route("/:id/reviews").post(protect, createProductReviewById);
  *         $ref: '#/components/responses/NotFoundError'
  *   delete:
  *     summary: Deletes a product by the product Id
- *     tags: [Products]
+ *     tags: [Products, Admin]
  *     security:
  *      - bearerAuth: []
  *     parameters:
@@ -289,7 +289,7 @@ router.route("/:id/reviews").post(protect, createProductReviewById);
  *         $ref: '#/components/responses/NotFoundError'
  *   put:
  *     summary: Updates a product by the product Id
- *     tags: [Products]
+ *     tags: [Products, Admin]
  *     security:
  *      - bearerAuth: []
  *     parameters:
