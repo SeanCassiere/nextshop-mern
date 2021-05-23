@@ -335,34 +335,6 @@ router.route("/profile").get(protect, getUserProfile).put(protect, updateUserPro
  *       404:
  *         description: Not Found
  *         $ref: '#/components/responses/NotFoundError'
- *   delete:
- *     summary: Deletes a user by the user Id
- *     tags: [Users, Admin]
- *     security:
- *      - bearerAuth: []
- *     parameters:
- *      - in: path
- *        name: id
- *        schema:
- *         type: string
- *        required: false
- *        description: The unique id given to the user profile
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                message:
- *                 type: string
- *       401:
- *         description: Not Found
- *         $ref: '#/components/responses/UnauthorizedError'
- *       404:
- *         description: Not Found
- *         $ref: '#/components/responses/NotFoundError'
  *   put:
  *     summary: Updates a user by their product Id
  *     tags: [Users, Admin]
@@ -405,6 +377,34 @@ router.route("/profile").get(protect, getUserProfile).put(protect, updateUserPro
  *                 type: string
  *                isAdmin:
  *                 type: boolean
+ *       401:
+ *         description: Not Found
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         description: Not Found
+ *         $ref: '#/components/responses/NotFoundError'
+ *   delete:
+ *     summary: Deletes a user by the user Id
+ *     tags: [Users, Admin]
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *         type: string
+ *        required: false
+ *        description: The unique id given to the user profile
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                message:
+ *                 type: string
  *       401:
  *         description: Not Found
  *         $ref: '#/components/responses/UnauthorizedError'
