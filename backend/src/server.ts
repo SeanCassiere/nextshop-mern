@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 
 app.get("/", (_, res: Response) => {
-	res.send("API is Running");
+	res.send("<h1>API is Running</h1><p>View <a href='/api-docs'>API Docs</a></p>");
 });
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
