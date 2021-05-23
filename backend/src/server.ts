@@ -1,9 +1,12 @@
 import path from "path";
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import dotenv from "dotenv";
 import colors from "colors";
 import morgan from "morgan";
 import connectDB from "./config/db";
+
+import swaggerUI from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
 
 import type { UserDocument } from "./models/userModel";
 
@@ -17,6 +20,31 @@ import uploadRoutes from "./routes/uploadRoutes";
 dotenv.config();
 
 connectDB();
+
+const swaggerOptions = {
+	definition: {
+		openapi: "3.0.0",
+		info: {
+			title: "NextShop API",
+			version: "1.0.0",
+			description: "A simple Express Library API",
+			termsOfService: "http://example.com/terms",
+			contact: {
+				name: "SeanCassiere",
+				url: "http://example.com/support",
+				email: "sean@example.com",
+			},
+		},
+		servers: [
+			{
+				url: "http://localhost:5000/api",
+			},
+		],
+	},
+	apis: ["./backend/**/routes/*"],
+};
+
+const swaggerSpecs = swaggerJSDoc(swaggerOptions);
 
 const app = express();
 
@@ -35,8 +63,10 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 
 app.get("/", (_, res: Response) => {
-	res.send("API is Running");
+	res.send("<h1>API is Running</h1><p>View <a href='/api-docs'>API Docs</a></p>");
 });
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
