@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import colors from "colors";
 import morgan from "morgan";
 import connectDB from "./config/db";
+import cors from "cors";
 
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -58,6 +59,13 @@ declare global {
 
 async function main() {
 	await connectDB();
+
+	app.use(
+		cors({
+			credentials: true,
+			origin: (url, cb) => cb(null, url),
+		})
+	);
 
 	if (process.env.NODE_ENV === "development") {
 		app.use(morgan("dev"));

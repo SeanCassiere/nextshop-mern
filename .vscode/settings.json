@@ -1,3 +1,4 @@
 {
-	"conventionalCommits.scopes": ["repo", "backend", "frontend"]
+	"conventionalCommits.scopes": ["repo", "backend", "frontend"],
+	"cSpell.words": ["tailwindcss", "tanstack"]
 }
