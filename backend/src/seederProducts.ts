@@ -12,9 +12,8 @@ import connectDB from "./config/db.js";
 
 dotenv.config();
 
-connectDB();
-
 const importData = async () => {
+	await connectDB();
 	try {
 		await Order.deleteMany();
 		await Product.deleteMany();
@@ -36,12 +35,13 @@ const importData = async () => {
 		console.log(colors.green.inverse("Product Data Imported"));
 		process.exit();
 	} catch (error) {
-		console.error(colors.red.inverse(error));
+		console.error(error);
 		process.exit(1);
 	}
 };
 
 const destroyData = async () => {
+	await connectDB();
 	try {
 		await Order.deleteMany();
 		await Product.deleteMany();
@@ -49,7 +49,7 @@ const destroyData = async () => {
 		console.log(colors.green.inverse("Product Data Destroyed"));
 		process.exit();
 	} catch (error) {
-		console.error(colors.red.inverse(error));
+		console.error(error);
 		process.exit(1);
 	}
 };

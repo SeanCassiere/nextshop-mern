@@ -19,7 +19,7 @@ import uploadRoutes from "./routes/uploadRoutes";
 
 dotenv.config();
 
-connectDB();
+const PORT = process.env.PORT || 5000;
 
 const swaggerOptions = {
 	definition: {
@@ -37,7 +37,7 @@ const swaggerOptions = {
 		},
 		servers: [
 			{
-				url: "http://localhost:5000/api",
+				url: `http://localhost:${PORT}/api`,
 			},
 		],
 	},
@@ -56,33 +56,37 @@ declare global {
 	}
 }
 
-if (process.env.NODE_ENV === "development") {
-	app.use(morgan("dev"));
+async function main() {
+	await connectDB();
+
+	if (process.env.NODE_ENV === "development") {
+		app.use(morgan("dev"));
+	}
+
+	app.use(express.json());
+
+	app.get("/", (_, res: Response) => {
+		res.send("<h1>API is Running</h1><p>View <a href='/api-docs'>API Docs</a></p>");
+	});
+
+	app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
+
+	app.use("/api/products", productRoutes);
+	app.use("/api/users", userRoutes);
+	app.use("/api/orders", orderRoutes);
+	app.use("/api/upload", uploadRoutes);
+
+	app.get("/api/config/paypal", (_, res) => res.send(process.env.PAYPAL_CLIENT_ID ?? null));
+
+	const __dirname = path.resolve();
+	app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+	app.use(notFound);
+	app.use(errorHandler);
+
+	app.listen(PORT, () =>
+		console.log(colors.yellow.bold(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
+	);
 }
 
-app.use(express.json());
-
-app.get("/", (_, res: Response) => {
-	res.send("<h1>API is Running</h1><p>View <a href='/api-docs'>API Docs</a></p>");
-});
-
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
-
-app.use("/api/products", productRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/upload", uploadRoutes);
-
-app.get("/api/config/paypal", (_, res) => res.send(process.env.PAYPAL_CLIENT_ID));
-
-const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-
-app.use(notFound);
-app.use(errorHandler);
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () =>
-	console.log(colors.yellow.bold(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
-);
+main();
