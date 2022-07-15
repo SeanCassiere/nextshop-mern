@@ -11,3 +11,12 @@ export async function getPublicTopProducts() {
 export async function getPublicProductById(productId: string) {
 	return callApi(makeUrl(`/products/${productId}`, {}));
 }
+
+export async function postProductReview(input: { token: string; productId: string; comment: string; rating: number }) {
+	const { productId, token, ...body } = input;
+	return callApi(makeUrl(`/products/${productId}/reviews`, {}), {
+		method: "POST",
+		body: JSON.stringify(body),
+		headers: { Authorization: `Bearer ${token}` },
+	});
+}

@@ -8,6 +8,7 @@ import {
 	stringifySearchWith,
 	useMatch,
 	Navigate,
+	createBrowserHistory,
 } from "@tanstack/react-location";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -28,7 +29,10 @@ export type LocationGenerics = MakeGenerics<{
 	Search: { page?: string; redirect?: string };
 }>;
 
+const routerHistory = createBrowserHistory();
+
 const reactLocation = new ReactLocation<LocationGenerics>({
+	history: routerHistory,
 	parseSearch: parseSearchWith((value) => JSON.parse(decodeFromBinary(value))),
 	stringifySearch: stringifySearchWith((value) => encodeToBinary(JSON.stringify(value))),
 });

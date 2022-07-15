@@ -19,6 +19,7 @@ export type Product = {
 export type ProductReview = {
 	_id: string;
 	user: string;
+	name: string;
 	rating: number;
 	comment: string;
 	createdAt: string;

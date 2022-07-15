@@ -12,8 +12,6 @@ import { LocationGenerics } from "../../App";
 import Paginate from "../../components/Paginate";
 
 const Home = () => {
-	const [maxPages, setMaxPages] = React.useState(1);
-
 	const { page = 1 } = useSearch<LocationGenerics>();
 
 	const topProductsQuery = useQuery<Product[], any>(["products", "top"], getPublicTopProducts);
@@ -24,7 +22,7 @@ const Home = () => {
 		{
 			keepPreviousData: true,
 			onSuccess: (data) => {
-				setMaxPages(data.pages);
+				// setMaxPages(data.pages);
 			},
 		}
 	);
