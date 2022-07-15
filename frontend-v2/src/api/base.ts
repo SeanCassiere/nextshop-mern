@@ -17,11 +17,19 @@ export function makeUrl(endpoint: string, params: Record<string, string | number
 }
 
 export async function callApi(url: RequestInfo | URL, options?: RequestInit) {
-	return fetch(url, options).then(handleSuccess).catch(handleError);
+	const headerOptions = { ...options, headers: { ...options?.headers, "Content-Type": "application/json" } };
+	return fetch(url, headerOptions).then(handleSuccess).catch(handleError);
 }
 
-export const handleSuccess = (response: Response) => {
-	return response.json();
+export const handleSuccess = async (response: Response) => {
+	if (response.ok) {
+		return await response.json();
+	} else {
+		await response.json().then((data) => {
+			const message = data?.message || "Something went wrong";
+			throw message;
+		});
+	}
 };
 
 export const handleError = (error: Error) => {
