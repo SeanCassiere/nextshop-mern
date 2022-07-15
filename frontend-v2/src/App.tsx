@@ -17,8 +17,9 @@ import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
 import { getPublicProductById } from "./api/products";
 
-type LocationGenerics = MakeGenerics<{
+export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string };
+	Search: { page?: string };
 }>;
 
 const reactLocation = new ReactLocation<LocationGenerics>({

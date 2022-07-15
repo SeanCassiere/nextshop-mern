@@ -8,6 +8,8 @@ export type Product = {
 	category: string;
 	price: number;
 	countInStock: number;
+	numReviews: number;
+	rating: number;
 	isActive: boolean;
 	reviews: ProductReview[];
 	createdAt: string;
@@ -24,7 +26,7 @@ export type ProductReview = {
 };
 
 export type ProductsPaginated = {
-	data: Product[];
+	products: Product[];
 	page: number;
 	pages: number;
 };

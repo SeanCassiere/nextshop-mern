@@ -4,7 +4,7 @@ import eslintPlugin from "vite-plugin-eslint";
 
 export default defineConfig(({ mode }) => ({
 	server: {
-		port: 3000,
+		port: 3500,
 	},
 	plugins: mode === "development" ? [react(), eslintPlugin()] : [],
 	build: {
