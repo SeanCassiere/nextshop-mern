@@ -1,13 +1,13 @@
 import React from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { AuthUser } from "../types/User";
+import { AuthUser, User } from "../types/User";
 
 type AuthContextType = {
 	user: AuthUser | null;
 	isLoggedIn: boolean;
 	loginUser: (user: AuthUser) => void;
 	logoutUser: () => void;
-	setUser: (user: AuthUser) => void;
+	setUser: (user: User) => void;
 };
 
 const defaultValues: AuthContextType = {
@@ -37,11 +37,16 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 	}, [setAuthUser]);
 
 	const setUser = React.useCallback(
-		(user: AuthUser) => {
-			setAuthUser(user);
+		(user: User) => {
+			if (!authUser) {
+				return logoutUser();
+			}
+			const setObject = { ...authUser, _id: user._id, name: user.name, isAdmin: user.isAdmin, email: user.email };
+			setAuthUser(setObject);
 		},
-		[setAuthUser]
+		[authUser, logoutUser, setAuthUser]
 	);
+
 	return (
 		<AuthContext.Provider
 			value={{

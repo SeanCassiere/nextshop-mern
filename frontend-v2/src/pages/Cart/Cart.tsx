@@ -47,7 +47,7 @@ const Cart = () => {
 										<Link
 											className='block w-full p-3 text-md rounded-md font-semibold text-white bg-gray-800 text-center hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
 											to='/login'
-											search={{ redirect: "/checkout" }}
+											search={{ redirect: items.length > 0 ? "/checkout" : window.location.pathname }}
 										>
 											Sign in before checkout
 										</Link>

@@ -68,11 +68,11 @@ const Register = () => {
 						className='mt-4 py-3'
 						onSubmit={(evt) => {
 							evt.preventDefault();
-							if (credentials.password !== credentials.confirmPassword) {
+							if (credentials.password.trim() !== credentials.confirmPassword.trim()) {
 								setPasswordError("Passwords do not match");
 								return;
 							}
-							register({ name: credentials.name, email: credentials.email, password: credentials.password });
+							register({ name: credentials.name, email: credentials.email, password: credentials.password.trim() });
 						}}
 					>
 						{passwordError && <Alert label='Uh oh!' message={passwordError} variant='warning' />}

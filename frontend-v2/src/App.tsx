@@ -26,6 +26,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
+import Account from "./pages/Account";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string };
@@ -84,6 +85,14 @@ const App = () => {
 								{
 									path: "cart",
 									element: <Cart />,
+								},
+								{
+									path: "account",
+									element: (
+										<PrivateOnlyRoute>
+											<Account />
+										</PrivateOnlyRoute>
+									),
 								},
 								{
 									path: "admin",

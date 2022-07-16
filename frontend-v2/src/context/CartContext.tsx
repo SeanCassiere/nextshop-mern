@@ -11,7 +11,7 @@ export type ContextCartItem = {
 	qty: number;
 };
 
-type PaymentMethod = "PAYPAL";
+type PaymentMethod = "PayPal";
 
 type CartType = {
 	items: ContextCartItem[];
@@ -39,7 +39,7 @@ const defaultCartValues: CartType = {
 		country: "",
 		postalCode: "",
 	},
-	paymentMethod: "PAYPAL",
+	paymentMethod: "PayPal",
 };
 
 const defaultContextValues: CartContextType = {

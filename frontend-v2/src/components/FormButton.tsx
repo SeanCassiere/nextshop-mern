@@ -8,7 +8,7 @@ const FormButton: React.FC<
 		<button
 			className={`
 		${fullWidth && "block w-full"}
-		p-3 text-md rounded-md font-semibold text-white bg-gray-800 disabled:bg-gray-500 hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 disabled:cursor-not-allowed
+		px-4 py-2 text-md rounded-md font-semibold text-white bg-gray-800 disabled:bg-gray-500 hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 disabled:cursor-not-allowed
     ${className}
     `}
 			{...buttonProps}
