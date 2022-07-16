@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "@tanstack/react-location";
+import { Link, useNavigate } from "@tanstack/react-location";
 import { Helmet } from "react-helmet-async";
 
-import FormButton from "../../components/FormButton";
+import Button from "../../components/Button";
 import Header from "../../components/Header";
 import CartItems from "./CartItems";
 
@@ -10,6 +10,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 
 const Cart = () => {
+	const navigate = useNavigate();
 	const { items } = useCart();
 	const { user } = useAuth();
 	return (
@@ -30,7 +31,7 @@ const Cart = () => {
 							</div>
 						</div>
 						<div className='md:col-span-4 rounded-md relative'>
-							<div className='border-t md:border-t-0 border-gray-200 mt-5 md:mt-0 py-6 px-4 sm:px-6 sticky top-[3rem]'>
+							<div className='border-t md:border-t-0 border-gray-200 dark:border-gray-800 mt-5 md:mt-0 py-6 px-4 sm:px-6 sticky top-[3rem]'>
 								<div className='flex justify-between text-base font-medium text-gray-900 dark:text-gray-50'>
 									<p>Subtotal</p>
 									<p>${items.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</p>
@@ -40,23 +41,27 @@ const Cart = () => {
 								</p>
 								<div className='mt-6'>
 									{user ? (
-										<FormButton type='button' disabled={items.length > 0 ? false : true} fullWidth>
+										<Button type='button' disabled={items.length > 0 ? false : true} fullWidth>
 											Proceed to checkout
-										</FormButton>
+										</Button>
 									) : (
-										<Link
+										<Button
 											className='block w-full p-3 text-md rounded-md font-semibold text-white bg-gray-800 text-center hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
-											to='/login'
-											search={{ redirect: items.length > 0 ? "/checkout" : window.location.pathname }}
+											onClick={() => {
+												navigate({
+													to: "/login",
+													search: { redirect: items.length > 0 ? "/checkout" : window.location.pathname },
+												});
+											}}
 										>
 											Sign in before checkout
-										</Link>
+										</Button>
 									)}
 								</div>
 								<div className='mt-6 flex justify-center text-center text-sm text-gray-500 dark:text-gray-400'>
 									<p>
 										or&nbsp;
-										<Link to='/' className='font-medium text-blue-800 dark:text-blue-600'>
+										<Link to='/' className='font-medium text-indigo-800 dark:text-indigo-600'>
 											Continue Shopping<span aria-hidden='true'> &rarr;</span>
 										</Link>
 									</p>

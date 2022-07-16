@@ -4,8 +4,8 @@ import { Helmet } from "react-helmet-async";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 
 import Header from "../../components/Header";
-import FormButton from "../../components/FormButton";
-import FormInput from "../../components/FormInput";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import Alert from "../../components/Alert";
 import Table, { TableModel } from "../../components/Table";
 import { getAuthUserProfile, updateAuthUser } from "../../api/user";
@@ -69,7 +69,10 @@ const Account = () => {
 			{
 				name: "#",
 				renderValue: (row) => (
-					<Link to={`/orders/${row._id}`} className='font-medium text-blue-800 dark:text-blue-600'>
+					<Link
+						to={`/order/${row._id}`}
+						className='font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-600 dark:hover:text-indigo-700'
+					>
 						view
 					</Link>
 				),
@@ -151,7 +154,7 @@ const Account = () => {
 											</Alert>
 										)}
 										<div className='flex flex-col gap-2'>
-											<FormInput
+											<Input
 												label='Name'
 												type='text'
 												name='name'
@@ -161,7 +164,7 @@ const Account = () => {
 												required
 												disabled={profileQuery.isLoading}
 											/>
-											<FormInput
+											<Input
 												label='Email address'
 												type='email'
 												name='email'
@@ -171,7 +174,7 @@ const Account = () => {
 												disabled={true}
 												required
 											/>
-											<FormInput
+											<Input
 												label='Password'
 												type='password'
 												name='password'
@@ -180,7 +183,7 @@ const Account = () => {
 												onChange={handleProfileChange}
 												disabled={profileQuery.isLoading}
 											/>
-											<FormInput
+											<Input
 												label='Re-type password'
 												type='password'
 												name='confirmPassword'
@@ -191,7 +194,7 @@ const Account = () => {
 											/>
 										</div>
 										<div>
-											<FormButton type='submit'>Update</FormButton>
+											<Button type='submit'>Update</Button>
 										</div>
 									</form>
 								</div>
@@ -199,7 +202,11 @@ const Account = () => {
 							<div className='md:col-span-8 p-0 md:p-2'>
 								<div className='p-2 md:p-4'>
 									<h2 className='text-2xl mb-4 font-bold tracking-tight text-gray-900 dark:text-white'>Orders</h2>
-									<div>{ordersQuery.data && <Table items={ordersQuery.data} model={model as any} />}</div>
+									<div>
+										{ordersQuery.data && (
+											<Table items={ordersQuery.data} model={model as any} emptyMessage='No orders to be shown' />
+										)}
+									</div>
 								</div>
 							</div>
 						</div>

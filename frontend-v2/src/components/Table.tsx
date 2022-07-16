@@ -22,7 +22,7 @@ const GenericTable = <T,>({ items, model, emptyMessage }: Props<T>) => {
 	const idString = useId();
 
 	return (
-		<div className='overflow-x-auto'>
+		<div className='overflow-x-auto rounded-sm'>
 			<table className='table-auto w-full'>
 				<thead className='text-md font-semibold uppercase text-gray-400 dark:text-gray-300 bg-gray-100 dark:bg-gray-700'>
 					<tr>
@@ -35,9 +35,9 @@ const GenericTable = <T,>({ items, model, emptyMessage }: Props<T>) => {
 				</thead>
 				<tbody>
 					{items.length === 0 ? (
-						<tr key={`${idString}-empty-row`}>
+						<tr key={`${idString}-empty-row`} className='dark:bg-gray-900'>
 							<td key={`${idString}-empty-row-cell`} colSpan={model.columns.length} className='p-2 whitespace-nowrap'>
-								<div className='text-left'>{emptyMessage ? emptyMessage : "No data"}</div>
+								<div className='text-center'>{emptyMessage ? emptyMessage : "No data"}</div>
 							</td>
 						</tr>
 					) : (

@@ -1,7 +1,7 @@
 import React, { useId, useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-const FormInput: React.FC<
+const Input: React.FC<
 	{ label?: string } & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 > = (props) => {
 	const { label, className, type, ...inputProps } = props;
@@ -19,10 +19,10 @@ const FormInput: React.FC<
 				type={type !== "password" ? type : showPassword ? "text" : "password"}
 				className={`
 				px-4 py-2 
-				border-2 text-md rounded-md
-				bg-gray-50 border-gray-300 text-gray-900 focus:ring-blue-400 focus:border-blue-400
-				dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-700 dark:focus:border-blue-700
-				disabled:bg-gray-200 disabled:cursor-not-allowed dark:disabled:bg-gray-900
+				border border-gray-200 text-md rounded-md
+				bg-gray-50 text-gray-900 focus:ring-indigo-400 focus:border-indigo-400
+				dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-indigo-700 dark:focus:border-indigo-700
+				disabled:bg-gray-100 disabled:cursor-not-allowed dark:disabled:bg-gray-900 disabled:text-gray-600 dark:disabled:text-gray-500
 				${className}`}
 				{...inputProps}
 			/>
@@ -39,4 +39,4 @@ const FormInput: React.FC<
 	);
 };
 
-export default FormInput;
+export default Input;

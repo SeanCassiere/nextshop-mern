@@ -47,7 +47,7 @@ const CartItems: React.FC<{ items: ContextCartItem[] }> = ({ items }) => {
 									<button
 										type='button'
 										onClick={() => removeFromCart(product.identifier)}
-										className='font-medium text-blue-800 dark:text-blue-500 hover:text-blue-600 dark:hover:text-blue-400'
+										className='font-medium text-indigo-800 dark:text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400'
 									>
 										Remove
 									</button>

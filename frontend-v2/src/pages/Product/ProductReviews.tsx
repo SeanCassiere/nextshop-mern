@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "@tanstack/react-location";
+
 import ProductRating from "../../components/ProductRating";
 import ReviewForm from "./ReviewForm";
+import StyledLink from "../../components/StyledLink";
 import { useAuth } from "../../context/AuthContext";
 import { Product } from "../../types/Product";
 
@@ -34,13 +35,9 @@ const ProductReviews: React.FC<{ product: Product }> = ({ product }) => {
 				{user && <ReviewForm productId={product._id} />}
 				{!user && (
 					<div>
-						<Link
-							to='/login'
-							search={(prev) => ({ ...prev, redirect: window.location.pathname })}
-							className='text-blue-800 dark:text-blue-600'
-						>
+						<StyledLink to='/login' search={(prev) => ({ ...prev, redirect: window.location.pathname })}>
 							Login
-						</Link>
+						</StyledLink>
 						&nbsp;to leave a review
 					</div>
 				)}

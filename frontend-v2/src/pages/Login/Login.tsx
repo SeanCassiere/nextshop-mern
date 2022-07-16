@@ -1,13 +1,14 @@
 import React from "react";
-import { Link, useNavigate, useSearch } from "@tanstack/react-location";
+import { useNavigate, useSearch } from "@tanstack/react-location";
 import { useMutation } from "react-query";
 import { Helmet } from "react-helmet-async";
 
 import { loginUser } from "../../api/user";
 import Alert from "../../components/Alert";
-import FormButton from "../../components/FormButton";
-import FormInput from "../../components/FormInput";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import Header from "../../components/Header";
+import StyledLink from "../../components/StyledLink";
 import { useAuth } from "../../context/AuthContext";
 import { LocationGenerics } from "../../App";
 
@@ -61,7 +62,7 @@ const Login = () => {
 					>
 						{isError && <Alert label='Uh oh!' message={error as unknown as string} variant='danger' />}
 						<div className='flex flex-col gap-4'>
-							<FormInput
+							<Input
 								label='Email address'
 								name='email'
 								type='email'
@@ -70,7 +71,7 @@ const Login = () => {
 								value={credentials.email}
 								onChange={handleChange}
 							/>
-							<FormInput
+							<Input
 								label='Password'
 								type='password'
 								name='password'
@@ -81,18 +82,14 @@ const Login = () => {
 							/>
 						</div>
 						<div className='pt-3'>
-							<FormButton type='submit'>Sign In</FormButton>
+							<Button type='submit'>Sign In</Button>
 						</div>
 					</form>
 					<p className='text-gray-600 dark:text-gray-500'>
 						New Customer?&nbsp;
-						<Link
-							to='/register'
-							search={(prev) => ({ ...prev, redirect: queryRedirect })}
-							className='text-blue-800 dark:text-blue-600'
-						>
+						<StyledLink to='/register' search={(prev) => ({ ...prev, redirect: queryRedirect })}>
 							Register
-						</Link>
+						</StyledLink>
 					</p>
 				</section>
 			</main>

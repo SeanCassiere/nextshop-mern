@@ -2,9 +2,9 @@ import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 
 import { postProductReview } from "../../api/products";
-import FormButton from "../../components/FormButton";
-import FormSelect from "../../components/FormSelect";
-import FormTextArea from "../../components/FormTextArea";
+import Button from "../../components/Button";
+import Select from "../../components/Select";
+import TextArea from "../../components/TextArea";
 import { useAuth } from "../../context/AuthContext";
 
 const ReviewForm: React.FC<{ productId: string }> = ({ productId }) => {
@@ -49,17 +49,32 @@ const ReviewForm: React.FC<{ productId: string }> = ({ productId }) => {
 				review({ productId, rating: safeRating, comment: body.comment, token: user?.token || "" });
 			}}
 		>
-			<FormSelect label='Rating' name='rating' defaultValue={`${body.rating}`} onChange={handleChange} required>
+			<Select
+				label='Rating'
+				name='rating'
+				defaultValue={`${body.rating}`}
+				onChange={handleChange}
+				selectSize='sm'
+				required
+			>
 				<option value='1'>1 - Poor</option>
 				<option value='2'>2 - Fair</option>
 				<option value='3'>3 - Good</option>
 				<option value='4'>4 - Very Good</option>
 				<option value='5'>5 - Excellent</option>
-			</FormSelect>
-			<FormTextArea label='Comment' name='comment' value={body.comment} onChange={handleChange} required />
-			<FormButton className='mt-3' type='submit'>
+			</Select>
+			<TextArea
+				label='Comment'
+				size='sm'
+				name='comment'
+				value={body.comment}
+				onChange={handleChange}
+				rows={6}
+				required
+			/>
+			<Button className='mt-3' type='submit'>
 				Submit
-			</FormButton>
+			</Button>
 		</form>
 	);
 };

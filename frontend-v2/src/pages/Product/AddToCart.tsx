@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "@tanstack/react-location";
-import FormSelect from "../../components/FormSelect";
+
+import Select from "../../components/Select";
+import Button from "../../components/Button";
 import { useCart } from "../../context/CartContext";
 import { Product } from "../../types/Product";
 
@@ -24,25 +26,26 @@ const AddToCart: React.FC<{ product: Product }> = ({ product }) => {
 				<div className='p-4 grid grid-cols-2 border border-t-0 border-gray-300 dark:border-gray-700'>
 					<div>Quantity</div>
 					<div>
-						<FormSelect
+						<Select
 							defaultValue={quantity}
 							onChange={(e) => {
 								setQuantity(Number(e.target.value));
 							}}
+							selectSize='sm'
 						>
 							{[...Array(product.countInStock).keys()].map((x) => (
 								<option key={x + 1} value={x + 1}>
 									{x + 1}
 								</option>
 							))}
-						</FormSelect>
+						</Select>
 					</div>
 				</div>
 			)}
 			<div className='p-4 grid grid-cols-1 border border-t-0 border-gray-300 dark:border-gray-700'>
-				<button
-					className='block w-full p-3 text-md font-semibold text-white bg-gray-800 disabled:bg-gray-500 hover:bg-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700'
+				<Button
 					type='button'
+					size='lg'
 					disabled={product.countInStock > 0 ? false : true}
 					onClick={() => {
 						addToCart({
@@ -57,7 +60,7 @@ const AddToCart: React.FC<{ product: Product }> = ({ product }) => {
 					}}
 				>
 					Add to cart
-				</button>
+				</Button>
 			</div>
 		</React.Fragment>
 	);

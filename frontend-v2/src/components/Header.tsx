@@ -67,7 +67,7 @@ const Header = () => {
 										to='/'
 										className={`${
 											match.pathname === "/"
-												? "text-gray-900 dark:text-white dark:bg-gray-900 bg-gray-50 hover:bg-gray-200"
+												? "text-gray-900 dark:text-white dark:bg-gray-900 bg-gray-50 hover:bg-gray-200 dark:hover:bg-gray-600"
 												: "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
 										} px-3 py-2 rounded-md text-sm font-medium`}
 									>
@@ -78,7 +78,7 @@ const Header = () => {
 										to='/cart'
 										className={`hover:bg-gray-700 ${
 											match.pathname.includes("/cart")
-												? "text-gray-900 dark:text-white dark:bg-gray-900 bg-gray-50 hover:bg-gray-200"
+												? "text-gray-900 dark:text-white dark:bg-gray-900 bg-gray-50 hover:bg-gray-200 dark:hover:bg-gray-600"
 												: "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
 										} px-3 py-2 rounded-md text-sm font-medium`}
 									>
