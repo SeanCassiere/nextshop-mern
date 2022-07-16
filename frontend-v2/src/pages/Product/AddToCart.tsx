@@ -1,9 +1,15 @@
 import React from "react";
+import { useNavigate } from "@tanstack/react-location";
 import FormSelect from "../../components/FormSelect";
+import { useCart } from "../../context/CartContext";
 import { Product } from "../../types/Product";
 
 const AddToCart: React.FC<{ product: Product }> = ({ product }) => {
+	const navigate = useNavigate();
+	const { addToCart } = useCart();
+
 	const [quantity, setQuantity] = React.useState(1);
+
 	return (
 		<React.Fragment>
 			<div className='p-4 grid grid-cols-2 border border-gray-300 dark:border-gray-700'>
@@ -39,7 +45,15 @@ const AddToCart: React.FC<{ product: Product }> = ({ product }) => {
 					type='button'
 					disabled={product.countInStock > 0 ? false : true}
 					onClick={() => {
-						console.log("adding to cart", product);
+						addToCart({
+							id: product._id,
+							name: product.name,
+							image: product.image,
+							price: product.price,
+							qty: quantity,
+							countInStock: product.countInStock,
+						});
+						navigate({ to: "/cart" });
 					}}
 				>
 					Add to cart

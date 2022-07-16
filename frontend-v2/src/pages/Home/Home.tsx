@@ -1,15 +1,16 @@
 import React from "react";
-import { Link, useMatch, useNavigate, useSearch } from "@tanstack/react-location";
+import { useSearch } from "@tanstack/react-location";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet-async";
 
 import Header from "../../components/Header";
+import ProductsGrid from "../../components/ProductsGrid";
+import TopProductsList from "./TopProductsList";
+import Paginate from "../../components/Paginate";
 
 import { getPublicProducts, getPublicTopProducts } from "../../api/products";
 import { Product, ProductsPaginated } from "../../types/Product";
-import TopProductsList from "./TopProductsList";
-import ProductsGrid from "../../components/ProductsGrid";
 import { LocationGenerics } from "../../App";
-import Paginate from "../../components/Paginate";
 
 const Home = () => {
 	const { page = 1 } = useSearch<LocationGenerics>();
@@ -30,6 +31,9 @@ const Home = () => {
 	return (
 		<React.Fragment>
 			<Header />
+			<Helmet>
+				<title>Store | Nextshop</title>
+			</Helmet>
 			<main>
 				<section className='bg-gray-100 dark:bg-gray-900 py-4'>
 					<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[32rem]'>
@@ -51,7 +55,11 @@ const Home = () => {
 						{productsQuery.data && (
 							<>
 								<ProductsGrid products={productsQuery.data.products} />
-								<Paginate page={page} pages={productsQuery.data.pages} />
+								{productsQuery.data.pages > 1 && (
+									<div className='py-4'>
+										<Paginate page={page} pages={productsQuery.data.pages} />
+									</div>
+								)}
 							</>
 						)}
 					</div>

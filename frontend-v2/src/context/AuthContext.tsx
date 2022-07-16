@@ -22,8 +22,8 @@ const AuthContext = React.createContext<AuthContextType>(defaultValues);
 
 export const useAuth = () => React.useContext(AuthContext);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-	const { value: authUser, setItemForBoth: setAuthUser } = useLocalStorage<AuthUser | null>("next-shop-user", null);
+export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+	const [authUser, setAuthUser] = useLocalStorage<AuthUser | null>("next-shop-user", null);
 
 	const loginUser = React.useCallback(
 		(user: AuthUser) => {

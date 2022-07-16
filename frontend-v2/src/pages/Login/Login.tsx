@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-location";
 import { useMutation } from "react-query";
+import { Helmet } from "react-helmet-async";
 
 import { loginUser } from "../../api/user";
 import Alert from "../../components/Alert";
@@ -45,6 +46,9 @@ const Login = () => {
 	return (
 		<React.Fragment>
 			<Header />
+			<Helmet>
+				<title>Sign in | Nextshop</title>
+			</Helmet>
 			<main>
 				<section className='max-w-lg mx-auto px-4 sm:px-6 lg:px-8 py-4'>
 					<h1 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>Sign In</h1>

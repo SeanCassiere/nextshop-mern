@@ -1,4 +1,4 @@
 {
 	"conventionalCommits.scopes": ["repo", "backend", "frontend"],
-	"cSpell.words": ["headlessui", "semibold", "tailwindcss", "tanstack"]
+	"cSpell.words": ["headlessui", "Nextshop", "semibold", "tailwindcss", "tanstack"]
 }

@@ -1,10 +1,11 @@
 import React from "react";
 
-const Alert: React.FC<{ label: string; message?: string; variant?: "info" | "danger" | "success" | "warning" }> = ({
-	label,
-	variant = "info",
-	message,
-}) => {
+const Alert: React.FC<{
+	label: string;
+	message?: string;
+	variant?: "info" | "danger" | "success" | "warning";
+	children?: React.ReactNode;
+}> = ({ label, variant = "info", message, children }) => {
 	let textColor = "text-blue-700 dark:text-blue-800";
 	let bgColor = "bg-blue-100 dark:bg-blue-200";
 
@@ -24,8 +25,9 @@ const Alert: React.FC<{ label: string; message?: string; variant?: "info" | "dan
 	}
 	return (
 		<div className={`p-4 mb-4 text-sm ${textColor} rounded-md ${bgColor}`} role='alert'>
-			<span className='font-medium'>{label}</span>
+			<span className='font-medium text-lg'>{label}</span>
 			{message && message?.length > 0 && <>&nbsp;{message}</>}
+			{children && <div className='pt-2'>{children}</div>}
 		</div>
 	);
 };

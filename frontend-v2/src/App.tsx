@@ -12,17 +12,20 @@ import {
 } from "@tanstack/react-location";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { HelmetProvider } from "react-helmet-async";
 
 import { decodeFromBinary, encodeToBinary } from "./utils/parse";
 
 import { getPublicProductById } from "./api/products";
 
+import ContextProvider from "./context/ContextProvider";
+import { useAuth } from "./context/AuthContext";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import Cart from "./pages/Cart";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string };
@@ -42,61 +45,67 @@ const queryClient = new QueryClient();
 const App = () => {
 	return (
 		<React.Fragment>
-			<AuthProvider>
-				<QueryClientProvider client={queryClient}>
-					<Router
-						location={reactLocation}
-						routes={[
-							{
-								path: "/",
-								element: <Home />,
-							},
-							{
-								path: "products",
-								children: [
-									{
-										path: "/",
-										element: <NotFound />,
-									},
-									{
-										path: ":productId",
-										element: <Product />,
-										loader: ({ params: { productId } }) =>
-											queryClient.getQueryData(["products", productId]) ??
-											queryClient.fetchQuery(["products", productId], () =>
-												getPublicProductById(productId).then(() => ({}))
+			<ContextProvider>
+				<HelmetProvider>
+					<QueryClientProvider client={queryClient}>
+						<Router
+							location={reactLocation}
+							routes={[
+								{
+									path: "/",
+									element: <Home />,
+								},
+								{
+									path: "products",
+									children: [
+										{
+											path: "/",
+											element: <NotFound />,
+										},
+										{
+											path: ":productId",
+											element: <Product />,
+											loader: ({ params: { productId } }) =>
+												queryClient.getQueryData(["products", productId]) ??
+												queryClient.fetchQuery(["products", productId], () =>
+													getPublicProductById(productId).then(() => ({}))
+												),
+										},
+									],
+								},
+								{
+									path: "login",
+									element: <Login />,
+								},
+								{
+									path: "register",
+									element: <Register />,
+								},
+								{
+									path: "cart",
+									element: <Cart />,
+								},
+								{
+									path: "admin",
+									children: [
+										{
+											path: "/",
+											element: (
+												<PrivateOnlyRoute admin>
+													<NotFound />
+												</PrivateOnlyRoute>
 											),
-									},
-								],
-							},
-							{
-								path: "login",
-								element: <Login />,
-							},
-							{
-								path: "register",
-								element: <Register />,
-							},
-							{
-								path: "admin",
-								children: [
-									{
-										path: "/",
-										element: (
-											<PrivateOnlyRoute admin>
-												<NotFound />
-											</PrivateOnlyRoute>
-										),
-									},
-								],
-							},
-						]}
-					>
-						<Outlet />
-						<ReactQueryDevtools initialIsOpen={false} />
-					</Router>
-				</QueryClientProvider>
-			</AuthProvider>
+										},
+									],
+								},
+							]}
+						>
+							<Outlet />
+							<ReactQueryDevtools initialIsOpen={false} />
+						</Router>
+					</QueryClientProvider>
+				</HelmetProvider>
+			</ContextProvider>
 		</React.Fragment>
 	);
 };
@@ -104,7 +113,7 @@ const App = () => {
 const PrivateOnlyRoute: React.FC<{ children: React.ReactNode; admin?: true }> = ({ children, admin }) => {
 	const match = useMatch();
 
-	const { isLoggedIn, user } = useAuth();
+	const { user } = useAuth();
 
 	if (!user) {
 		return <Navigate to='/login' search={(prev) => ({ ...prev, redirect: match.pathname })} />;

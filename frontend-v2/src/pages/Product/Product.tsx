@@ -1,6 +1,7 @@
 import React from "react";
 import { useMatch, useLocation } from "@tanstack/react-location";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet-async";
 
 import Header from "../../components/Header";
 
@@ -24,6 +25,9 @@ const ProductPage = () => {
 			<main>
 				{productQuery.data && (
 					<React.Fragment>
+						<Helmet>
+							<title>{`${productQuery.data?.name}`} | Nextshop</title>
+						</Helmet>
 						<section className='bg-gray-100 dark:bg-gray-900 py-4'>
 							<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[32rem]'>
 								<div className='h-full flex flex-col'>
