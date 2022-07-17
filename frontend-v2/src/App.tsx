@@ -28,9 +28,10 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Checkout from "./pages/Checkout";
+import Order from "./pages/Order/Order";
 
 export type LocationGenerics = MakeGenerics<{
-	Params: { productId: string };
+	Params: { productId: string; orderId: string };
 	Search: { page?: string; redirect?: string };
 }>;
 
@@ -53,36 +54,30 @@ const App = () => {
 						<Router
 							location={reactLocation}
 							routes={[
-								{
-									path: "/",
-									element: <Home />,
-								},
+								{ path: "/", element: <Home /> },
 								{
 									path: "products",
 									children: [
+										{ path: "/", element: <Navigate to='/' /> },
 										{
 											path: ":productId",
 											element: <Product />,
 											loader: ({ params: { productId } }) =>
 												queryClient.getQueryData(["products", productId]) ??
-												queryClient.fetchQuery(["products", productId], () =>
-													getPublicProductById(productId).then(() => ({}))
-												),
+												queryClient.fetchQuery(["products", productId], () => getPublicProductById(productId)),
 										},
 									],
 								},
 								{
-									path: "login",
-									element: <Login />,
+									path: "order",
+									children: [
+										{ path: "/", element: <Navigate to='/' /> },
+										{ path: ":orderId", element: <Order /> },
+									],
 								},
-								{
-									path: "register",
-									element: <Register />,
-								},
-								{
-									path: "cart",
-									element: <Cart />,
-								},
+								{ path: "login", element: <Login /> },
+								{ path: "register", element: <Register /> },
+								{ path: "cart", element: <Cart /> },
 								{
 									path: "account",
 									element: (
@@ -91,10 +86,7 @@ const App = () => {
 										</PrivateOnlyRoute>
 									),
 								},
-								{
-									path: "checkout",
-									element: <Checkout />,
-								},
+								{ path: "checkout", element: <Checkout /> },
 								{
 									path: "admin",
 									children: [
@@ -108,9 +100,7 @@ const App = () => {
 										},
 									],
 								},
-								{
-									element: <Navigate to='/' />,
-								},
+								{ element: <Navigate to='/' /> },
 							]}
 						>
 							<Outlet />

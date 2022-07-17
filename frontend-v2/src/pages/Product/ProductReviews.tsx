@@ -12,7 +12,6 @@ const ProductReviews: React.FC<{ product: Product }> = ({ product }) => {
 
 	const disableForm = React.useMemo(() => {
 		const ids = product?.reviews?.map((r) => r.user) ?? [];
-		console.log("ids", ids);
 		return ids.includes(user?._id ?? "");
 	}, [product.reviews, user?._id]);
 

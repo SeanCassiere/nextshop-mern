@@ -1,14 +1,17 @@
 import React from "react";
 import { Link, useMatch } from "@tanstack/react-location";
 import { Transition, Menu } from "@headlessui/react";
-import { useAuth } from "../context/AuthContext";
 import { BiChevronDown } from "react-icons/bi";
 import { RiAdminLine } from "react-icons/ri";
+
+import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 const Header = () => {
 	const match = useMatch();
 
 	const { user, logoutUser } = useAuth();
+	const { resetCartContext } = useCart();
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	return (
@@ -182,7 +185,10 @@ const Header = () => {
 															className={`${
 																active ? "bg-gray-200 text-gray-700" : "text-gray-900"
 															} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-															onClick={logoutUser}
+															onClick={() => {
+																resetCartContext();
+																logoutUser();
+															}}
 														>
 															Logout
 														</button>

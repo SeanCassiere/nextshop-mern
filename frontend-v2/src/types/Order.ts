@@ -16,6 +16,7 @@ export type Order = {
 	user: string;
 	updatedAt: string;
 	createdAt: string;
+	paidAt: string;
 };
 
 export type OrderItem = {

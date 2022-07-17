@@ -1,23 +1,28 @@
 import React from "react";
-import { useMatch, useLocation, Navigate } from "@tanstack/react-location";
+import { useMatch, useLocation, Navigate, useNavigate } from "@tanstack/react-location";
 import { useQuery } from "react-query";
 import { Helmet } from "react-helmet-async";
 
 import Header from "../../components/Header";
-
-import { getPublicProductById } from "../../api/products";
-import { Product } from "../../types/Product";
 import ProductDetails from "./ProductDetails";
 import ProductReviews from "./ProductReviews";
 
+import { getPublicProductById } from "../../api/products";
+import { Product } from "../../types/Product";
+
 const ProductPage = () => {
+	const navigate = useNavigate();
 	const {
 		params: { productId },
 	} = useMatch();
 
 	const location = useLocation();
 
-	const productQuery = useQuery<Product>(["products", productId], () => getPublicProductById(productId));
+	const productQuery = useQuery<Product>(["products", productId], () => getPublicProductById(productId), {
+		onError: () => {
+			navigate({ to: "/" });
+		},
+	});
 
 	if (productId.trim() === "/" || productId.trim() === "") {
 		return <Navigate to='/' replace />;
