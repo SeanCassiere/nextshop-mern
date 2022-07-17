@@ -27,6 +27,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Account from "./pages/Account";
+import Checkout from "./pages/Checkout";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string };
@@ -60,10 +61,6 @@ const App = () => {
 									path: "products",
 									children: [
 										{
-											path: "/",
-											element: <NotFound />,
-										},
-										{
 											path: ":productId",
 											element: <Product />,
 											loader: ({ params: { productId } }) =>
@@ -95,6 +92,10 @@ const App = () => {
 									),
 								},
 								{
+									path: "checkout",
+									element: <Checkout />,
+								},
+								{
 									path: "admin",
 									children: [
 										{
@@ -106,6 +107,9 @@ const App = () => {
 											),
 										},
 									],
+								},
+								{
+									element: <Navigate to='/' />,
 								},
 							]}
 						>

@@ -3,6 +3,7 @@ import { Link, useMatch } from "@tanstack/react-location";
 import { Transition, Menu } from "@headlessui/react";
 import { useAuth } from "../context/AuthContext";
 import { BiChevronDown } from "react-icons/bi";
+import { RiAdminLine } from "react-icons/ri";
 
 const Header = () => {
 	const match = useMatch();
@@ -11,15 +12,15 @@ const Header = () => {
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	return (
-		<header className='sticky top-0 z-50'>
-			<nav className='bg-white dark:bg-gray-800'>
+		<header className='sticky top-0 z-50 shadow-sm'>
+			<nav className='bg-white'>
 				<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='flex items-center justify-between h-16'>
 						<div className='-mr-2 flex md:hidden'>
 							<button
 								onClick={() => setIsOpen((prev) => !prev)}
 								type='button'
-								className='bg-gray-100 dark:bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-900 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-gray-100 dark:focus:ring-slate-900 '
+								className='bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-900 hover:text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-100'
 								aria-controls='mobile-menu'
 								aria-expanded='false'
 							>
@@ -54,7 +55,7 @@ const Header = () => {
 								<Link to='/'>
 									<>
 										<img
-											className='block h-8 w-auto shadow-sm'
+											className='block h-8 w-auto'
 											src='https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg'
 											alt='Workflow'
 										/>
@@ -67,8 +68,8 @@ const Header = () => {
 										to='/'
 										className={`${
 											match.pathname === "/"
-												? "text-gray-900 dark:text-white dark:bg-gray-900 bg-gray-50 hover:bg-gray-200 dark:hover:bg-gray-600"
-												: "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+												? "text-gray-900 bg-gray-50 hover:bg-gray-200"
+												: "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
 										} px-3 py-2 rounded-md text-sm font-medium`}
 									>
 										Shop
@@ -76,10 +77,10 @@ const Header = () => {
 
 									<Link
 										to='/cart'
-										className={`hover:bg-gray-700 ${
+										className={`${
 											match.pathname.includes("/cart")
-												? "text-gray-900 dark:text-white dark:bg-gray-900 bg-gray-50 hover:bg-gray-200 dark:hover:bg-gray-600"
-												: "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+												? "text-gray-900 bg-gray-50 hover:bg-gray-200"
+												: "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
 										} px-3 py-2 rounded-md text-sm font-medium`}
 									>
 										Cart
@@ -93,12 +94,11 @@ const Header = () => {
 									<Menu as='div' className='relative inline-block text-left'>
 										<div>
 											<Menu.Button
-												className={`
-											inline-flex w-full justify-center rounded-md px-2 py-2 text-sm font-medium
-											dark:bg-black dark:bg-opacity-20
-											text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-white dark:hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 items-center`}
+												className='
+											inline-flex w-full justify-center rounded-md px-2 py-2 text-lg md:text-sm font-medium	text-gray-600 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 items-center'
 											>
-												Admin <BiChevronDown />
+												<span className='hidden md:inline-block'>Admin&nbsp;</span>
+												<RiAdminLine />
 											</Menu.Button>
 										</div>
 										<Transition
@@ -117,9 +117,7 @@ const Header = () => {
 															<Link
 																to='/login'
 																className={`${
-																	active
-																		? "bg-gray-200 text-gray-700 dark:bg-slate-700 dark:text-white"
-																		: "text-gray-900"
+																	active ? "bg-gray-200 text-gray-700" : "text-gray-900"
 																} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 															>
 																My Admin Account
@@ -131,9 +129,7 @@ const Header = () => {
 															<button
 																type='button'
 																className={`${
-																	active
-																		? "bg-gray-200 text-gray-700 dark:bg-slate-700 dark:text-white"
-																		: "text-gray-900"
+																	active ? "bg-gray-200 text-gray-700" : "text-gray-900"
 																} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 																onClick={logoutUser}
 															>
@@ -149,12 +145,11 @@ const Header = () => {
 								<Menu as='div' className='relative inline-block text-left'>
 									<div>
 										<Menu.Button
-											className={`
-											inline-flex w-full justify-center rounded-md px-2 py-2 text-sm font-medium
-											dark:bg-black dark:bg-opacity-20
-											text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-white dark:hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 items-center`}
+											className='
+											inline-flex w-full justify-center rounded-md px-2 py-2 text-lg md:text-sm font-medium	text-gray-600 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 items-center'
 										>
-											Account <BiChevronDown />
+											<span className='hidden md:inline-block'>Account&nbsp;</span>
+											<BiChevronDown />
 										</Menu.Button>
 									</div>
 									<Transition
@@ -173,7 +168,7 @@ const Header = () => {
 														<Link
 															to='/account'
 															className={`${
-																active ? "bg-gray-200 text-gray-700 dark:bg-slate-700 dark:text-white" : "text-gray-900"
+																active ? "bg-gray-200 text-gray-700" : "text-gray-900"
 															} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 														>
 															My Account
@@ -185,7 +180,7 @@ const Header = () => {
 														<button
 															type='button'
 															className={`${
-																active ? "bg-gray-200 text-gray-700 dark:bg-slate-700 dark:text-white" : "text-gray-900"
+																active ? "bg-gray-200 text-gray-700" : "text-gray-900"
 															} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 															onClick={logoutUser}
 														>
@@ -201,10 +196,10 @@ const Header = () => {
 						) : (
 							<Link
 								to='/login'
-								className={`hover:bg-gray-700 ${
+								className={`${
 									match.pathname.includes("/login")
-										? "text-gray-900 dark:text-white dark:bg-gray-900 bg-gray-50 hover:bg-gray-200"
-										: "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+										? "text-gray-900 bg-gray-50 hover:bg-gray-200"
+										: "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
 								} px-3 py-2 rounded-md text-sm font-medium`}
 							>
 								Login
@@ -227,8 +222,8 @@ const Header = () => {
 						<div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
 							<Link
 								to='/'
-								className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
-									match.pathname === "/" ? "text-gray-900 dark:text-white" : "text-gray-500 dark:text-white"
+								className={`hover:bg-gray-100 ${
+									match.pathname === "/" ? "text-gray-900" : "text-gray-500"
 								} block px-3 py-2 rounded-md text-base font-medium`}
 							>
 								Shop
@@ -236,8 +231,8 @@ const Header = () => {
 
 							<Link
 								to='/cart'
-								className={`hover:bg-gray-100 dark:hover:bg-gray-700 ${
-									match.pathname.includes("/cart") ? "text-gray-900 dark:text-white" : "text-gray-500 dark:text-white"
+								className={`hover:bg-gray-100 ${
+									match.pathname.includes("/cart") ? "text-gray-900" : "text-gray-500"
 								} block px-3 py-2 rounded-md text-base font-medium`}
 							>
 								Cart

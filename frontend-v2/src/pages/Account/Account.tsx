@@ -13,6 +13,7 @@ import { useAuth } from "../../context/AuthContext";
 import { User } from "../../types/User";
 import { getAuthUserOrders } from "../../api/order";
 import { Order } from "../../types/Order";
+import StyledLink from "../../components/StyledLink";
 
 const Account = () => {
 	const queryClient = useQueryClient();
@@ -69,12 +70,9 @@ const Account = () => {
 			{
 				name: "#",
 				renderValue: (row) => (
-					<Link
-						to={`/order/${row._id}`}
-						className='font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-600 dark:hover:text-indigo-700'
-					>
+					<StyledLink to={`/order/${row._id}`} className='font-medium'>
 						view
-					</Link>
+					</StyledLink>
 				),
 			},
 			{
@@ -120,8 +118,8 @@ const Account = () => {
 					<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
 						<div className='grid gap-4 grid-cols-1 md:grid-cols-12'>
 							<div className='md:col-span-4 p-0 md:p-2'>
-								<div className='dark:bg-gray-800 p-2 md:p-4 rounded-md'>
-									<h2 className='text-3xl mb-4 font-bold tracking-tight text-gray-900 dark:text-white'>My account</h2>
+								<div className='p-2 md:p-4 rounded-md'>
+									<h2 className='text-3xl mb-4 font-bold tracking-tight text-gray-900'>My account</h2>
 									<form
 										onSubmit={(e) => {
 											e.preventDefault();
@@ -201,7 +199,7 @@ const Account = () => {
 							</div>
 							<div className='md:col-span-8 p-0 md:p-2'>
 								<div className='p-2 md:p-4'>
-									<h2 className='text-2xl mb-4 font-bold tracking-tight text-gray-900 dark:text-white'>Orders</h2>
+									<h2 className='text-2xl mb-4 font-bold tracking-tight text-gray-900'>Orders</h2>
 									<div>
 										{ordersQuery.data && (
 											<Table items={ordersQuery.data} model={model as any} emptyMessage='No orders to be shown' />

@@ -35,9 +35,9 @@ const Home = () => {
 				<title>Store | Nextshop</title>
 			</Helmet>
 			<main>
-				<section className='bg-gray-100 dark:bg-gray-900 py-4'>
+				<section className='bg-gray-100 py-4'>
 					<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[32rem]'>
-						<h2 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
+						<h2 className='text-3xl font-bold tracking-tight text-gray-900'>
 							Top products{topProductsQuery.status === "loading" && "..."}
 						</h2>
 						{topProductsQuery.status === "loading" && !topProductsQuery.data && (
@@ -47,7 +47,7 @@ const Home = () => {
 					</div>
 				</section>
 				<section className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
-					<h2 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
+					<h2 className='text-3xl font-bold tracking-tight text-gray-900'>
 						Latest products{productsQuery.status === "loading" && "..."}
 					</h2>
 					<div className='mt-5'>

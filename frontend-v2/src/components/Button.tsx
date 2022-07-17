@@ -19,8 +19,8 @@ const Button: React.FC<
 		${size === "xl" && "px-7 py-3.5"}
 		duration-150
 		text-md rounded-md font-semibold
-		text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800
-    disabled:bg-gray-500 disabled:cursor-not-allowed
+		text-white bg-indigo-600 hover:bg-indigo-700
+    disabled:bg-indigo-400 disabled:cursor-not-allowed
 		${className}
     `}
 			{...buttonProps}

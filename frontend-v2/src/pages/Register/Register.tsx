@@ -64,7 +64,7 @@ const Register = () => {
 			</Helmet>
 			<main>
 				<section className='max-w-lg mx-auto px-4 sm:px-6 lg:px-8 py-4'>
-					<h1 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>Sign Up!</h1>
+					<h1 className='text-3xl font-bold tracking-tight text-gray-900'>Sign Up!</h1>
 					<form
 						className='mt-4 py-3'
 						onSubmit={(evt) => {
@@ -120,13 +120,9 @@ const Register = () => {
 							<Button type='submit'>Sign Up</Button>
 						</div>
 					</form>
-					<p className='text-gray-600 dark:text-gray-500'>
+					<p className='text-gray-600'>
 						Already have an account?&nbsp;
-						<StyledLink
-							to='/login'
-							search={(prev) => ({ ...prev, redirect: queryRedirect })}
-							className='text-blue-800 dark:text-blue-600'
-						>
+						<StyledLink to='/login' search={(prev) => ({ ...prev, redirect: queryRedirect })} className='text-blue-800'>
 							Login
 						</StyledLink>
 					</p>

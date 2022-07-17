@@ -52,7 +52,7 @@ const Login = () => {
 			</Helmet>
 			<main>
 				<section className='max-w-lg mx-auto px-4 sm:px-6 lg:px-8 py-4'>
-					<h1 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>Sign In</h1>
+					<h1 className='text-3xl font-bold tracking-tight text-gray-900'>Sign In</h1>
 					<form
 						className='mt-4 py-3'
 						onSubmit={(evt) => {
@@ -85,7 +85,7 @@ const Login = () => {
 							<Button type='submit'>Sign In</Button>
 						</div>
 					</form>
-					<p className='text-gray-600 dark:text-gray-500'>
+					<p className='text-gray-600'>
 						New Customer?&nbsp;
 						<StyledLink to='/register' search={(prev) => ({ ...prev, redirect: queryRedirect })}>
 							Register

@@ -24,7 +24,7 @@ const GenericTable = <T,>({ items, model, emptyMessage }: Props<T>) => {
 	return (
 		<div className='overflow-x-auto rounded-sm'>
 			<table className='table-auto w-full'>
-				<thead className='text-md font-semibold uppercase text-gray-400 dark:text-gray-300 bg-gray-100 dark:bg-gray-700'>
+				<thead className='text-md font-semibold uppercase text-gray-600 bg-gray-200'>
 					<tr>
 						{model.columns.map((col, idx) => (
 							<th key={`${idString}-${idx}-${col.name}`} className='p-2 whitespace-nowrap'>
@@ -35,17 +35,14 @@ const GenericTable = <T,>({ items, model, emptyMessage }: Props<T>) => {
 				</thead>
 				<tbody>
 					{items.length === 0 ? (
-						<tr key={`${idString}-empty-row`} className='dark:bg-gray-900'>
+						<tr key={`${idString}-empty-row`} className=''>
 							<td key={`${idString}-empty-row-cell`} colSpan={model.columns.length} className='p-2 whitespace-nowrap'>
 								<div className='text-center'>{emptyMessage ? emptyMessage : "No data"}</div>
 							</td>
 						</tr>
 					) : (
 						items.map((row, idx) => (
-							<tr
-								key={`${idString}-${idx}`}
-								className={`${idx % 2 === 0 ? "dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"}`}
-							>
+							<tr key={`${idString}-${idx}`} className={`${idx % 2 === 0 ? "bg-gray-50" : "bg-gray-100"}`}>
 								{model.columns.map((config, colIdx) => (
 									<td key={`${idString}-${colIdx}-${config.name}`} className='p-2 whitespace-nowrap'>
 										<div className='text-left text-md'>{config.renderValue(row)}</div>

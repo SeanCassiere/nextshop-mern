@@ -9,18 +9,18 @@ const TopProductsList: React.FC<{
 		<div className='flex flex-col md:flex-row gap-4 space-between justify-between py-4'>
 			{props.products.map((product) => (
 				<React.Fragment key={`top-product-${product._id}`}>
-					<div className='max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700'>
+					<div className='max-w-sm bg-white rounded-lg border border-gray-200 shadow-md'>
 						<Link to={`/products/${product._id}`}>
 							<img className='rounded-t-lg' src={product.image} alt='' />
 						</Link>
 						<div className='p-5'>
 							<Link to={`/products/${product._id}`}>
-								<h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>{product.name}</h5>
+								<h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900'>{product.name}</h5>
 							</Link>
-							<p className='mb-3 font-normal text-gray-700 dark:text-gray-400 truncate'>{product.description}</p>
+							<p className='mb-3 font-normal text-gray-700 truncate'>{product.description}</p>
 							<Link
 								to={`/products/${product._id}`}
-								className='inline-flex items-center py-2 px-3 text-sm font-medium text-center duration-150 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800'
+								className='inline-flex items-center py-2 px-3 text-sm font-medium text-center duration-150 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300'
 							>
 								View
 								<svg

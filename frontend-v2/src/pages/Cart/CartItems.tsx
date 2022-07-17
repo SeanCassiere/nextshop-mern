@@ -21,7 +21,7 @@ const CartItems: React.FC<{ items: ContextCartItem[] }> = ({ items }) => {
 	}
 	return (
 		<div className='flow-root'>
-			<ul className='divide-y divide-gray-200 dark:divide-gray-700'>
+			<ul className='divide-y divide-gray-200'>
 				{items.map((product) => (
 					<li key={`cart-item-${product.identifier}-${product.id}`} className='flex py-4'>
 						<div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
@@ -32,7 +32,7 @@ const CartItems: React.FC<{ items: ContextCartItem[] }> = ({ items }) => {
 
 						<div className='ml-4 flex flex-1 flex-col'>
 							<div>
-								<div className='flex justify-between text-base font-medium text-gray-900 dark:text-white'>
+								<div className='flex justify-between text-base font-medium text-gray-900'>
 									<h3>
 										<Link to={`/products/${product.id}`}> {product.name} </Link>
 									</h3>
@@ -41,13 +41,13 @@ const CartItems: React.FC<{ items: ContextCartItem[] }> = ({ items }) => {
 								{/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
 							</div>
 							<div className='flex flex-1 items-end justify-between text-sm'>
-								<p className='text-gray-500 dark:text-gray-200'>Qty {product.qty}</p>
+								<p className='text-gray-500'>Qty {product.qty}</p>
 
 								<div className='flex'>
 									<button
 										type='button'
 										onClick={() => removeFromCart(product.identifier)}
-										className='font-medium text-indigo-800 dark:text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400'
+										className='font-medium text-indigo-800  hover:text-indigo-600'
 									>
 										Remove
 									</button>

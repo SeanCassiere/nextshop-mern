@@ -26,8 +26,7 @@ const TextArea: React.FC<
 				${size === "xl" && "px-7 py-3.5"}
 				border border-gray-200 text-md rounded-md
 				bg-gray-50 text-gray-900 focus:ring-indigo-400 focus:border-indigo-400
-				dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-indigo-700 dark:focus:border-indigo-700
-				disabled:bg-gray-100 disabled:cursor-not-allowed dark:disabled:bg-gray-900 disabled:text-gray-600 dark:disabled:text-gray-500
+				disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-600
 				${className}`}
 				{...textareaProps}
 			/>

@@ -7,7 +7,7 @@ import Select from "../../components/Select";
 import TextArea from "../../components/TextArea";
 import { useAuth } from "../../context/AuthContext";
 
-const ReviewForm: React.FC<{ productId: string }> = ({ productId }) => {
+const ReviewForm: React.FC<{ productId: string; disableForm: boolean }> = ({ productId, disableForm }) => {
 	const { user } = useAuth();
 
 	const queryClient = useQueryClient();
@@ -56,6 +56,7 @@ const ReviewForm: React.FC<{ productId: string }> = ({ productId }) => {
 				onChange={handleChange}
 				selectSize='sm'
 				required
+				disabled={disableForm}
 			>
 				<option value='1'>1 - Poor</option>
 				<option value='2'>2 - Fair</option>
@@ -71,8 +72,9 @@ const ReviewForm: React.FC<{ productId: string }> = ({ productId }) => {
 				onChange={handleChange}
 				rows={6}
 				required
+				disabled={disableForm}
 			/>
-			<Button className='mt-3' type='submit'>
+			<Button className='mt-3' type='submit' disabled={disableForm}>
 				Submit
 			</Button>
 		</form>
