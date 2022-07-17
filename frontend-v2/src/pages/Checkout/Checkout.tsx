@@ -343,15 +343,17 @@ const PlaceOrderForm: React.FC<{ user: AuthUser } & CommonSubFormProps> = ({ use
 				</div>
 			</div>
 			<div className='md:col-span-4'>
-				<OrderSummary
-					error={mutationError ?? undefined}
-					subtotalPrice={itemsPrice}
-					shippingPrice={shippingPrice}
-					taxPrice={taxPrice}
-					totalPrice={totalPrice}
-					actionButtonText='Place order'
-					actionButtonOnClick={handlePlaceOrder}
-				/>
+				<div className='sticky top-[4.5rem]'>
+					<OrderSummary
+						error={mutationError ?? undefined}
+						subtotalPrice={itemsPrice}
+						shippingPrice={shippingPrice}
+						taxPrice={taxPrice}
+						totalPrice={totalPrice}
+						actionButtonText='Place order'
+						actionButtonOnClick={handlePlaceOrder}
+					/>
+				</div>
 			</div>
 		</div>
 	);

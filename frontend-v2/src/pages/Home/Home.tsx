@@ -12,10 +12,14 @@ import { getPublicProducts, getPublicTopProducts } from "../../api/products";
 import { Product, ProductsPaginated } from "../../types/Product";
 import { LocationGenerics } from "../../App";
 
+const TOP_PRODUCTS_COUNT = 3;
+
 const Home = () => {
 	const { page = 1 } = useSearch<LocationGenerics>();
 
-	const topProductsQuery = useQuery<Product[], any>(["products", "top"], getPublicTopProducts);
+	const topProductsQuery = useQuery<Product[], any>(["products", "top", `${TOP_PRODUCTS_COUNT}`], () =>
+		getPublicTopProducts({ pageSize: TOP_PRODUCTS_COUNT })
+	);
 
 	const productsQuery = useQuery<ProductsPaginated, any>(
 		["products", `page-${page}`],
@@ -50,7 +54,7 @@ const Home = () => {
 					<h2 className='text-3xl font-bold tracking-tight text-gray-900'>
 						Latest products{productsQuery.status === "loading" && "..."}
 					</h2>
-					<div className='mt-5'>
+					<div className='mt-5 mb-5'>
 						{productsQuery.status === "loading" && !productsQuery.data && <div className='min-h-[32rem]'>&nbsp;</div>}
 						{productsQuery.data && (
 							<>

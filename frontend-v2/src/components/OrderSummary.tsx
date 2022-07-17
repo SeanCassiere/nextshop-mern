@@ -11,15 +11,25 @@ const OrderSummary: React.FC<{
 	totalPrice?: number;
 	actionButtonText?: string;
 	actionButtonOnClick?: () => void;
-}> = ({ error, subtotalPrice, shippingPrice, taxPrice, totalPrice, actionButtonText, actionButtonOnClick }) => {
+	children?: React.ReactNode;
+}> = ({
+	error,
+	subtotalPrice,
+	shippingPrice,
+	taxPrice,
+	totalPrice,
+	actionButtonText,
+	actionButtonOnClick,
+	children,
+}) => {
 	return (
-		<div className='bg-gray-50 rounded-md py-6 px-4 sm:px-6 sticky top-[4.5rem]'>
+		<div className='bg-gray-50 rounded-md py-6 px-4 sm:px-6'>
 			<h2 id='summary-heading' className='text-lg font-medium text-gray-900'>
 				Order summary
 			</h2>
 
 			<dl className='mt-6 space-y-4'>
-				{shippingPrice !== undefined && (
+				{subtotalPrice !== undefined && (
 					<div className='flex items-center justify-between'>
 						<dt className='text-sm text-gray-600'>Subtotal</dt>
 						<dd className='text-sm font-medium text-gray-900'>${subtotalPrice?.toFixed(2)}</dd>
@@ -67,6 +77,7 @@ const OrderSummary: React.FC<{
 						{actionButtonText}
 					</Button>
 				)}
+				{children}
 			</div>
 		</div>
 	);

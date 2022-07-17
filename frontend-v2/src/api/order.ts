@@ -35,3 +35,8 @@ export async function placeUserOrder(input: { token: string } & CreateOrderDTO) 
 		body: JSON.stringify(body),
 	});
 }
+
+export async function getOrderById(input: { token: string; orderId: string }) {
+	const { token, orderId } = input;
+	return callApi(makeUrl(`/orders/${orderId}`, {}), { headers: { Authorization: `Bearer ${token}` } });
+}

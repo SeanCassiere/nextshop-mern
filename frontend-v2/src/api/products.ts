@@ -4,8 +4,8 @@ export async function getPublicProducts(params: { keyword?: string; pageNumber?:
 	return callApi(makeUrl(`/products`, params));
 }
 
-export async function getPublicTopProducts() {
-	return callApi(makeUrl(`/products/top`, {}));
+export async function getPublicTopProducts(input: { pageSize?: string | number }) {
+	return callApi(makeUrl(`/products/top`, { pageSize: input.pageSize ?? null }));
 }
 
 export async function getPublicProductById(productId: string) {

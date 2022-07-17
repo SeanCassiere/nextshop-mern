@@ -13,17 +13,28 @@ export type Order = {
 	shippingPrice: number;
 	taxPrice: number;
 	totalPrice: number;
-	user: string;
+	user: {
+		_id: string;
+		name: string;
+		email: string;
+	};
 	updatedAt: string;
 	createdAt: string;
-	paidAt: string;
+	paidAt?: string;
+	deliveredAt?: string;
+	paymentResult?: {
+		email_address?: string;
+		id: string;
+		status: string;
+		update_time?: string;
+	};
 };
 
 export type OrderItem = {
 	_id: string;
-	qty: number;
-	product: string;
 	name: string;
 	image: string;
+	qty: number;
+	product: string;
 	price: number;
 };

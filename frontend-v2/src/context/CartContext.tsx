@@ -80,7 +80,7 @@ const TAX_PERCENTAGE = 0.15;
 const SHIPPING_PERCENTAGE = 0.05;
 const SHIPPING_MAXIMUM = 150;
 
-function calculate(items: ContextCartItem[]) {
+export function cartCalculate(items: ContextCartItem[]) {
 	const itemsPrice = addDecimals(items.reduce((acc, item) => acc + item.price * item.qty, 0));
 	const shippingPrice = addDecimals(
 		itemsPrice * SHIPPING_PERCENTAGE >= SHIPPING_MAXIMUM ? SHIPPING_MAXIMUM : itemsPrice * SHIPPING_PERCENTAGE
@@ -117,7 +117,7 @@ export const CartContextProvider = React.memo(({ children }: { children: React.R
 				...item,
 			};
 			const items = [...cart.items, cartItem];
-			const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calculate(items);
+			const { itemsPrice, shippingPrice, taxPrice, totalPrice } = cartCalculate(items);
 			setCart({
 				...cart,
 				items,
@@ -133,7 +133,7 @@ export const CartContextProvider = React.memo(({ children }: { children: React.R
 	const removeFromCart = React.useCallback(
 		(identifier: ContextCartItem["identifier"]) => {
 			const items = cart.items.filter((item) => item.identifier !== identifier);
-			const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calculate(items);
+			const { itemsPrice, shippingPrice, taxPrice, totalPrice } = cartCalculate(items);
 			setCart({
 				...cart,
 				items,
@@ -152,7 +152,7 @@ export const CartContextProvider = React.memo(({ children }: { children: React.R
 
 	const clearItems = React.useCallback(() => {
 		const items: ContextCartItem[] = [];
-		const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calculate(items);
+		const { itemsPrice, shippingPrice, taxPrice, totalPrice } = cartCalculate(items);
 		setCart({
 			...cart,
 			items,

@@ -19,9 +19,9 @@ const Input: React.FC<
 				type={type !== "password" ? type : showPassword ? "text" : "password"}
 				className={`
 				px-4 py-2 
-				border border-gray-200 text-md rounded-md
-				bg-gray-50 text-gray-900 focus:ring-indigo-400 focus:border-indigo-400
-				disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-600
+				border border-gray-200 text-md rounded-md shadow-sm
+				text-gray-900 focus:ring-indigo-400 focus:border-indigo-400
+				disabled:bg-gray-50 disabled:cursor-not-allowed disabled:text-gray-400
 				${className}`}
 				{...inputProps}
 			/>
