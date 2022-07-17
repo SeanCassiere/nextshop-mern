@@ -1,15 +1,21 @@
 import React from "react";
 import { Product } from "../../types/Product";
-import { Link } from "@tanstack/react-location";
+import { Link, useLoadRoute } from "@tanstack/react-location";
 
 const TopProductsList: React.FC<{
 	products: Product[];
 }> = (props) => {
+	const loadRoute = useLoadRoute();
 	return (
 		<div className='flex flex-col md:flex-row gap-4 space-between justify-between py-4'>
 			{props.products.map((product) => (
 				<React.Fragment key={`top-product-${product._id}`}>
-					<div className='max-w-sm bg-white rounded-lg border border-gray-200 shadow-md'>
+					<div
+						className='max-w-sm bg-white rounded-lg border border-gray-200 shadow-md'
+						onMouseEnter={() => {
+							loadRoute({ to: `/products/${product._id}` });
+						}}
+					>
 						<Link to={`/products/${product._id}`}>
 							<img className='rounded-t-lg' src={product.image} alt='' />
 						</Link>

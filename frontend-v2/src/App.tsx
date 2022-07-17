@@ -28,7 +28,8 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Checkout from "./pages/Checkout";
-import Order from "./pages/Order/Order";
+import Order from "./pages/Order";
+import { getOrderById } from "./api/order";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string; orderId: string };
@@ -46,67 +47,82 @@ const reactLocation = new ReactLocation<LocationGenerics>({
 const queryClient = new QueryClient();
 
 const App = () => {
+	const { user } = useAuth();
+	const accessToken = user?.token ?? "";
+
+	return (
+		<QueryClientProvider client={queryClient}>
+			<Router
+				location={reactLocation}
+				routes={[
+					{ path: "/", element: <Home /> },
+					{
+						path: "products",
+						children: [
+							{ path: "/", element: <Navigate to='/' /> },
+							{
+								path: ":productId",
+								element: <Product />,
+								loader: ({ params: { productId } }) =>
+									queryClient.getQueryData(["products", productId]) ??
+									queryClient.fetchQuery(["products", productId], () => getPublicProductById(productId)),
+							},
+						],
+					},
+					{
+						path: "order",
+						children: [
+							{ path: "/", element: <Navigate to='/' /> },
+							{
+								path: ":orderId",
+								element: <Order />,
+								loader: ({ params: { orderId } }) =>
+									queryClient.getQueryData(["orders", orderId]) ??
+									queryClient.fetchQuery(["orders", orderId], () => getOrderById({ token: accessToken, orderId })),
+							},
+						],
+					},
+					{ path: "login", element: <Login /> },
+					{ path: "register", element: <Register /> },
+					{ path: "cart", element: <Cart /> },
+					{
+						path: "account",
+						element: (
+							<PrivateOnlyRoute>
+								<Account />
+							</PrivateOnlyRoute>
+						),
+					},
+					{ path: "checkout", element: <Checkout /> },
+					{
+						path: "admin",
+						children: [
+							{
+								path: "/",
+								element: (
+									<PrivateOnlyRoute admin>
+										<NotFound />
+									</PrivateOnlyRoute>
+								),
+							},
+						],
+					},
+					{ element: <Navigate to='/' /> },
+				]}
+			>
+				<Outlet />
+				<ReactQueryDevtools initialIsOpen={false} />
+			</Router>
+		</QueryClientProvider>
+	);
+};
+
+const ProvidedApp: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	return (
 		<React.Fragment>
 			<ContextProvider>
 				<HelmetProvider>
-					<QueryClientProvider client={queryClient}>
-						<Router
-							location={reactLocation}
-							routes={[
-								{ path: "/", element: <Home /> },
-								{
-									path: "products",
-									children: [
-										{ path: "/", element: <Navigate to='/' /> },
-										{
-											path: ":productId",
-											element: <Product />,
-											loader: ({ params: { productId } }) =>
-												queryClient.getQueryData(["products", productId]) ??
-												queryClient.fetchQuery(["products", productId], () => getPublicProductById(productId)),
-										},
-									],
-								},
-								{
-									path: "order",
-									children: [
-										{ path: "/", element: <Navigate to='/' /> },
-										{ path: ":orderId", element: <Order /> },
-									],
-								},
-								{ path: "login", element: <Login /> },
-								{ path: "register", element: <Register /> },
-								{ path: "cart", element: <Cart /> },
-								{
-									path: "account",
-									element: (
-										<PrivateOnlyRoute>
-											<Account />
-										</PrivateOnlyRoute>
-									),
-								},
-								{ path: "checkout", element: <Checkout /> },
-								{
-									path: "admin",
-									children: [
-										{
-											path: "/",
-											element: (
-												<PrivateOnlyRoute admin>
-													<NotFound />
-												</PrivateOnlyRoute>
-											),
-										},
-									],
-								},
-								{ element: <Navigate to='/' /> },
-							]}
-						>
-							<Outlet />
-							<ReactQueryDevtools initialIsOpen={false} />
-						</Router>
-					</QueryClientProvider>
+					<App />
 				</HelmetProvider>
 			</ContextProvider>
 		</React.Fragment>
@@ -128,4 +144,4 @@ const PrivateOnlyRoute: React.FC<{ children: React.ReactNode; admin?: true }> = 
 	return <React.Fragment>{children}</React.Fragment>;
 };
 
-export default App;
+export default ProvidedApp;

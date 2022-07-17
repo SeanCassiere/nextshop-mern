@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@tanstack/react-location";
+import { Link, useLoadRoute } from "@tanstack/react-location";
 import { Menu, Transition } from "@headlessui/react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { BsFillCheckCircleFill } from "react-icons/bs";
@@ -9,6 +9,8 @@ import { Order } from "../../types/Order";
 import { classNames } from "../../utils/tw";
 
 const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
+	const loadRoute = useLoadRoute();
+
 	return (
 		<div className='bg-white border-t border-b border-gray-200 shadow-sm sm:rounded-lg sm:border'>
 			<h3 className='sr-only'>
@@ -52,6 +54,9 @@ const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
 									<Menu.Item>
 										{({ active }) => (
 											<Link
+												onMouseEnter={() => {
+													loadRoute({ to: `/order/${order._id}` });
+												}}
 												to={`/order/${order._id}`}
 												className={classNames(
 													active ? "bg-gray-100 text-gray-900" : "text-gray-700",
@@ -70,12 +75,25 @@ const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
 
 				<div className='hidden lg:col-span-1 lg:flex lg:items-center lg:justify-end lg:space-x-4'>
 					<Link
+						onMouseEnter={() => {
+							loadRoute({ to: `/order/${order._id}` });
+						}}
 						to={`/order/${order._id}`}
 						className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
 					>
 						<span>View Order</span>
 						<span className='sr-only'>{order._id}</span>
 					</Link>
+				</div>
+				<div className='pt-4'>
+					<div className='flex items-center'>
+						{order.isPaid ? (
+							<BsFillCheckCircleFill className='w-5 h-5 text-green-500' aria-hidden='true' />
+						) : (
+							<RiCloseCircleFill className='w-5 h-5 text-red-500' aria-hidden='true' />
+						)}
+						<p className='ml-2 text-sm font-medium text-gray-500'>{order.isPaid ? "Paid" : "Not paid"}</p>
+					</div>
 				</div>
 				<div className='pt-4'>
 					<div className='flex items-center'>
@@ -95,7 +113,13 @@ const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
 			<h4 className='sr-only'>Items</h4>
 			<ul className='divide-y divide-gray-200'>
 				{order.orderItems.map((product) => (
-					<li key={product._id} className='p-4 sm:p-6'>
+					<li
+						key={product._id}
+						className='p-4 sm:p-6'
+						onMouseEnter={() => {
+							loadRoute({ to: `/products/${product.product}` });
+						}}
+					>
 						<div className='flex items-center sm:items-start'>
 							<div className='flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40'>
 								<img src={product.image} alt={product.name} className='w-full h-full object-center object-cover' />

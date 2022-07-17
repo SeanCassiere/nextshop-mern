@@ -10,6 +10,7 @@ export type Order = {
 		country: string;
 		postalCode: string;
 	};
+	itemsPrice: number;
 	shippingPrice: number;
 	taxPrice: number;
 	totalPrice: number;

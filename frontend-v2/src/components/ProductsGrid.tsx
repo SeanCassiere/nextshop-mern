@@ -1,15 +1,22 @@
 import React from "react";
-import { Link } from "@tanstack/react-location";
+import { Link, useLoadRoute } from "@tanstack/react-location";
 
 import { Product } from "../types/Product";
 
 const ProductsGrid: React.FC<{
 	products: Product[];
 }> = ({ products }) => {
+	const loadRoute = useLoadRoute();
 	return (
 		<div className='grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
 			{products.map((product) => (
-				<div key={`product-${product._id}`} className='group relative duration-150'>
+				<div
+					key={`product-${product._id}`}
+					className='group relative duration-150'
+					onMouseEnter={() => {
+						loadRoute({ to: `/products/${product._id}` });
+					}}
+				>
 					<div className='w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none'>
 						<img
 							src={product.image}

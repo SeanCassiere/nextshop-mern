@@ -40,3 +40,23 @@ export async function getOrderById(input: { token: string; orderId: string }) {
 	const { token, orderId } = input;
 	return callApi(makeUrl(`/orders/${orderId}`, {}), { headers: { Authorization: `Bearer ${token}` } });
 }
+
+export type MakePayPalPaymentDTO = {
+	token: string;
+	orderId: string;
+	paymentResult: {
+		id: string;
+		status: string;
+		update_time: string;
+		email_address: string;
+	};
+};
+
+export async function payOrder(input: MakePayPalPaymentDTO) {
+	const { token, orderId, paymentResult } = input;
+	return callApi(makeUrl(`/orders/${orderId}/pay`, {}), {
+		method: "PUT",
+		headers: { Authorization: `Bearer ${token}` },
+		body: JSON.stringify(paymentResult),
+	});
+}

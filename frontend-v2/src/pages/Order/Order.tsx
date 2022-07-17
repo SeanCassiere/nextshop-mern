@@ -1,16 +1,17 @@
-import React, { useMemo } from "react";
-import { useQuery } from "react-query";
+import React, { useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Navigate, useMatch, useNavigate } from "@tanstack/react-location";
 import { Helmet } from "react-helmet-async";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 import { LocationGenerics } from "../../App";
 import { useAuth } from "../../context/AuthContext";
-import { getOrderById } from "../../api/order";
+import { getOrderById, MakePayPalPaymentDTO, payOrder } from "../../api/order";
+import { getPaypalClientId } from "../../api/config";
 import { Order } from "../../types/Order";
 
 import Header from "../../components/Header";
 import OrderSummary from "../../components/OrderSummary";
-import { cartCalculate, ContextCartItem } from "../../context/CartContext";
 import OrderItemList from "../../components/OrderItemList";
 
 const OrderPage = () => {
@@ -19,8 +20,24 @@ const OrderPage = () => {
 	} = useMatch<LocationGenerics>();
 
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 	const { user } = useAuth();
 	const token = user?.token ?? "";
+
+	const [paypalLoadingPending, setPaypalLoadingPending] = useState(true);
+
+	const { data: paypalClientId } = useQuery<string, any>(["config", "paypal"], getPaypalClientId, {
+		onSuccess: () => {
+			setPaypalLoadingPending(false);
+		},
+	});
+
+	const { mutate: storePayment } = useMutation<Order, any, MakePayPalPaymentDTO>(payOrder, {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["orders", orderId]);
+			queryClient.invalidateQueries(["orders"]);
+		},
+	});
 
 	const orderQuery = useQuery<Order, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
 		onError: () => {
@@ -42,8 +59,6 @@ const OrderPage = () => {
 			qty: item.qty,
 		}));
 	}, [orderQuery.data]);
-
-	const { itemsPrice } = useMemo(() => cartCalculate(orderItems), [orderItems]);
 
 	if (orderId.trim() === "/" || orderId.trim() === "") {
 		return <Navigate to='/' replace />;
@@ -88,7 +103,7 @@ const OrderPage = () => {
 													<dt className='font-medium text-gray-900'>Payment &amp; Delivery</dt>
 													<dd className='mt-3 text-gray-500'>
 														<span className='block'>
-															Payment method:&nbsp;
+															Payment gateway:&nbsp;
 															<span className='font-medium text-indigo-600'>{orderQuery.data?.paymentMethod}</span>
 														</span>
 														<span className='block'>
@@ -134,13 +149,64 @@ const OrderPage = () => {
 											</dl>
 										</div>
 									)}
-									{orderQuery.data && (
-										<OrderSummary
-											subtotalPrice={itemsPrice}
-											shippingPrice={orderQuery.data.shippingPrice}
-											taxPrice={orderQuery.data.taxPrice}
-											totalPrice={orderQuery.data.totalPrice}
-										/>
+									{paypalLoadingPending === false && (
+										<PayPalScriptProvider
+											options={{
+												"client-id": paypalClientId ?? "",
+												currency: "USD",
+											}}
+										>
+											{orderQuery.data && (
+												<OrderSummary
+													subtotalPrice={orderQuery.data.itemsPrice}
+													shippingPrice={orderQuery.data.shippingPrice}
+													taxPrice={orderQuery.data.taxPrice}
+													totalPrice={orderQuery.data.totalPrice}
+												>
+													{orderQuery.data?.isPaid === false && (
+														<PayPalButtons
+															fundingSource='paypal'
+															style={{ color: "blue" }}
+															createOrder={async (_, actions) => {
+																return actions.order
+																	.create({
+																		intent: "CAPTURE",
+																		application_context: {
+																			brand_name: "Nextshop",
+																			landing_page: "BILLING",
+																		},
+																		purchase_units: [
+																			{
+																				amount: {
+																					currency_code: "USD",
+																					value: orderQuery.data.totalPrice.toFixed(2),
+																				},
+																			},
+																		],
+																	})
+																	.then((orderId) => orderId);
+															}}
+															onApprove={async (_, actions) => {
+																return actions?.order?.capture().then((paymentResult) => {
+																	storePayment({
+																		token,
+																		orderId,
+																		paymentResult: {
+																			...paymentResult,
+																			email_address: paymentResult.payer.email_address ?? orderQuery.data.user.email,
+																		},
+																	});
+																});
+															}}
+															onError={(err) => {
+																console.log("Payment error", err);
+																alert("Payment failed due to an unexpected error. Please try again.");
+															}}
+														/>
+													)}
+												</OrderSummary>
+											)}
+										</PayPalScriptProvider>
 									)}
 								</div>
 							</div>
