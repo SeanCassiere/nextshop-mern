@@ -30,6 +30,7 @@ const orderSchema = new Schema<OrderInter, OrderModel>(
 			update_time: { type: String },
 			email_address: { type: String },
 		},
+		itemsPrice: { type: Number, required: true, default: 0.0 },
 		taxPrice: { type: Number, required: true, default: 0.0 },
 		shippingPrice: { type: Number, required: true, default: 0.0 },
 		totalPrice: { type: Number, required: true, default: 0.0 },
@@ -43,9 +44,9 @@ const orderSchema = new Schema<OrderInter, OrderModel>(
 
 export interface OrderItemInter {
 	name: string;
-	qty: string;
+	qty: number;
 	image: string;
-	price: string;
+	price: number;
 	product: mongoose.Schema.Types.ObjectId;
 }
 
@@ -67,6 +68,7 @@ export interface OrderInter {
 		update_time: string;
 		email_address: string;
 	};
+	itemsPrice: number;
 	taxPrice: number;
 	shippingPrice: number;
 	totalPrice: number;

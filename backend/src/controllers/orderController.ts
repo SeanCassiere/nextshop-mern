@@ -13,7 +13,6 @@ const addOrderItems = asyncHandler(async (req: CustomRequest<IncomingOrderInterf
 	if (orderItems && orderItems.length === 0) {
 		res.status(404);
 		throw new Error("No Order Items");
-		return;
 	} else {
 		const order = new Order({
 			orderItems,
@@ -37,8 +36,13 @@ const addOrderItems = asyncHandler(async (req: CustomRequest<IncomingOrderInterf
 // @access Private
 const getOrderById = asyncHandler(async (req: Request, res: Response) => {
 	const order = await Order.findById(req.params.id).populate("user", "name email");
-
 	if (order) {
+		let itemsPrice = order.itemsPrice;
+		if (itemsPrice === 0) {
+			itemsPrice = order.orderItems.reduce((acc, cur) => acc + cur.price * cur.qty, 0);
+			order.itemsPrice = itemsPrice;
+			await order.save();
+		}
 		res.json(order);
 	} else {
 		res.status(404);
