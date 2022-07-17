@@ -17,6 +17,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { decodeFromBinary, encodeToBinary } from "./utils/parse";
 
 import { getPublicProductById } from "./api/products";
+import { getOrderById } from "./api/order";
 
 import ContextProvider from "./context/ContextProvider";
 import { useAuth } from "./context/AuthContext";
@@ -29,7 +30,6 @@ import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Checkout from "./pages/Checkout";
 import Order from "./pages/Order";
-import { getOrderById } from "./api/order";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string; orderId: string };
@@ -59,7 +59,7 @@ const App = () => {
 					{
 						path: "products",
 						children: [
-							{ path: "/", element: <Navigate to='/' /> },
+							{ path: "/", element: <NotFound /> },
 							{
 								path: ":productId",
 								element: <Product />,
@@ -72,7 +72,7 @@ const App = () => {
 					{
 						path: "order",
 						children: [
-							{ path: "/", element: <Navigate to='/' /> },
+							{ path: "/", element: <NotFound /> },
 							{
 								path: ":orderId",
 								element: <Order />,
@@ -107,7 +107,7 @@ const App = () => {
 							},
 						],
 					},
-					{ element: <Navigate to='/' /> },
+					{ element: <NotFound /> },
 				]}
 			>
 				<Outlet />
