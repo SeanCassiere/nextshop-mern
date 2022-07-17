@@ -58,7 +58,11 @@ declare global {
 }
 
 async function main() {
-	await connectDB();
+	connectDB()
+		.then(() => {})
+		.catch((e) => {
+			throw e;
+		});
 
 	app.use(
 		cors({

@@ -188,7 +188,8 @@ const createProductReviewById = asyncHandler(async (req, res) => {
 // @route GET /api/products/top
 // @access PUBLIC
 const getTopProducts = asyncHandler(async (req, res) => {
-	const products = await Product.find({ isActive: true }).sort({ rating: -1 }).limit(3);
+	const pageSize = Number(req.query?.pageSize) || 3;
+	const products = await Product.find({ isActive: true }).sort({ rating: -1 }).limit(pageSize);
 
 	res.json(products);
 });

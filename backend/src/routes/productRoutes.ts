@@ -177,6 +177,13 @@ router.route("/all").get(protect, isAdmin, getAllProducts);
  *   get:
  *     summary: Returns the list of top products
  *     tags: [Products, Public]
+ *     parameters:
+ *      - in: query
+ *        name: pageSize
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The page size
  *     responses:
  *       200:
  *         description: OK
