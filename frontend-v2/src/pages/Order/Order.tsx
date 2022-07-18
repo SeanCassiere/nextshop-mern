@@ -13,6 +13,7 @@ import { Order } from "../../types/Order";
 import Header from "../../components/Header";
 import OrderSummary from "../../components/OrderSummary";
 import OrderItemList from "../../components/OrderItemList";
+import { formatTextDate } from "../../utils/format";
 
 const OrderPage = () => {
 	const {
@@ -81,9 +82,11 @@ const OrderPage = () => {
 							</div>
 							<p className='text-sm text-gray-600'>
 								Order placed&nbsp;
-								<time dateTime={orderQuery.data?.createdAt ?? ""} className='font-medium text-gray-900'>
-									{orderQuery.data?.createdAt?.substring(0, 10)}
-								</time>
+								{orderQuery.data && (
+									<time dateTime={orderQuery.data?.createdAt} className='font-medium text-gray-900'>
+										{formatTextDate(orderQuery.data?.createdAt)}
+									</time>
+								)}
 							</p>
 						</div>
 						<div className='pt-5 grid grid-cols-1 gap-10 md:grid-cols-12'>

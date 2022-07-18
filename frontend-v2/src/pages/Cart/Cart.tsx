@@ -9,6 +9,7 @@ import OrderItemList from "../../components/OrderItemList";
 
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
+import { formatPrice } from "../../utils/format";
 
 const Cart = () => {
 	const navigate = useNavigate();
@@ -45,7 +46,7 @@ const Cart = () => {
 							<div className='bg-gray-50 rounded-md mt-5 md:mt-0 py-6 px-4 sm:px-6 sticky top-[3.5rem]'>
 								<div className='flex justify-between text-base font-medium text-gray-900'>
 									<p>Subtotal</p>
-									<p>${items.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</p>
+									<p>{formatPrice(items.reduce((acc, item) => acc + item.qty * item.price, 0))}</p>
 								</div>
 								<p className='mt-0.5 text-sm text-gray-5'>Shipping and taxes calculated at checkout.</p>
 								<div className='mt-6'>

@@ -7,6 +7,7 @@ import { RiCloseCircleFill } from "react-icons/ri";
 
 import { Order } from "../../types/Order";
 import { classNames } from "../../utils/tw";
+import { formatPrice, formatShortDate } from "../../utils/format";
 
 const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
 	const loadRoute = useLoadRoute();
@@ -25,12 +26,12 @@ const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
 					<div className='hidden sm:block lg:col-span-1'>
 						<dt className='font-medium text-gray-900'>Date placed</dt>
 						<dd className='mt-1 text-gray-500'>
-							<time dateTime={order.createdAt}>{order.createdAt.substring(0, 10)}</time>
+							<time dateTime={order.createdAt}>{formatShortDate(order.createdAt)}</time>
 						</dd>
 					</div>
 					<div className='col-span-1 lg:col-span-1'>
 						<dt className='font-medium text-gray-900'>Total amount</dt>
-						<dd className='mt-1 font-medium text-gray-900'>${order.totalPrice}</dd>
+						<dd className='mt-1 font-medium text-gray-900'>{formatPrice(order.totalPrice)}</dd>
 					</div>
 					<Menu as='div' className='col-span-1 relative flex justify-end lg:hidden'>
 						<div className='flex items-center'>
@@ -130,7 +131,8 @@ const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
 								<div className='font-medium text-gray-900 sm:flex sm:justify-between'>
 									<h5>{product.name}</h5>
 									<p className='mt-2 sm:mt-0'>
-										{product.qty > 1 && `${product.qty} x `}${product.price}
+										{product.qty > 1 && `${product.qty} x `}
+										{formatPrice(product.price)}
 									</p>
 								</div>
 								<p className='hidden text-gray-500 sm:block sm:mt-2'>{product.name}</p>

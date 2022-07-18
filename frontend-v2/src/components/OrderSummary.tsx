@@ -1,7 +1,8 @@
 import React from "react";
-import Alert from "./Alert";
 
+import Alert from "./Alert";
 import Button from "./Button";
+import { formatPrice } from "../utils/format";
 
 const OrderSummary: React.FC<{
 	error?: string;
@@ -32,7 +33,7 @@ const OrderSummary: React.FC<{
 				{subtotalPrice !== undefined && (
 					<div className='flex items-center justify-between'>
 						<dt className='text-sm text-gray-600'>Subtotal</dt>
-						<dd className='text-sm font-medium text-gray-900'>${subtotalPrice?.toFixed(2)}</dd>
+						<dd className='text-sm font-medium text-gray-900'>{formatPrice(subtotalPrice)}</dd>
 					</div>
 				)}
 				{shippingPrice !== undefined && (
@@ -44,7 +45,7 @@ const OrderSummary: React.FC<{
                     <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                   </a> */}
 						</dt>
-						<dd className='text-sm font-medium text-gray-900'>${shippingPrice?.toFixed(2)}</dd>
+						<dd className='text-sm font-medium text-gray-900'>{formatPrice(shippingPrice)}</dd>
 					</div>
 				)}
 				{taxPrice !== undefined && (
@@ -56,13 +57,13 @@ const OrderSummary: React.FC<{
                     <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
                   </a> */}
 						</dt>
-						<dd className='text-sm font-medium text-gray-900'>${taxPrice?.toFixed(2)}</dd>
+						<dd className='text-sm font-medium text-gray-900'>{formatPrice(taxPrice)}</dd>
 					</div>
 				)}
 				{totalPrice !== undefined && (
 					<div className='border-t border-gray-200 pt-4 flex items-center justify-between'>
 						<dt className='text-base font-medium text-gray-900'>Order total</dt>
-						<dd className='text-base font-medium text-gray-900'>${totalPrice?.toFixed(2)}</dd>
+						<dd className='text-base font-medium text-gray-900'>{formatPrice(totalPrice)}</dd>
 					</div>
 				)}
 			</dl>

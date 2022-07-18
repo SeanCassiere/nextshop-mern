@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { useNavigate } from "@tanstack/react-location";
 
 import ProductRating from "../../components/ProductRating";
-import { useCart } from "../../context/CartContext";
-import { Product } from "../../types/Product";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
+
+import { useCart } from "../../context/CartContext";
+import { Product } from "../../types/Product";
+import { formatPrice } from "../../utils/format";
 
 const ProductDetails: React.FC<{ product: Product }> = ({ product }) => {
 	const navigate = useNavigate();
@@ -27,7 +29,7 @@ const ProductDetails: React.FC<{ product: Product }> = ({ product }) => {
 				<div className='flex flex-col px-0 md:px-3'>
 					<h2 className='text-4xl md:text-5xl pb-3 font-bold tracking-tight text-gray-900'>{product.name}</h2>
 					<div>
-						<span className='text-3xl font-medium text-gray-700'>${Number(product.price).toFixed(2)}</span>
+						<span className='text-3xl font-medium text-gray-700'>{formatPrice(Number(product.price))}</span>
 					</div>
 					<div className='py-5 text-md text-gray-600'>
 						<p>{product.description}</p>
@@ -54,7 +56,7 @@ const ProductDetails: React.FC<{ product: Product }> = ({ product }) => {
 							}}
 						>
 							{product.countInStock > 0
-								? `Add to cart - $${Number(Number(product.price) * quantity).toFixed(2)}`
+								? `Add to cart - ${formatPrice(Number(Number(product.price) * quantity))}`
 								: "Out of stock"}
 						</Button>
 						{product.countInStock > 0 && (

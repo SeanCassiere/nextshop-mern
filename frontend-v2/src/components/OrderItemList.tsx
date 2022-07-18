@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@tanstack/react-location";
 
 import { useCart } from "../context/CartContext";
+import { formatPrice } from "../utils/format";
 
 type OrderItem = {
 	identifier: number;
@@ -33,8 +34,10 @@ const OrderItemList: React.FC<{ items: OrderItem[]; removeItem?: true }> = ({ it
 										<Link to={`/products/${product.id}`}> {product.name} </Link>
 									</h3>
 									<div>
-										<p className='ml-4'>${Number(product.price * product.qty).toFixed(2)}</p>
-										{product.qty > 1 && <p className='ml-4 text-sm text-right text-gray-500'>${product.price}</p>}
+										<p className='ml-4'>{formatPrice(Number(product.price * product.qty))}</p>
+										{product.qty > 1 && (
+											<p className='ml-4 text-sm text-right text-gray-500'>{formatPrice(product.price)}</p>
+										)}
 									</div>
 								</div>
 								{/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLoadRoute } from "@tanstack/react-location";
 
 import { Product } from "../types/Product";
+import { formatPrice } from "../utils/format";
 
 const ProductsGrid: React.FC<{
 	products: Product[];
@@ -31,7 +32,7 @@ const ProductsGrid: React.FC<{
 						</Link>
 					</h3>
 					<p className='mt-1 text-sm text-gray-500'>{product.countInStock > 0 ? "In-stock" : "Out-of-stock"}</p>
-					<p className='mt-1 text-sm font-medium text-gray-900'>${Number(product.price).toFixed(2)}</p>
+					<p className='mt-1 text-sm font-medium text-gray-900'>{formatPrice(product.price)}</p>
 				</div>
 			))}
 		</div>
