@@ -25,7 +25,11 @@ export function makeUrl(endpoint: string, params: Record<string, string | number
 }
 
 export async function callApi(url: RequestInfo | URL, options?: RequestInit) {
-	const headerOptions = { ...options, headers: { ...options?.headers, "Content-Type": "application/json" } };
+	const headerOptions: RequestInit = {
+		...options,
+		headers: { ...options?.headers, "Content-Type": "application/json" },
+		credentials: "include",
+	};
 	return fetch(url, headerOptions).then(handleSuccess).catch(handleError);
 }
 
@@ -35,15 +39,18 @@ export const handleSuccess = async (response: Response) => {
 	let totalPages = 0;
 	let totalRecords = 0;
 
+	console.log(Object.fromEntries(response.headers));
 	const paginationString = response.headers.get("X-Pagination");
+
 	if (paginationString) {
 		try {
 			const parse = JSON.parse(paginationString);
+			console.log("parsed json", parse);
 
-			page = parse?.Page || page;
-			pageSize = parse?.PageSize || pageSize;
-			totalPages = parse?.TotalPages || totalPages;
-			totalRecords = parse?.TotalRecords || totalRecords;
+			page = parse?.Page ? parse?.Page : page;
+			pageSize = parse?.PageSize ? parse?.PageSize : pageSize;
+			totalRecords = parse?.TotalRecords ? parse?.TotalRecords : totalRecords;
+			totalPages = parse?.TotalPages ? parse?.TotalPages : totalPages;
 		} catch (error) {
 			console.log("failed parsing pagination from headers");
 		}
