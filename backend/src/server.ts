@@ -77,6 +77,11 @@ async function main() {
 
 	app.use(express.json());
 
+	app.use((_, res, next) => {
+		res.setHeader("Access-Control-Expose-Headers", "X-Pagination");
+		return next();
+	});
+
 	app.get("/", (_, res: Response) => {
 		res.send("<h1>API is Running</h1><p>View <a href='/api-docs'>API Docs</a></p>");
 	});
