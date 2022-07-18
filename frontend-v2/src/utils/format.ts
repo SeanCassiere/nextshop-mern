@@ -3,7 +3,7 @@ export function formatTextDate(date: string) {
 }
 
 export function formatShortDate(date: string) {
-	return new Intl.DateTimeFormat("en-US", { dateStyle: "short", timeStyle: undefined }).format(new Date(date));
+	return new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: undefined }).format(new Date(date));
 }
 
 export function formatPrice(price: number, decimalPoints: number = 2) {

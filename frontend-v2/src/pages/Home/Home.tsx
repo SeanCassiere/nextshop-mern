@@ -9,7 +9,7 @@ import TopProductsList from "./TopProductsList";
 import Paginate from "../../components/Paginate";
 
 import { getPublicProducts, getPublicTopProducts } from "../../api/products";
-import { Product, ProductsPaginated } from "../../types/Product";
+import { Product } from "../../types/Product";
 import { LocationGenerics } from "../../App";
 
 const TOP_PRODUCTS_COUNT = 3;

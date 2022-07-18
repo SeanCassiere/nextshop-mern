@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useMatch } from "@tanstack/react-location";
 import { Transition, Menu } from "@headlessui/react";
 import { BiChevronDown } from "react-icons/bi";
-import { RiAdminLine } from "react-icons/ri";
+import { RiAdminLine, RiShoppingBasketLine, RiStore2Line } from "react-icons/ri";
 
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -66,15 +66,16 @@ const Header = () => {
 								</Link>
 							</div>
 							<div className='hidden md:block'>
-								<div className='ml-10 flex items-baseline space-x-4'>
+								<div className='ml-10 flex items-baseline space-x-2'>
 									<Link
 										to='/'
 										className={`${
 											match.pathname === "/"
 												? "text-gray-900 bg-gray-50 hover:bg-gray-200"
 												: "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
-										} px-3 py-2 rounded-md text-sm font-medium`}
+										} px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2`}
 									>
+										<RiStore2Line className='text-lg' />
 										Shop
 									</Link>
 
@@ -84,8 +85,9 @@ const Header = () => {
 											match.pathname.includes("/cart")
 												? "text-gray-900 bg-gray-50 hover:bg-gray-200"
 												: "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
-										} px-3 py-2 rounded-md text-sm font-medium`}
+										} px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2`}
 									>
+										<RiShoppingBasketLine className='text-lg' />
 										Cart
 									</Link>
 								</div>
@@ -118,27 +120,42 @@ const Header = () => {
 													{({ active }) => (
 														<span>
 															<Link
-																to='/login'
+																to='/admin/orders'
 																className={`${
 																	active ? "bg-gray-200 text-gray-700" : "text-gray-900"
 																} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 															>
-																My Admin Account
+																Orders
 															</Link>
 														</span>
 													)}
 												</Menu.Item>
 												<Menu.Item>
 													{({ active }) => (
-														<button
-															type='button'
-															className={`${
-																active ? "bg-gray-200 text-gray-700" : "text-gray-900"
-															} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-															onClick={logoutUser}
-														>
-															Admin Logout
-														</button>
+														<span>
+															<Link
+																to='/admin/products'
+																className={`${
+																	active ? "bg-gray-200 text-gray-700" : "text-gray-900"
+																} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+															>
+																Products
+															</Link>
+														</span>
+													)}
+												</Menu.Item>
+												<Menu.Item>
+													{({ active }) => (
+														<span>
+															<Link
+																to='/admin/users'
+																className={`${
+																	active ? "bg-gray-200 text-gray-700" : "text-gray-900"
+																} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+															>
+																Users
+															</Link>
+														</span>
 													)}
 												</Menu.Item>
 											</Menu.Items>
@@ -230,8 +247,9 @@ const Header = () => {
 								to='/'
 								className={`hover:bg-gray-100 ${
 									match.pathname === "/" ? "text-gray-900" : "text-gray-500"
-								} block px-3 py-2 rounded-md text-base font-medium`}
+								} px-3 py-2 rounded-md text-base font-medium flex items-center gap-2`}
 							>
+								<RiStore2Line className='text-lg' />
 								Shop
 							</Link>
 
@@ -239,8 +257,9 @@ const Header = () => {
 								to='/cart'
 								className={`hover:bg-gray-100 ${
 									match.pathname.includes("/cart") ? "text-gray-900" : "text-gray-500"
-								} block px-3 py-2 rounded-md text-base font-medium`}
+								} px-3 py-2 rounded-md text-base font-medium flex items-center gap-2`}
 							>
+								<RiShoppingBasketLine className='text-lg' />
 								Cart
 							</Link>
 						</div>

@@ -13,7 +13,7 @@ import { Order } from "../../types/Order";
 import Header from "../../components/Header";
 import OrderSummary from "../../components/OrderSummary";
 import OrderItemList from "../../components/OrderItemList";
-import { formatTextDate } from "../../utils/format";
+import { formatShortDate, formatTextDate } from "../../utils/format";
 
 const OrderPage = () => {
 	const {
@@ -102,7 +102,43 @@ const OrderPage = () => {
 										<div className='bg-gray-50 rounded-md py-6 px-4 sm:px-6'>
 											<h2 className='text-lg font-medium text-gray-900 pb-5'>Order status</h2>
 											<dl className='grid grid-cols-1 gap-6 text-sm md:gap-x-8 lg:col-span-5'>
-												<div>
+												<span className='font-medium text-gray-900'>Payment &amp; Delivery</span>
+												<div className='space-y-1'>
+													<div className='flex flex-col sm:flex-row items-start justify-between'>
+														<dt className='text-gray-500'>Payment gateway</dt>
+														<dd className='font-medium text-left sm:text-right text-indigo-600'>
+															{orderQuery.data.paymentMethod}
+														</dd>
+													</div>
+													<div className='flex flex-col sm:flex-row items-start justify-between'>
+														<dt className='text-gray-500'>Payment status</dt>
+														<dd
+															className={`font-medium text-left sm:text-right ${
+																orderQuery.data?.isPaid ? "text-indigo-600" : "text-red-600"
+															}`}
+														>
+															{orderQuery.data?.isPaid ? "Paid" : "Not completed"}
+														</dd>
+													</div>
+													<div className='flex flex-col sm:flex-row items-start justify-between'>
+														<dt className='text-gray-500'>Delivery status</dt>
+														<dd
+															className={`font-medium text-left sm:text-right ${
+																orderQuery.data?.isDeliver ? "text-indigo-600" : "text-red-600"
+															}`}
+														>
+															<span className='inline-block sm:block'>
+																{orderQuery.data?.isDeliver ? "Delivered" : "Not delivered"}
+															</span>
+															{orderQuery.data?.deliveredAt && (
+																<span className='inline-block sm:block'>
+																	&nbsp;{`on ${formatShortDate(orderQuery.data?.deliveredAt)}`}
+																</span>
+															)}
+														</dd>
+													</div>
+												</div>
+												{/* <div>
 													<dt className='font-medium text-gray-900'>Payment &amp; Delivery</dt>
 													<dd className='mt-3 text-gray-500'>
 														<span className='block'>
@@ -131,7 +167,7 @@ const OrderPage = () => {
 															{orderQuery.data?.deliveredAt && ` on ${orderQuery.data?.deliveredAt.substring(0, 10)}`}
 														</span>
 													</dd>
-												</div>
+												</div> */}
 												<div>
 													<dt className='font-medium text-gray-900'>Shipping Address</dt>
 													<dd className='mt-3 text-gray-500'>

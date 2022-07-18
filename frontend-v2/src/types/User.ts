@@ -12,3 +12,8 @@ export type User = {
 	email: string;
 	isAdmin: boolean;
 };
+
+export interface UserFull extends User {
+	createdAt: string;
+	updatedAt: string;
+}

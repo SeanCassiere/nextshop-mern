@@ -30,6 +30,7 @@ import Cart from "./pages/Cart";
 import Account from "./pages/Account";
 import Checkout from "./pages/Checkout";
 import Order from "./pages/Order";
+import Admin from "./pages/Admin";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string; orderId: string };
@@ -101,7 +102,31 @@ const App = () => {
 								path: "/",
 								element: (
 									<PrivateOnlyRoute admin>
-										<NotFound />
+										<Admin selectedTab='users' />
+									</PrivateOnlyRoute>
+								),
+							},
+							{
+								path: "/users",
+								element: (
+									<PrivateOnlyRoute admin>
+										<Admin selectedTab='users' />
+									</PrivateOnlyRoute>
+								),
+							},
+							{
+								path: "/products",
+								element: (
+									<PrivateOnlyRoute admin>
+										<Admin selectedTab='products' />
+									</PrivateOnlyRoute>
+								),
+							},
+							{
+								path: "/orders",
+								element: (
+									<PrivateOnlyRoute admin>
+										<Admin selectedTab='orders' />
 									</PrivateOnlyRoute>
 								),
 							},

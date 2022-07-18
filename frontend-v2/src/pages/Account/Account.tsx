@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Alert from "../../components/Alert";
 import OrderHistoryItem from "./OrderHistoryItem";
+import StyledLink from "../../components/StyledLink";
 import { getAuthUserProfile, updateAuthUser } from "../../api/user";
 import { useAuth } from "../../context/AuthContext";
 import { User } from "../../types/User";
@@ -158,12 +159,18 @@ const Account = () => {
 									Check the status of recent orders, manage returns, and discover similar products.
 								</p>
 								<div className='flex flex-col gap-5 pt-4'>
-									{ordersQuery.data &&
+									{ordersQuery.data && ordersQuery.data.length === 0 ? (
+										<p className='mt-2 text-sm text-gray-500'>
+											You haven't made any orders with Nextshop just yet. Head over to the&nbsp;
+											<StyledLink to='/'>shop</StyledLink>&nbsp;and make an order!
+										</p>
+									) : (
 										ordersQuery.data?.map((order) => (
 											<React.Fragment key={`order-${order._id}`}>
 												<OrderHistoryItem order={order} />
 											</React.Fragment>
-										))}
+										))
+									)}
 								</div>
 							</div>
 						</div>

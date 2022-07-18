@@ -24,16 +24,16 @@ const Cart = () => {
 			<main>
 				<section className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
 					<div className='mt-5 grid grid-cols-1 md:grid-cols-12 md:gap-2'>
-						<div className='md:col-span-8 rounded-md pt-4 px-4'>
+						<div className='md:col-span-8 rounded-md pt-4 sm:pr-4'>
 							<h2 className='text-3xl mb-4 font-bold tracking-tight text-gray-900'>Your shopping cart</h2>
 							{items.length === 0 ? (
 								<div>
 									<Alert label='Start shopping!'>
-										Your cart is empty. Head over to the{" "}
+										Your cart is empty. Head over to the&nbsp;
 										<Link to='/' className='underline'>
 											store
-										</Link>{" "}
-										to add items to your cart.
+										</Link>
+										&nbsp;to add items to your cart.
 									</Alert>
 								</div>
 							) : (

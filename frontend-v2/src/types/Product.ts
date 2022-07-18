@@ -25,9 +25,3 @@ export type ProductReview = {
 	createdAt: string;
 	updatedAt: string;
 };
-
-export type ProductsPaginated = {
-	products: Product[];
-	page: number;
-	pages: number;
-};
