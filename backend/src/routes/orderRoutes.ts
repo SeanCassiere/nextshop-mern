@@ -179,21 +179,24 @@ const router = express.Router();
  *   get:
  *     summary: Get all orders with limited fields
  *     tags: [Orders, Admin]
+ *     parameters:
+ *      - in: query
+ *        name: pageNumber
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The pagination page number
+ *      - in: query
+ *        name: pageSize
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The pagination page size
  *     security:
  *      - bearerAuth: []
  *     responses:
  *       200:
  *         description: Query completed
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               $ref: '#/components/schemas/Order'
- *               items:
- *                - id:
- *                  type: string
- *                - name:
- *                  type: string
  *       401:
  *         description: Not Authorized
  *         $ref: '#/components/responses/UnauthorizedError'

@@ -5,7 +5,7 @@ import Product, { ReviewDocument } from "../models/productModel";
 // @route GET /api/products
 // @access Public
 const getActiveProducts = asyncHandler(async (req, res) => {
-	const pageSize = 8;
+	const pageSize = Number(req.query.pageSize) || 8;
 	const page = Number(req.query.pageNumber) || 1;
 
 	let regexp: RegExp;
@@ -29,7 +29,8 @@ const getActiveProducts = asyncHandler(async (req, res) => {
 			.limit(pageSize)
 			.skip(pageSize * (page - 1));
 
-		res.json({ products, page, pages: Math.ceil(count / pageSize) });
+		const pagination = { Page: page, PageSize: pageSize, TotalRecords: count, TotalPages: Math.ceil(count / pageSize) };
+		res.setHeader("X-Pagination", JSON.stringify(pagination)).json([...products]);
 	} catch (error) {
 		res.status(500).json({ message: "Internal server error" });
 	}
@@ -63,7 +64,8 @@ const getAllProducts = asyncHandler(async (req, res) => {
 			.limit(pageSize)
 			.skip(pageSize * (page - 1));
 
-		res.json({ products, page, pages: Math.ceil(count / pageSize) });
+		const pagination = { Page: page, PageSize: pageSize, TotalRecords: count, TotalPages: Math.ceil(count / pageSize) };
+		res.setHeader("X-Pagination", JSON.stringify(pagination)).json([...products]);
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({ message: "Internal server error" });
@@ -188,7 +190,8 @@ const createProductReviewById = asyncHandler(async (req, res) => {
 // @route GET /api/products/top
 // @access PUBLIC
 const getTopProducts = asyncHandler(async (req, res) => {
-	const products = await Product.find({ isActive: true }).sort({ rating: -1 }).limit(3);
+	const pageSize = Number(req.query?.pageSize) || 3;
+	const products = await Product.find({ isActive: true }).sort({ rating: -1 }).limit(pageSize);
 
 	res.json(products);
 });

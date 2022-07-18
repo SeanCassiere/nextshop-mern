@@ -148,6 +148,19 @@ const router = express.Router();
  *   get:
  *    summary: Get all users
  *    tags: [Users, Admin]
+ *    parameters:
+ *      - in: query
+ *        name: pageNumber
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The pagination page number
+ *      - in: query
+ *        name: pageSize
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The pagination page size
  *    security:
  *     - bearerAuth: []
  *    responses:
