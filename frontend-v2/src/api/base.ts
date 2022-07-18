@@ -39,13 +39,11 @@ export const handleSuccess = async (response: Response) => {
 	let totalPages = 0;
 	let totalRecords = 0;
 
-	console.log(Object.fromEntries(response.headers));
 	const paginationString = response.headers.get("X-Pagination");
 
 	if (paginationString) {
 		try {
 			const parse = JSON.parse(paginationString);
-			console.log("parsed json", parse);
 
 			page = parse?.Page ? parse?.Page : page;
 			pageSize = parse?.PageSize ? parse?.PageSize : pageSize;
