@@ -85,7 +85,12 @@ const ProductEdit = () => {
 				<section className='pb-7'>
 					<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col'>
 						<div className='py-5'>
-							<button onClick={() => location.history.back()} className='rounded-md py-2 px-4 bg-none hover:bg-gray-50'>
+							<button
+								onClick={() => {
+									location.history.back();
+								}}
+								className='rounded-md py-2 px-4 bg-none hover:bg-gray-50'
+							>
 								Go Back
 							</button>
 						</div>

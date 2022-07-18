@@ -1,18 +1,20 @@
 import React from "react";
-import { useSearch } from "@tanstack/react-location";
-import { useQuery } from "react-query";
+import { useNavigate, useSearch } from "@tanstack/react-location";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { MdCheck, MdClose, MdEdit, MdDelete } from "react-icons/md";
 
 import Table from "../../components/Table";
 import Paginate from "../../components/Paginate";
-import { getUsersForAdmin } from "../../api/admin";
+import { adminDeleteUser, AdminDeleteUserDTO, getUsersForAdmin } from "../../api/admin";
 import { useAuth } from "../../context/AuthContext";
 import { UserFull } from "../../types/User";
 import { LocationGenerics } from "../../App";
 import { ResponseParsed } from "../../api/base";
 
 const AdminUsers: React.FC<{}> = () => {
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 	const { page = 1 } = useSearch<LocationGenerics>();
 	const { user } = useAuth();
 	const token = user?.token ?? "";
@@ -22,6 +24,15 @@ const AdminUsers: React.FC<{}> = () => {
 		() => getUsersForAdmin({ token, pageNumber: page }),
 		{
 			keepPreviousData: true,
+		}
+	);
+
+	const { mutate: deleteUser } = useMutation<ResponseParsed<{ message: string }>, any, AdminDeleteUserDTO>(
+		adminDeleteUser,
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries(["admin", "users"]);
+			},
 		}
 	);
 
@@ -51,12 +62,12 @@ const AdminUsers: React.FC<{}> = () => {
 			accessorFn: (row) => `${row._id} EDIT`,
 			cell: (info) => {
 				const value = info.getValue();
+				const [id] = `${value}`.split(" ");
 				return (
 					<div className='flex gap-1'>
 						<button
 							onClick={() => {
-								const [id] = `${value}`.split(" ");
-								console.log(id);
+								navigate({ to: `/admin/users/${id}` });
 							}}
 							className='px-2.5 py-2 text-red-100 transition-colors duration-150 bg-gray-700 rounded-sm focus:shadow-outline hover:bg-gray-800'
 						>
@@ -64,8 +75,9 @@ const AdminUsers: React.FC<{}> = () => {
 						</button>
 						<button
 							onClick={() => {
-								const [id] = `${value}`.split(" ");
-								console.log(id);
+								if (window.confirm("Are you sure you want to delete this user?")) {
+									deleteUser({ token, userId: id });
+								}
 							}}
 							className='px-2.5 py-2 text-gray-100 transition-colors duration-150 bg-red-700 rounded-sm focus:shadow-outline hover:bg-red-800'
 						>

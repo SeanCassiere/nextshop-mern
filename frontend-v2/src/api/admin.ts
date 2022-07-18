@@ -76,3 +76,40 @@ export async function adminDeleteProduct(input: AdminDeleteProductDTO) {
 		headers: { Authorization: `Bearer ${token}` },
 	});
 }
+
+export type AdminDeleteUserDTO = {
+	token: string;
+	userId: string;
+};
+
+export async function adminDeleteUser(input: AdminDeleteUserDTO) {
+	const { token, userId } = input;
+	return callApi(makeUrl(`/users/${userId}`, {}), {
+		method: "DELETE",
+		headers: { Authorization: `Bearer ${token}` },
+	});
+}
+
+export async function getUserByIdForAdmin(input: { token: string; userId: string }) {
+	return callApi(makeUrl(`/users/${input.userId}`, {}), {
+		headers: { Authorization: `Bearer ${input.token}` },
+	});
+}
+
+export type AdminUpdateUserDTO = {
+	token: string;
+	userId: string;
+	//
+	name: string;
+	email: string;
+	isAdmin: boolean;
+};
+
+export async function adminUpdateUser(input: AdminUpdateUserDTO) {
+	const { token, userId, ...body } = input;
+	return callApi(makeUrl(`/users/${userId}`, {}), {
+		method: "PUT",
+		body: JSON.stringify({ ...body, _id: userId }),
+		headers: { Authorization: `Bearer ${token}` },
+	});
+}

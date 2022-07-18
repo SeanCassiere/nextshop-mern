@@ -32,9 +32,11 @@ import Checkout from "./pages/Checkout";
 import Order from "./pages/Order";
 import Admin from "./pages/Admin";
 import ProductEdit from "./pages/Admin/ProductEdit";
+import { getUserByIdForAdmin } from "./api/admin";
+import UserEdit from "./pages/Admin/UserEdit";
 
 export type LocationGenerics = MakeGenerics<{
-	Params: { productId: string; orderId: string };
+	Params: { productId: string; orderId: string; userId: string };
 	Search: { page?: string; redirect?: string };
 }>;
 
@@ -121,6 +123,19 @@ const App = () => {
 												<Admin selectedTab='users' />
 											</PrivateOnlyRoute>
 										),
+									},
+									{
+										path: ":userId",
+										element: (
+											<PrivateOnlyRoute admin>
+												<UserEdit />
+											</PrivateOnlyRoute>
+										),
+										loader: ({ params: { userId } }) =>
+											queryClient.getQueryData(["users", userId]) ??
+											queryClient.fetchQuery(["users", userId], () =>
+												getUserByIdForAdmin({ token: accessToken, userId })
+											),
 									},
 								],
 							},

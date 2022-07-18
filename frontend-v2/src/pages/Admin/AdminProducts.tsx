@@ -34,7 +34,6 @@ const AdminProducts: React.FC<{}> = () => {
 		() => getProductsForAdmin({ token, pageNumber: page }),
 		{
 			keepPreviousData: true,
-			onSuccess: (data) => console.log(data),
 		}
 	);
 

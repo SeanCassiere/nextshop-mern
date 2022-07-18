@@ -10,7 +10,7 @@ const Checkbox: React.FC<
 			<input
 				id={elementId}
 				type='checkbox'
-				className='h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'
+				className='h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded disabled:cursor-not-allowed disabled:text-gray-400'
 				{...inputProps}
 			/>
 			{label && (
