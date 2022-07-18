@@ -53,18 +53,20 @@ const OrderHistoryItem: React.FC<{ order: Order }> = ({ order }) => {
 								<div className='py-1'>
 									<Menu.Item>
 										{({ active }) => (
-											<Link
-												onMouseEnter={() => {
-													loadRoute({ to: `/order/${order._id}` });
-												}}
-												to={`/order/${order._id}`}
-												className={classNames(
-													active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-													"block px-4 py-2 text-sm"
-												)}
-											>
-												View
-											</Link>
+											<span>
+												<Link
+													onMouseEnter={() => {
+														loadRoute({ to: `/order/${order._id}` });
+													}}
+													to={`/order/${order._id}`}
+													className={classNames(
+														active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+														"block px-4 py-2 text-sm"
+													)}
+												>
+													View
+												</Link>
+											</span>
 										)}
 									</Menu.Item>
 								</div>
