@@ -9,7 +9,7 @@
 		"server": "nodemon",
 		"build:server": "tsc",
 		"build:frontend": "npm run build --prefix frontend",
-		"client": "npm start --prefix frontend",
+		"client": "npm run dev --prefix frontend",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
 		"data:import": "ts-node backend/src/seeder",
 		"data:destroy": "ts-node backend/src/seeder -d",
