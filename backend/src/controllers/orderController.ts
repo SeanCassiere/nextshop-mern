@@ -35,7 +35,7 @@ const addOrderItems = asyncHandler(async (req: CustomRequest<IncomingOrderInterf
 // @route GET /api/orders/:id
 // @access Private
 const getOrderById = asyncHandler(async (req: Request, res: Response) => {
-	const order = await Order.findById(req.params.id).populate("user", "name email");
+	const order = await Order.findById(req.params.id).populate("user", "id name email");
 	if (order) {
 		let itemsPrice = order.itemsPrice;
 		if (itemsPrice === 0) {
@@ -103,9 +103,16 @@ const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
 // @desc Get all orders
 // @route GET /api/orders
 // @access Private
-const getAllOrders = asyncHandler(async (_, res) => {
-	const orders = await Order.find({}).populate("user", "id name");
-	res.json(orders);
+const getAllOrders = asyncHandler(async (req, res) => {
+	const pageSize = 8;
+	const page = Number(req.query.pageNumber) || 1;
+
+	const count = await Order.countDocuments({});
+	const orders = await Order.find({})
+		.populate("user", "id name email")
+		.limit(pageSize)
+		.skip(pageSize * (page - 1));
+	res.json({ data: orders, page, pages: Math.ceil(count / pageSize) });
 });
 
 export { addOrderItems, getOrderById, updateOrderToPaid, updateOrderToDelivered, getMyOrders, getAllOrders };

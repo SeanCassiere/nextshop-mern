@@ -119,12 +119,6 @@ const router = express.Router();
  *     responses:
  *       200:
  *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Product'
  *   post:
  *     summary: Create a product
  *     tags: [Products, Admin]
@@ -159,6 +153,12 @@ router.route("/").get(getActiveProducts).post(protect, isAdmin, createProduct);
  *         type: number
  *        required: false
  *        description: The pagination page number
+ *      - in: query
+ *        name: pageSize
+ *        schema:
+ *         type: number
+ *        required: false
+ *        description: The pagination page size
  *     responses:
  *       200:
  *         description: OK

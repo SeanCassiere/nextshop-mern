@@ -21,7 +21,7 @@ const Home = () => {
 		getPublicTopProducts({ pageSize: TOP_PRODUCTS_COUNT })
 	);
 
-	const productsQuery = useQuery<ProductsPaginated, any>(
+	const productsQuery = useQuery<{ data: Product[]; page: number; pages: number }, any>(
 		["products", `page-${page}`],
 		() => getPublicProducts({ pageNumber: Number(page) }),
 		{
@@ -58,7 +58,7 @@ const Home = () => {
 						{productsQuery.status === "loading" && !productsQuery.data && <div className='min-h-[32rem]'>&nbsp;</div>}
 						{productsQuery.data && (
 							<>
-								<ProductsGrid products={productsQuery.data.products} />
+								<ProductsGrid products={productsQuery.data.data} />
 								{productsQuery.data.pages > 1 && (
 									<div className='py-4'>
 										<Paginate page={page} pages={productsQuery.data.pages} />
