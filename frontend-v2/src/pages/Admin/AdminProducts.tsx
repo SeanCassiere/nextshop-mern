@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { useLoadRoute, useSearch } from "@tanstack/react-location";
+import { useLoadRoute, useNavigate, useSearch } from "@tanstack/react-location";
 import { MdEdit, MdDelete } from "react-icons/md";
 
 import Table from "../../components/Table";
@@ -15,6 +15,7 @@ import { LocationGenerics } from "../../App";
 import { ResponseParsed } from "../../api/base";
 
 const AdminProducts: React.FC<{}> = () => {
+	const navigate = useNavigate();
 	const { page = 1 } = useSearch<LocationGenerics>();
 	const { user } = useAuth();
 	const token = user?.token ?? "";
@@ -74,12 +75,15 @@ const AdminProducts: React.FC<{}> = () => {
 			accessorFn: (row) => `${row._id} EDIT`,
 			cell: (info) => {
 				const value = info.getValue();
+				const [id] = `${value}`.split(" ");
 				return (
 					<div className='flex gap-1'>
 						<button
 							onClick={() => {
-								const [id] = `${value}`.split(" ");
-								console.log(id);
+								navigate({ to: `/admin/products/${id}` });
+							}}
+							onMouseEnter={() => {
+								loadRoute({ to: `/admin/products/${id}` });
 							}}
 							className='px-2.5 py-2 text-red-100 transition-colors duration-150 bg-gray-700 rounded-sm focus:shadow-outline hover:bg-gray-800'
 						>
@@ -87,7 +91,6 @@ const AdminProducts: React.FC<{}> = () => {
 						</button>
 						<button
 							onClick={() => {
-								const [id] = `${value}`.split(" ");
 								console.log(id);
 							}}
 							className='px-2.5 py-2 text-gray-100 transition-colors duration-150 bg-red-700 rounded-sm focus:shadow-outline hover:bg-red-800'

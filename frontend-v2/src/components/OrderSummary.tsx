@@ -1,7 +1,6 @@
 import React from "react";
 
 import Alert from "./Alert";
-import Button from "./Button";
 import { formatPrice } from "../utils/format";
 
 const OrderSummary: React.FC<{
@@ -10,19 +9,9 @@ const OrderSummary: React.FC<{
 	shippingPrice?: number;
 	taxPrice?: number;
 	totalPrice?: number;
-	actionButtonText?: string;
-	actionButtonOnClick?: () => void;
 	children?: React.ReactNode;
-}> = ({
-	error,
-	subtotalPrice,
-	shippingPrice,
-	taxPrice,
-	totalPrice,
-	actionButtonText,
-	actionButtonOnClick,
-	children,
-}) => {
+}> = ({ error, subtotalPrice, shippingPrice, taxPrice, totalPrice, children }) => {
+	console.log(children);
 	return (
 		<div className='bg-gray-50 rounded-md py-6 px-4 sm:px-6'>
 			<h2 id='summary-heading' className='text-lg font-medium text-gray-900'>
@@ -61,9 +50,11 @@ const OrderSummary: React.FC<{
 					</div>
 				)}
 				{totalPrice !== undefined && (
-					<div className='border-t border-gray-200 pt-4 flex items-center justify-between'>
-						<dt className='text-base font-medium text-gray-900'>Order total</dt>
-						<dd className='text-base font-medium text-gray-900'>{formatPrice(totalPrice)}</dd>
+					<div className='border-t border-gray-200 pt-4'>
+						<div className='p-4 bg-indigo-50 flex items-center justify-between rounded-md'>
+							<dt className='text-lg font-medium text-gray-600'>Order total</dt>
+							<dd className='text-xl font-medium text-gray-900'>{formatPrice(totalPrice)}</dd>
+						</div>
 					</div>
 				)}
 			</dl>
@@ -72,11 +63,6 @@ const OrderSummary: React.FC<{
 					<Alert label='Something went wrong' variant='danger'>
 						{error}
 					</Alert>
-				)}
-				{actionButtonText && (
-					<Button type='button' size='xl' onClick={actionButtonOnClick} fullWidth>
-						{actionButtonText}
-					</Button>
 				)}
 				{children}
 			</div>

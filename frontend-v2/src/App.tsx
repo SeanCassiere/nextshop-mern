@@ -31,6 +31,7 @@ import Account from "./pages/Account";
 import Checkout from "./pages/Checkout";
 import Order from "./pages/Order";
 import Admin from "./pages/Admin";
+import ProductEdit from "./pages/Admin/ProductEdit";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string; orderId: string };
@@ -111,23 +112,44 @@ const App = () => {
 								),
 							},
 							{
-								path: "/users",
-								element: (
-									<PrivateOnlyRoute admin>
-										<Admin selectedTab='users' />
-									</PrivateOnlyRoute>
-								),
+								path: "users",
+								children: [
+									{
+										path: "/",
+										element: (
+											<PrivateOnlyRoute admin>
+												<Admin selectedTab='users' />
+											</PrivateOnlyRoute>
+										),
+									},
+								],
 							},
 							{
-								path: "/products",
-								element: (
-									<PrivateOnlyRoute admin>
-										<Admin selectedTab='products' />
-									</PrivateOnlyRoute>
-								),
+								path: "products",
+								children: [
+									{
+										path: "/",
+										element: (
+											<PrivateOnlyRoute admin>
+												<Admin selectedTab='products' />
+											</PrivateOnlyRoute>
+										),
+									},
+									{
+										path: ":productId",
+										element: (
+											<PrivateOnlyRoute admin>
+												<ProductEdit />
+											</PrivateOnlyRoute>
+										),
+										loader: ({ params: { productId } }) =>
+											queryClient.getQueryData(["products", productId]) ??
+											queryClient.fetchQuery(["products", productId], () => getPublicProductById(productId)),
+									},
+								],
 							},
 							{
-								path: "/orders",
+								path: "orders",
 								element: (
 									<PrivateOnlyRoute admin>
 										<Admin selectedTab='orders' />
@@ -136,7 +158,8 @@ const App = () => {
 							},
 						],
 					},
-					{ element: <NotFound /> },
+					{ path: "not-found", element: <NotFound /> },
+					{ element: <Navigate to='/not-found' /> },
 				]}
 			>
 				<Outlet />

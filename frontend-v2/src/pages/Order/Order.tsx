@@ -15,6 +15,8 @@ import OrderSummary from "../../components/OrderSummary";
 import OrderItemList from "../../components/OrderItemList";
 import { formatShortDate, formatTextDate } from "../../utils/format";
 import { ResponseParsed } from "../../api/base";
+import Button from "../../components/Button";
+import { adminOrderDelivered, AdminOrderDeliveredDTO } from "../../api/admin";
 
 const OrderPage = () => {
 	const {
@@ -44,6 +46,17 @@ const OrderPage = () => {
 	const orderQuery = useQuery<ResponseParsed<Order>, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
 		onError: () => {
 			navigate({ to: "/account" });
+		},
+	});
+
+	const { mutate: markDelivered, isLoading: isMarkingDelivered } = useMutation<
+		ResponseParsed<Order>,
+		any,
+		AdminOrderDeliveredDTO
+	>(adminOrderDelivered, {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["orders", orderId]);
+			queryClient.invalidateQueries(["orders"]);
 		},
 	});
 
@@ -139,36 +152,6 @@ const OrderPage = () => {
 														</dd>
 													</div>
 												</div>
-												{/* <div>
-													<dt className='font-medium text-gray-900'>Payment &amp; Delivery</dt>
-													<dd className='mt-3 text-gray-500'>
-														<span className='block'>
-															Payment gateway:&nbsp;
-															<span className='font-medium text-indigo-600'>{orderQuery.data?.paymentMethod}</span>
-														</span>
-														<span className='block'>
-															Payment status:&nbsp;
-															<span
-																className={`font-medium ${
-																	orderQuery.data?.isPaid ? "text-indigo-600" : "text-red-600"
-																}`}
-															>
-																{orderQuery.data?.isPaid ? "Paid" : "Not completed"}
-															</span>
-														</span>
-														<span className='block'>
-															Delivery status:&nbsp;
-															<span
-																className={`font-medium ${
-																	orderQuery.data?.isDeliver ? "text-indigo-600" : "text-red-600"
-																}`}
-															>
-																{orderQuery.data?.isDeliver ? "Delivered" : "Not delivered"}
-															</span>
-															{orderQuery.data?.deliveredAt && ` on ${orderQuery.data?.deliveredAt.substring(0, 10)}`}
-														</span>
-													</dd>
-												</div> */}
 												<div>
 													<dt className='font-medium text-gray-900'>Shipping Address</dt>
 													<dd className='mt-3 text-gray-500'>
@@ -247,6 +230,21 @@ const OrderPage = () => {
 															}}
 														/>
 													</PayPalScriptProvider>
+												)}
+											{user?.isAdmin &&
+												orderQuery.data?.data?.isPaid &&
+												user?.isAdmin &&
+												orderQuery.data?.data?.isDeliver === false && (
+													<Button
+														size='xl'
+														fullWidth
+														onClick={() => {
+															markDelivered({ token, orderId });
+														}}
+														disabled={isMarkingDelivered}
+													>
+														Mark as delivered
+													</Button>
 												)}
 										</OrderSummary>
 									)}

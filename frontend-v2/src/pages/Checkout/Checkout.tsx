@@ -354,9 +354,11 @@ const PlaceOrderForm: React.FC<{ user: AuthUser } & CommonSubFormProps> = ({ use
 						shippingPrice={shippingPrice}
 						taxPrice={taxPrice}
 						totalPrice={totalPrice}
-						actionButtonText='Place order'
-						actionButtonOnClick={handlePlaceOrder}
-					/>
+					>
+						<Button size='xl' onClick={handlePlaceOrder} fullWidth>
+							Place order
+						</Button>
+					</OrderSummary>
 				</div>
 			</div>
 		</div>

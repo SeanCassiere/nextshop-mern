@@ -17,3 +17,13 @@ export async function getOrdersForAdmin(input: { token: string; pageNumber?: str
 		headers: { Authorization: `Bearer ${input.token}` },
 	});
 }
+
+export type AdminOrderDeliveredDTO = { token: string; orderId: string };
+
+export async function adminOrderDelivered(input: AdminOrderDeliveredDTO) {
+	return callApi(makeUrl(`/orders/${input.orderId}/deliver`, {}), {
+		method: "PUT",
+		body: JSON.stringify({}),
+		headers: { Authorization: `Bearer ${input.token}` },
+	});
+}
