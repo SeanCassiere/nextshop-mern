@@ -118,7 +118,8 @@ const getUsers = asyncHandler(async (req, res) => {
 		.limit(pageSize)
 		.skip(pageSize * (page - 1));
 
-	res.json({ data: users, page, pages: Math.ceil(count / pageSize) });
+	const pagination = { Page: page, PageSize: pageSize, TotalRecords: count, TotalPages: Math.ceil(count / pageSize) };
+	res.setHeader("X-Pagination", JSON.stringify(pagination)).json([...users]);
 });
 
 // @desc Delete user by id for Admin

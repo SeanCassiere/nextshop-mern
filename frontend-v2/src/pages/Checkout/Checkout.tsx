@@ -17,6 +17,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import OrderItemList from "../../components/OrderItemList";
 import OrderSummary from "../../components/OrderSummary";
+import { ResponseParsed } from "../../api/base";
 
 type StepOption = "shipping-address" | "payment-selection" | "confirmation";
 
@@ -277,22 +278,25 @@ const PlaceOrderForm: React.FC<{ user: AuthUser } & CommonSubFormProps> = ({ use
 
 	const [mutationError, setMutationError] = useState<string | null>(null);
 
-	const { mutate: placeOrder } = useMutation<Order, any, { token: string } & CreateOrderDTO>(placeUserOrder, {
-		onMutate: () => {
-			setMutationError(null);
-		},
-		onError: (err) => {
-			setMutationError(`${err}`);
-		},
-		onSuccess: (data) => {
-			if (data?._id) {
-				clearItems();
-				navigate({ to: `/order/${data._id}` });
-			} else {
-				setMutationError(`Something happened, the _id was not returned.`);
-			}
-		},
-	});
+	const { mutate: placeOrder } = useMutation<ResponseParsed<Order>, any, { token: string } & CreateOrderDTO>(
+		placeUserOrder,
+		{
+			onMutate: () => {
+				setMutationError(null);
+			},
+			onError: (err) => {
+				setMutationError(`${err}`);
+			},
+			onSuccess: (data) => {
+				if (data?.data?._id) {
+					clearItems();
+					navigate({ to: `/order/${data?.data?._id}` });
+				} else {
+					setMutationError(`Something happened, the _id was not returned.`);
+				}
+			},
+		}
+	);
 
 	const handlePlaceOrder = useCallback(() => {
 		placeOrder({

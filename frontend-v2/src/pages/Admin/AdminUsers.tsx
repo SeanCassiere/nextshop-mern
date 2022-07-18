@@ -10,13 +10,14 @@ import { getUsersForAdmin } from "../../api/admin";
 import { useAuth } from "../../context/AuthContext";
 import { UserFull } from "../../types/User";
 import { LocationGenerics } from "../../App";
+import { ResponseParsed } from "../../api/base";
 
 const AdminUsers: React.FC<{}> = () => {
 	const { page = 1 } = useSearch<LocationGenerics>();
 	const { user } = useAuth();
 	const token = user?.token ?? "";
 
-	const usersQuery = useQuery<{ data: UserFull[]; page: number; pages: number }, any>(
+	const usersQuery = useQuery<ResponseParsed<UserFull[]>, any>(
 		["admin", "users", page],
 		() => getUsersForAdmin({ token, pageNumber: page }),
 		{
@@ -86,9 +87,9 @@ const AdminUsers: React.FC<{}> = () => {
 			</div>
 			<div className='pt-5'>
 				{usersQuery.data && <Table rows={usersQuery.data.data ?? []} columnDefs={columnDefs} />}
-				{usersQuery.data && usersQuery.data.pages > 1 && (
+				{usersQuery.data && usersQuery.data.totalPages > 1 && (
 					<div className='py-4'>
-						<Paginate page={page} pages={usersQuery.data.pages} to='/admin/users' />
+						<Paginate page={page} pages={usersQuery.data.totalPages} to='/admin/users' />
 					</div>
 				)}
 			</div>

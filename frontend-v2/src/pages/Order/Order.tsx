@@ -14,6 +14,7 @@ import Header from "../../components/Header";
 import OrderSummary from "../../components/OrderSummary";
 import OrderItemList from "../../components/OrderItemList";
 import { formatShortDate, formatTextDate } from "../../utils/format";
+import { ResponseParsed } from "../../api/base";
 
 const OrderPage = () => {
 	const {
@@ -40,17 +41,17 @@ const OrderPage = () => {
 		},
 	});
 
-	const orderQuery = useQuery<Order, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
+	const orderQuery = useQuery<ResponseParsed<Order>, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
 		onError: () => {
 			navigate({ to: "/account" });
 		},
 	});
 
 	const orderItems = useMemo(() => {
-		if (!orderQuery.data || !orderQuery.data.orderItems) {
+		if (!orderQuery.data || !orderQuery.data.data.orderItems) {
 			return [];
 		}
-		return orderQuery.data?.orderItems?.map((item, idx) => ({
+		return orderQuery.data?.data.orderItems?.map((item, idx) => ({
 			identifier: idx,
 			id: item.product,
 			name: item.name,
@@ -77,14 +78,14 @@ const OrderPage = () => {
 						<div className='pt-5 md:pt-10 space-y-2 sm:flex sm:items-baseline sm:justify-between sm:space-y-0'>
 							<div className='flex sm:items-baseline sm:space-x-4'>
 								<h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl truncate'>
-									Order #{orderQuery.data?._id}
+									Order #{orderQuery.data?.data._id}
 								</h1>
 							</div>
 							<p className='text-sm text-gray-600'>
 								Order placed&nbsp;
 								{orderQuery.data && (
-									<time dateTime={orderQuery.data?.createdAt} className='font-medium text-gray-900'>
-										{formatTextDate(orderQuery.data?.createdAt)}
+									<time dateTime={orderQuery.data?.data.createdAt} className='font-medium text-gray-900'>
+										{formatTextDate(orderQuery.data?.data.createdAt)}
 									</time>
 								)}
 							</p>
@@ -107,32 +108,32 @@ const OrderPage = () => {
 													<div className='flex flex-col sm:flex-row items-start justify-between'>
 														<dt className='text-gray-500'>Payment gateway</dt>
 														<dd className='font-medium text-left sm:text-right text-indigo-600'>
-															{orderQuery.data.paymentMethod}
+															{orderQuery.data.data.paymentMethod}
 														</dd>
 													</div>
 													<div className='flex flex-col sm:flex-row items-start justify-between'>
 														<dt className='text-gray-500'>Payment status</dt>
 														<dd
 															className={`font-medium text-left sm:text-right ${
-																orderQuery.data?.isPaid ? "text-indigo-600" : "text-red-600"
+																orderQuery.data?.data.isPaid ? "text-indigo-600" : "text-red-600"
 															}`}
 														>
-															{orderQuery.data?.isPaid ? "Paid" : "Not completed"}
+															{orderQuery.data?.data.isPaid ? "Paid" : "Not completed"}
 														</dd>
 													</div>
 													<div className='flex flex-col sm:flex-row items-start justify-between'>
 														<dt className='text-gray-500'>Delivery status</dt>
 														<dd
 															className={`font-medium text-left sm:text-right ${
-																orderQuery.data?.isDeliver ? "text-indigo-600" : "text-red-600"
+																orderQuery.data?.data.isDeliver ? "text-indigo-600" : "text-red-600"
 															}`}
 														>
 															<span className='inline-block sm:block'>
-																{orderQuery.data?.isDeliver ? "Delivered" : "Not delivered"}
+																{orderQuery.data?.data.isDeliver ? "Delivered" : "Not delivered"}
 															</span>
-															{orderQuery.data?.deliveredAt && (
+															{orderQuery.data?.data.deliveredAt && (
 																<span className='inline-block sm:block'>
-																	&nbsp;{`on ${formatShortDate(orderQuery.data?.deliveredAt)}`}
+																	&nbsp;{`on ${formatShortDate(orderQuery.data?.data.deliveredAt)}`}
 																</span>
 															)}
 														</dd>
@@ -171,38 +172,40 @@ const OrderPage = () => {
 												<div>
 													<dt className='font-medium text-gray-900'>Shipping Address</dt>
 													<dd className='mt-3 text-gray-500'>
-														<span className='block'>{orderQuery.data?.user.name}</span>
-														<span className='block'>{orderQuery.data?.shippingAddress?.address}</span>
+														<span className='block'>{orderQuery.data?.data.user.name}</span>
+														<span className='block'>{orderQuery.data?.data.shippingAddress?.address}</span>
 														<span className='block'>
-															{orderQuery.data?.shippingAddress?.city}, {orderQuery.data?.shippingAddress?.postalCode}
+															{orderQuery.data?.data.shippingAddress?.city},{" "}
+															{orderQuery.data?.data.shippingAddress?.postalCode}
 														</span>
-														<span className='block'>{orderQuery.data?.shippingAddress?.country}</span>
+														<span className='block'>{orderQuery.data?.data.shippingAddress?.country}</span>
 													</dd>
 												</div>
 												<div>
 													<dt className='font-medium text-gray-900'>Contact</dt>
 													<dd className='mt-3 text-gray-500'>
-														<span className='block'>Email: {orderQuery.data?.user?.email}</span>
+														<span className='block'>Email: {orderQuery.data?.data.user?.email}</span>
 													</dd>
 												</div>
 											</dl>
 										</div>
 									)}
-									{paypalLoadingPending === false && (
-										<PayPalScriptProvider
-											options={{
-												"client-id": paypalClientId ?? "",
-												currency: "USD",
-											}}
+									{orderQuery.data && (
+										<OrderSummary
+											subtotalPrice={orderQuery.data.data.itemsPrice}
+											shippingPrice={orderQuery.data.data.shippingPrice}
+											taxPrice={orderQuery.data.data.taxPrice}
+											totalPrice={orderQuery.data.data.totalPrice}
 										>
-											{orderQuery.data && (
-												<OrderSummary
-													subtotalPrice={orderQuery.data.itemsPrice}
-													shippingPrice={orderQuery.data.shippingPrice}
-													taxPrice={orderQuery.data.taxPrice}
-													totalPrice={orderQuery.data.totalPrice}
-												>
-													{orderQuery.data?.isPaid === false && (
+											{orderQuery.data?.data?.isPaid === false &&
+												orderQuery.data?.data?.paymentMethod?.toLowerCase() === "paypal" &&
+												paypalLoadingPending === false && (
+													<PayPalScriptProvider
+														options={{
+															"client-id": paypalClientId ?? "",
+															currency: "USD",
+														}}
+													>
 														<PayPalButtons
 															fundingSource='paypal'
 															style={{ color: "blue" }}
@@ -218,7 +221,7 @@ const OrderPage = () => {
 																			{
 																				amount: {
 																					currency_code: "USD",
-																					value: orderQuery.data.totalPrice.toFixed(2),
+																					value: orderQuery.data.data.totalPrice.toFixed(2),
 																				},
 																			},
 																		],
@@ -232,7 +235,8 @@ const OrderPage = () => {
 																		orderId,
 																		paymentResult: {
 																			...paymentResult,
-																			email_address: paymentResult.payer.email_address ?? orderQuery.data.user.email,
+																			email_address:
+																				paymentResult.payer.email_address ?? orderQuery.data.data.user.email,
 																		},
 																	});
 																});
@@ -242,10 +246,9 @@ const OrderPage = () => {
 																alert("Payment failed due to an unexpected error. Please try again.");
 															}}
 														/>
-													)}
-												</OrderSummary>
-											)}
-										</PayPalScriptProvider>
+													</PayPalScriptProvider>
+												)}
+										</OrderSummary>
 									)}
 								</div>
 							</div>

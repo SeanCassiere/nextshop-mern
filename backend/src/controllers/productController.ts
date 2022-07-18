@@ -29,7 +29,8 @@ const getActiveProducts = asyncHandler(async (req, res) => {
 			.limit(pageSize)
 			.skip(pageSize * (page - 1));
 
-		res.json({ data: products, page, pages: Math.ceil(count / pageSize) });
+		const pagination = { Page: page, PageSize: pageSize, TotalRecords: count, TotalPages: Math.ceil(count / pageSize) };
+		res.setHeader("X-Pagination", JSON.stringify(pagination)).json([...products]);
 	} catch (error) {
 		res.status(500).json({ message: "Internal server error" });
 	}
@@ -63,7 +64,8 @@ const getAllProducts = asyncHandler(async (req, res) => {
 			.limit(pageSize)
 			.skip(pageSize * (page - 1));
 
-		res.json({ data: products, page, pages: Math.ceil(count / pageSize) });
+		const pagination = { Page: page, PageSize: pageSize, TotalRecords: count, TotalPages: Math.ceil(count / pageSize) };
+		res.setHeader("X-Pagination", JSON.stringify(pagination)).json([...products]);
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({ message: "Internal server error" });

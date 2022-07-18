@@ -11,24 +11,22 @@ import Paginate from "../../components/Paginate";
 import { getPublicProducts, getPublicTopProducts } from "../../api/products";
 import { Product } from "../../types/Product";
 import { LocationGenerics } from "../../App";
+import { ResponseParsed } from "../../api/base";
 
 const TOP_PRODUCTS_COUNT = 3;
 
 const Home = () => {
 	const { page = 1 } = useSearch<LocationGenerics>();
 
-	const topProductsQuery = useQuery<Product[], any>(["products", "top", `${TOP_PRODUCTS_COUNT}`], () =>
+	const topProductsQuery = useQuery<ResponseParsed<Product[]>, any>(["products", "top", `${TOP_PRODUCTS_COUNT}`], () =>
 		getPublicTopProducts({ pageSize: TOP_PRODUCTS_COUNT })
 	);
 
-	const productsQuery = useQuery<{ data: Product[]; page: number; pages: number }, any>(
+	const productsQuery = useQuery<ResponseParsed<Product[]>, any>(
 		["products", `page-${page}`],
 		() => getPublicProducts({ pageNumber: Number(page) }),
 		{
 			keepPreviousData: true,
-			onSuccess: (data) => {
-				// setMaxPages(data.pages);
-			},
 		}
 	);
 
@@ -47,7 +45,9 @@ const Home = () => {
 						{topProductsQuery.status === "loading" && !topProductsQuery.data && (
 							<div className='min-h-full'>&nbsp;</div>
 						)}
-						{topProductsQuery.data && <TopProductsList products={topProductsQuery.data} />}
+						{topProductsQuery.data && topProductsQuery.data.data && (
+							<TopProductsList products={topProductsQuery.data.data} />
+						)}
 					</div>
 				</section>
 				<section className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
@@ -56,12 +56,12 @@ const Home = () => {
 					</h2>
 					<div className='mt-5 mb-5'>
 						{productsQuery.status === "loading" && !productsQuery.data && <div className='min-h-[32rem]'>&nbsp;</div>}
-						{productsQuery.data && (
+						{productsQuery.data && productsQuery.data.data && (
 							<>
 								<ProductsGrid products={productsQuery.data.data} />
-								{productsQuery.data.pages > 1 && (
+								{productsQuery.data.totalPages > 1 && (
 									<div className='py-4'>
-										<Paginate page={page} pages={productsQuery.data.pages} />
+										<Paginate page={page} pages={productsQuery.data.totalPages} />
 									</div>
 								)}
 							</>

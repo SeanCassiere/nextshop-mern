@@ -1,13 +1,21 @@
 import { callApi, makeUrl } from "./base";
 
-export async function loginUser(input: { email: string; password: string }) {
+export type LoginDTO = { email: string; password: string };
+
+export async function loginUser(input: LoginDTO) {
 	return callApi(makeUrl(`/users/login`, {}), {
 		method: "POST",
 		body: JSON.stringify(input),
 	});
 }
 
-export async function registerUser(input: { name: string; email: string; password: string }) {
+export type RegisterDTO = {
+	name: string;
+	email: string;
+	password: string;
+};
+
+export async function registerUser(input: RegisterDTO) {
 	return callApi(makeUrl(`/users`, {}), {
 		method: "POST",
 		body: JSON.stringify(input),

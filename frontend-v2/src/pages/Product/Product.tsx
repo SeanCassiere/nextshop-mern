@@ -10,6 +10,7 @@ import ProductsGrid from "../../components/ProductsGrid";
 
 import { getPublicProductById, getPublicTopProducts } from "../../api/products";
 import { Product } from "../../types/Product";
+import { ResponseParsed } from "../../api/base";
 
 const TOP_PRODUCTS_COUNT = 4;
 
@@ -23,14 +24,19 @@ const ProductPage = () => {
 
 	const sectionRef = useRef<HTMLElement | null>(null);
 
-	const productQuery = useQuery<Product>(["products", productId], () => getPublicProductById(productId), {
-		onError: () => {
-			navigate({ to: "/" });
-		},
-	});
+	const productQuery = useQuery<ResponseParsed<Product>, any>(
+		["products", productId],
+		() => getPublicProductById(productId),
+		{
+			onError: () => {
+				navigate({ to: "/" });
+			},
+		}
+	);
 
-	const trendingProductsQuery = useQuery<Product[]>(["products", "top", `${TOP_PRODUCTS_COUNT}`], () =>
-		getPublicTopProducts({ pageSize: TOP_PRODUCTS_COUNT })
+	const trendingProductsQuery = useQuery<ResponseParsed<Product[]>, any>(
+		["products", "top", `${TOP_PRODUCTS_COUNT}`],
+		() => getPublicTopProducts({ pageSize: TOP_PRODUCTS_COUNT })
 	);
 
 	useEffect(() => {
@@ -54,7 +60,7 @@ const ProductPage = () => {
 				{productQuery.data && (
 					<React.Fragment>
 						<Helmet>
-							<title>{`${productQuery.data?.name}`} | Nextshop</title>
+							<title>{`${productQuery.data?.data.name}`} | Nextshop</title>
 						</Helmet>
 						<section ref={sectionRef} className='py-4'>
 							<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[32rem]'>
@@ -67,20 +73,20 @@ const ProductPage = () => {
 											Go Back
 										</button>
 									</div>
-									<ProductDetails product={productQuery.data} />
+									<ProductDetails product={productQuery.data.data} />
 								</div>
 							</div>
 						</section>
 						<section>
 							<div className='max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8'>
 								<h2 className='text-3xl pb-3 font-bold tracking-tight text-gray-900'>Customer reviews</h2>
-								<ProductReviews product={productQuery.data} />
+								<ProductReviews product={productQuery.data.data} />
 							</div>
 						</section>
 						<section>
 							<div className='max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8'>
 								<h2 className='text-2xl pb-3 font-bold tracking-tight text-gray-800'>Trending products</h2>
-								{trendingProductsQuery.data && <ProductsGrid products={trendingProductsQuery.data} />}
+								{trendingProductsQuery.data && <ProductsGrid products={trendingProductsQuery.data.data} />}
 							</div>
 						</section>
 					</React.Fragment>

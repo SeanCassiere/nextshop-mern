@@ -112,7 +112,9 @@ const getAllOrders = asyncHandler(async (req, res) => {
 		.populate("user", "id name email")
 		.limit(pageSize)
 		.skip(pageSize * (page - 1));
-	res.json({ data: orders, page, pages: Math.ceil(count / pageSize) });
+
+	const pagination = { Page: page, PageSize: pageSize, TotalRecords: count, TotalPages: Math.ceil(count / pageSize) };
+	res.setHeader("X-Pagination", JSON.stringify(pagination)).json([...orders]);
 });
 
 export { addOrderItems, getOrderById, updateOrderToPaid, updateOrderToDelivered, getMyOrders, getAllOrders };

@@ -13,6 +13,7 @@ import { useAuth } from "../../context/AuthContext";
 import { User } from "../../types/User";
 import { getAuthUserOrders } from "../../api/order";
 import { Order } from "../../types/Order";
+import { ResponseParsed } from "../../api/base";
 
 const Account = () => {
 	const queryClient = useQueryClient();
@@ -40,15 +41,15 @@ const Account = () => {
 		}
 	};
 
-	const profileQuery = useQuery<User, any>(["profile"], () => getAuthUserProfile({ token }), {
+	const profileQuery = useQuery<ResponseParsed<User>, any>(["profile"], () => getAuthUserProfile({ token }), {
 		onSuccess: (data) => {
 			setUser({
-				_id: data._id,
-				name: data.name,
-				isAdmin: data.isAdmin,
-				email: data.email,
+				_id: data.data._id,
+				name: data.data.name,
+				isAdmin: data.data.isAdmin,
+				email: data.data.email,
 			});
-			setProfileValues((prev) => ({ ...prev, name: data.name, email: data.email }));
+			setProfileValues((prev) => ({ ...prev, name: data.data.name, email: data.data.email }));
 		},
 	});
 
@@ -62,7 +63,7 @@ const Account = () => {
 		},
 	});
 
-	const ordersQuery = useQuery<Order[], any>(["orders"], () => getAuthUserOrders({ token }));
+	const ordersQuery = useQuery<ResponseParsed<Order[]>, any>(["orders"], () => getAuthUserOrders({ token }));
 
 	return (
 		<React.Fragment>
@@ -159,13 +160,13 @@ const Account = () => {
 									Check the status of recent orders, manage returns, and discover similar products.
 								</p>
 								<div className='flex flex-col gap-5 pt-4'>
-									{ordersQuery.data && ordersQuery.data.length === 0 ? (
+									{ordersQuery.data && ordersQuery.data.data.length === 0 ? (
 										<p className='mt-2 text-sm text-gray-500'>
 											You haven't made any orders with Nextshop just yet. Head over to the&nbsp;
 											<StyledLink to='/'>shop</StyledLink>&nbsp;and make an order!
 										</p>
 									) : (
-										ordersQuery.data?.map((order) => (
+										ordersQuery.data?.data.map((order) => (
 											<React.Fragment key={`order-${order._id}`}>
 												<OrderHistoryItem order={order} />
 											</React.Fragment>

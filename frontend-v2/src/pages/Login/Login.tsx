@@ -3,7 +3,7 @@ import { useNavigate, useSearch } from "@tanstack/react-location";
 import { useMutation } from "react-query";
 import { Helmet } from "react-helmet-async";
 
-import { loginUser } from "../../api/user";
+import { LoginDTO, loginUser } from "../../api/user";
 import Alert from "../../components/Alert";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
@@ -11,6 +11,8 @@ import Header from "../../components/Header";
 import StyledLink from "../../components/StyledLink";
 import { useAuth } from "../../context/AuthContext";
 import { LocationGenerics } from "../../App";
+import { ResponseParsed } from "../../api/base";
+import { AuthUser } from "../../types/User";
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -36,10 +38,10 @@ const Login = () => {
 		mutate: login,
 		error,
 		isError,
-	} = useMutation(loginUser, {
+	} = useMutation<ResponseParsed<AuthUser>, any, LoginDTO>(loginUser, {
 		onSuccess: (data) => {
-			if (data?._id) {
-				setLoggedInUser(data);
+			if (data?.data._id) {
+				setLoggedInUser(data.data);
 				navigate({ to: redirect });
 			}
 		},

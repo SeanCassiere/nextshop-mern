@@ -7,8 +7,8 @@ const TopProductsList: React.FC<{
 }> = (props) => {
 	const loadRoute = useLoadRoute();
 	return (
-		<div className='flex flex-col md:flex-row gap-4 space-between justify-between py-4'>
-			{props.products.map((product) => (
+		<div className='flex flex-col sm:overflow-y-auto md:flex-row gap-4 space-between justify-between py-4'>
+			{props.products?.map((product) => (
 				<React.Fragment key={`top-product-${product._id}`}>
 					<div
 						className='max-w-sm bg-white rounded-lg border border-gray-200 shadow-md'

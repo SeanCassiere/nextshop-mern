@@ -76,7 +76,11 @@ const App = () => {
 							{ path: "/", element: <NotFound /> },
 							{
 								path: ":orderId",
-								element: <Order />,
+								element: (
+									<PrivateOnlyRoute>
+										<Order />
+									</PrivateOnlyRoute>
+								),
 								loader: ({ params: { orderId } }) =>
 									queryClient.getQueryData(["orders", orderId]) ??
 									queryClient.fetchQuery(["orders", orderId], () => getOrderById({ token: accessToken, orderId })),

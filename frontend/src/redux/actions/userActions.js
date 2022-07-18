@@ -188,11 +188,11 @@ export const listUsers = () => async (dispatch, getState) => {
 			},
 		};
 
-		const { data } = await axios.get(`/api/users`, config);
+		const res = await axios.get(`/api/users`, config);
 
 		dispatch({
 			type: USER_LIST_SUCCESS,
-			payload: data.data,
+			payload: res.data,
 		});
 	} catch (error) {
 		dispatch({

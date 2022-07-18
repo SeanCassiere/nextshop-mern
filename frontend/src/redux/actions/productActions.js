@@ -33,11 +33,19 @@ export const listProducts =
 		try {
 			dispatch({ type: PRODUCT_LIST_REQUEST });
 
-			const { data } = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+			const res = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
 
+			let page = 0;
+			let pages = 0;
+			const paginationString = res.headers["x-pagination"];
+			if (paginationString) {
+				const pagination = JSON.parse(paginationString);
+				page = pagination?.Page || page;
+				pages = pagination?.TotalPages || pages;
+			}
 			dispatch({
 				type: PRODUCT_LIST_SUCCESS,
-				payload: data,
+				payload: { data: res.data, page, pages },
 			});
 		} catch (error) {
 			dispatch({
@@ -64,11 +72,18 @@ export const listAllProducts =
 				},
 			};
 
-			const { data } = await axios.get(`/api/products/all?keyword=${keyword}&pageNumber=${pageNumber}`, config);
-			console.log(data.data);
+			const res = await axios.get(`/api/products/all?keyword=${keyword}&pageNumber=${pageNumber}`, config);
+			let page = 0;
+			let pages = 0;
+			const paginationString = res.headers["x-pagination"];
+			if (paginationString) {
+				const pagination = JSON.parse(paginationString);
+				page = pagination?.Page || page;
+				pages = pagination?.TotalPages || pages;
+			}
 			dispatch({
 				type: PRODUCT_LIST_ALL_SUCCESS,
-				payload: data,
+				payload: { data: res.data, page, pages },
 			});
 		} catch (error) {
 			dispatch({

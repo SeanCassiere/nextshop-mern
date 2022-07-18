@@ -2,6 +2,14 @@ export const apiBaseUrl = import.meta.env.VITE_APP_BACKEND_HOST
 	? `${import.meta.env.VITE_APP_BACKEND_HOST}/api`
 	: "http://localhost:4500/api";
 
+export interface ResponseParsed<T> {
+	data: T;
+	page: number;
+	pageSize: number;
+	totalPages: number;
+	totalRecords: number;
+}
+
 export function makeUrl(endpoint: string, params: Record<string, string | number | null>) {
 	const queryParams = new URLSearchParams();
 
@@ -22,8 +30,34 @@ export async function callApi(url: RequestInfo | URL, options?: RequestInit) {
 }
 
 export const handleSuccess = async (response: Response) => {
+	let page = 0;
+	let pageSize = 0;
+	let totalPages = 0;
+	let totalRecords = 0;
+
+	const paginationString = response.headers.get("X-Pagination");
+	if (paginationString) {
+		try {
+			const parse = JSON.parse(paginationString);
+
+			page = parse?.Page || page;
+			pageSize = parse?.PageSize || pageSize;
+			totalPages = parse?.TotalPages || totalPages;
+			totalRecords = parse?.TotalRecords || totalRecords;
+		} catch (error) {
+			console.log("failed parsing pagination from headers");
+		}
+	}
+
 	if (response.ok) {
-		return await response.json();
+		const dto: ResponseParsed<any> = {
+			data: await response.json(),
+			page,
+			pageSize,
+			totalPages,
+			totalRecords,
+		};
+		return dto as any;
 	} else {
 		await response.json().then((data) => {
 			const message = data?.message || "Something went wrong";

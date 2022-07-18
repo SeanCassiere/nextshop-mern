@@ -12,6 +12,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Product } from "../../types/Product";
 import { formatPrice } from "../../utils/format";
 import { LocationGenerics } from "../../App";
+import { ResponseParsed } from "../../api/base";
 
 const AdminProducts: React.FC<{}> = () => {
 	const { page = 1 } = useSearch<LocationGenerics>();
@@ -20,7 +21,7 @@ const AdminProducts: React.FC<{}> = () => {
 
 	const loadRoute = useLoadRoute();
 
-	const productsQuery = useQuery<{ data: Product[]; page: number; pages: number }, any>(
+	const productsQuery = useQuery<ResponseParsed<Product[]>, any>(
 		["admin", "products", `page-${page}`],
 		() => getProductsForAdmin({ token, pageNumber: page }),
 		{
@@ -119,9 +120,9 @@ const AdminProducts: React.FC<{}> = () => {
 			</div>
 			<div className='pt-5'>
 				{productsQuery.data && <Table rows={productsQuery.data?.data ?? []} columnDefs={columnDefs} />}
-				{productsQuery.data && productsQuery.data.pages > 1 && (
+				{productsQuery.data && productsQuery.data.totalPages > 1 && (
 					<div className='py-4'>
-						<Paginate page={page} pages={productsQuery.data.pages} to='/admin/products' />
+						<Paginate page={page} pages={productsQuery.data.totalPages} to='/admin/products' />
 					</div>
 				)}
 			</div>

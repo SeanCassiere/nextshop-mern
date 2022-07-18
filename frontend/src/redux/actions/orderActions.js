@@ -192,11 +192,11 @@ export const listAllOrders = () => async (dispatch, getState) => {
 			},
 		};
 
-		const { data } = await axios.get(`/api/orders`, config);
+		const res = await axios.get(`/api/orders`, config);
 
 		dispatch({
 			type: ORDER_LIST_ALL_SUCCESS,
-			payload: data.data,
+			payload: res.data,
 		});
 	} catch (error) {
 		dispatch({
