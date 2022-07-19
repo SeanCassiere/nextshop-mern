@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Navigate, useMatch, useNavigate } from "@tanstack/react-location";
+import { Navigate, useMatch, useNavigate, useSearch } from "@tanstack/react-location";
 import { Helmet } from "react-helmet-async";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { FaStripe } from "react-icons/fa";
 
 import Header from "../../components/Header";
 import OrderSummary from "../../components/OrderSummary";
@@ -15,21 +16,27 @@ import { getOrderById, MakePayPalPaymentDTO, payOrder } from "../../api/order";
 import { getPaypalClientId } from "../../api/config";
 import { Order } from "../../types/Order";
 import { formatShortDate, formatTextDate } from "../../utils/format";
-import { ResponseParsed } from "../../api/base";
+import { makeUrl, ResponseParsed } from "../../api/base";
 import { adminOrderDelivered, AdminOrderDeliveredDTO } from "../../api/admin";
+import { useCart } from "../../context/CartContext";
 
 const OrderPage = () => {
 	const {
 		params: { orderId },
 	} = useMatch<LocationGenerics>();
+	const queryFrom = useSearch<LocationGenerics>().redirect;
+	const fromQ = queryFrom || "/";
 
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { user } = useAuth();
 	const token = user?.token ?? "";
 
+	const { clearItems: clearCartItems } = useCart();
+
 	const [mounted, setMounted] = useState(false);
 	const [paypalLoadingPending, setPaypalLoadingPending] = useState(true);
+	const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
 
 	const orderQuery = useQuery<ResponseParsed<Order>, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
 		onError: () => {
@@ -79,8 +86,11 @@ const OrderPage = () => {
 	}, [orderQuery.data]);
 
 	useEffect(() => {
+		if (fromQ === "checkout") {
+			clearCartItems();
+		}
 		setMounted(true);
-	}, []);
+	}, [clearCartItems, fromQ]);
 
 	if (orderId.trim() === "/" || orderId.trim() === "") {
 		return <Navigate to='/' replace />;
@@ -237,6 +247,31 @@ const OrderPage = () => {
 															}}
 														/>
 													</PayPalScriptProvider>
+												)}
+											{orderQuery?.data?.data?.isPaid === false &&
+												orderQuery?.data?.data?.paymentMethod?.toLowerCase() === "stripe" && (
+													<form
+														action={makeUrl(`/orders/${orderId}/checkout-stripe-with-follow`, {}).toString()}
+														method='POST'
+													>
+														<input type='hidden' name='order_id' value={orderId} readOnly />
+														<input type='hidden' name='origin_url' value={`${window.location.href}`} readOnly />
+														<Button
+															type='submit'
+															size='sm'
+															fullWidth
+															loading={isPaymentProcessing}
+															disabled={isPaymentProcessing}
+															onClick={() => {
+																setIsPaymentProcessing(true);
+															}}
+														>
+															<div className='text-center flex gap-2 justify-center items-center'>
+																<span>Pay via</span>
+																<FaStripe className='text-5xl' />
+															</div>
+														</Button>
+													</form>
 												)}
 											{user?.isAdmin &&
 												orderQuery.data?.data?.isPaid &&

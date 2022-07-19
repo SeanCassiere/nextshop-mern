@@ -1,13 +1,15 @@
 import React from "react";
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { useLoadRoute, useSearch } from "@tanstack/react-location";
 import { MdCheck, MdClose } from "react-icons/md";
+import { FaStripe, FaPaypal } from "react-icons/fa";
 
 import Table from "../../components/Table";
 import Paginate from "../../components/Paginate";
 import StyledLink from "../../components/StyledLink";
-import { getOrdersForAdmin } from "../../api/admin";
+
+import { adminOrderDelivered, AdminOrderDeliveredDTO, getOrdersForAdmin } from "../../api/admin";
 import { useAuth } from "../../context/AuthContext";
 import { formatPrice, formatShortDate } from "../../utils/format";
 import { LocationGenerics } from "../../App";
@@ -15,6 +17,7 @@ import { Order } from "../../types/Order";
 import { ResponseParsed } from "../../api/base";
 
 const AdminOrders: React.FC<{}> = () => {
+	const queryClient = useQueryClient();
 	const { page = 1 } = useSearch<LocationGenerics>();
 	const { user } = useAuth();
 	const token = user?.token ?? "";
@@ -28,6 +31,18 @@ const AdminOrders: React.FC<{}> = () => {
 			keepPreviousData: true,
 		}
 	);
+
+	const { mutate: markDelivered, isLoading: isMarkingDelivered } = useMutation<
+		ResponseParsed<Order>,
+		any,
+		AdminOrderDeliveredDTO
+	>(adminOrderDelivered, {
+		onSuccess: (_, variables) => {
+			queryClient.invalidateQueries(["admin", "orders", page]);
+			queryClient.invalidateQueries(["orders", variables.orderId]);
+			queryClient.invalidateQueries(["orders"]);
+		},
+	});
 
 	const columnDefs: ColumnDef<Order>[] = [
 		{
@@ -77,7 +92,46 @@ const AdminOrders: React.FC<{}> = () => {
 		{
 			header: "Delivered?",
 			accessorKey: "isDeliver",
-			cell: (info) => (info.getValue() ? <MdCheck className='text-green-500' /> : <MdClose className='text-red-500' />),
+
+			accessorFn: (row) => JSON.stringify({ isPaid: row.isPaid, isDeliver: row.isDeliver, _id: row._id }),
+			cell: (info) => {
+				const parsed = JSON.parse(info.getValue());
+				return parsed.isDeliver ? (
+					<MdCheck className='text-green-500' />
+				) : (
+					<span className='inline-flex items-center gap-4'>
+						<MdClose className='text-red-500' />
+						{parsed.isPaid && (
+							<button
+								type='button'
+								className='px-2 py-1 text-sm duration-150 bg-indigo-500 hover:bg-indigo-600 rounded-sm text-white'
+								disabled={isMarkingDelivered || productsQuery.isLoading}
+								onClick={() => {
+									markDelivered({ token, orderId: parsed._id });
+								}}
+							>
+								Done
+							</button>
+						)}
+					</span>
+				);
+			},
+		},
+		{
+			header: "Payment via",
+			accessorKey: "paymentMethod",
+			cell: (info) => {
+				const method: string = info.getValue();
+				const formatted = method.trim().toLowerCase();
+				let element: React.ReactNode = formatted;
+				if (formatted === "paypal") {
+					element = <FaPaypal />;
+				}
+				if (formatted === "stripe") {
+					element = <FaStripe />;
+				}
+				return <span className='text-3xl'>{element}</span>;
+			},
 		},
 	];
 

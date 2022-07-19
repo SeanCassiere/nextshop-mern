@@ -37,7 +37,7 @@ import UserEdit from "./pages/Admin/UserEdit";
 
 export type LocationGenerics = MakeGenerics<{
 	Params: { productId: string; orderId: string; userId: string };
-	Search: { page?: string; redirect?: string };
+	Search: { page?: string; redirect?: string; from?: string };
 }>;
 
 const routerHistory = createBrowserHistory();
