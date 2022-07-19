@@ -110,7 +110,7 @@ const updateUserProfile = asyncHandler(async (req: CustomRequest<UserDocument>, 
 // @route GET /api/users
 // @access Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
-	const pageSize = Number(req.query.pageSize) || 8;
+	const pageSize = Number(req.query.pageSize) || 10;
 	const page = Number(req.query.pageNumber) || 1;
 
 	const count = await User.countDocuments({});

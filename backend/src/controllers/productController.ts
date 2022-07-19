@@ -5,7 +5,7 @@ import Product, { ReviewDocument } from "../models/productModel";
 // @route GET /api/products
 // @access Public
 const getActiveProducts = asyncHandler(async (req, res) => {
-	const pageSize = Number(req.query.pageSize) || 8;
+	const pageSize = Number(req.query.pageSize) || 10;
 	const page = Number(req.query.pageNumber) || 1;
 
 	let regexp: RegExp;
@@ -40,7 +40,7 @@ const getActiveProducts = asyncHandler(async (req, res) => {
 // @route GET /api/products
 // @access Private/Admin
 const getAllProducts = asyncHandler(async (req, res) => {
-	const pageSize = 8;
+	const pageSize = Number(req.query?.pageSize) || 10;
 	const page = Number(req.query.pageNumber) || 1;
 
 	let regexp: RegExp;

@@ -29,7 +29,6 @@ const protect = asyncHandler(async (req: CustomRequest<UserInt>, res: Response, 
 
 			next();
 		} catch (error) {
-			console.error(error);
 			res.status(401);
 			throw new Error("Not Authorized, token failed");
 		}

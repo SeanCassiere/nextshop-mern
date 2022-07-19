@@ -1,4 +1,5 @@
 import express from "express";
+import { checkoutStripeWithFollow } from "../controllers/checkoutController";
 import {
 	addOrderItems,
 	getOrderById,
@@ -11,6 +12,8 @@ import {
 import { protect, isAdmin } from "../middleware/authMiddleware";
 
 const router = express.Router();
+
+const urlencoded = express.urlencoded({ extended: false });
 
 /**
  * @swagger
@@ -362,5 +365,51 @@ router.route("/:id/pay").put(protect, updateOrderToPaid);
  *         $ref: '#/components/responses/NotFoundError'
  */
 router.route("/:id/deliver").put(protect, isAdmin, updateOrderToDelivered);
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     StripeCheckoutSessionCreator:
+ *       type: object
+ *       required:
+ *         - order_id:
+ *         - origin_url:
+ *       properties:
+ *         order_id:
+ *           type: string
+ *         origin_url:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * /orders/{id}/checkout-stripe-with-follow:
+ *   post:
+ *     summary: Create an enter a stripe checkout session for the order
+ *     tags: [Orders, Private]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *         type: string
+ *         required: true
+ *         description: The unique id given to the order
+ *     requestBody:
+ *       content:
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             $ref: '#/components/schemas/StripeCheckoutSessionCreator'
+ *     responses:
+ *       303:
+ *         description: Redirected to Stripe checkout session
+ *       401:
+ *         description: Redirected to Stripe checkout session
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         description: Not found
+ *         $ref: '#/components/responses/NotFoundError'
+ */
+router.route("/:id/checkout-stripe-with-follow").post(urlencoded, checkoutStripeWithFollow);
 
 export default router;

@@ -42,7 +42,7 @@ const swaggerOptions = {
 			},
 		],
 	},
-	apis: ["./backend/**/routes/*"],
+	apis: ["./src/**/routes/*", "./dist/**/routes/*"],
 };
 
 const swaggerSpecs = swaggerJSDoc(swaggerOptions);
@@ -93,7 +93,12 @@ async function main() {
 	app.use("/api/orders", orderRoutes);
 	app.use("/api/upload", uploadRoutes);
 
-	app.get("/api/config/paypal", (_, res) => res.send(process.env.PAYPAL_CLIENT_ID ?? null));
+	app.get("/api/config/paypal", (_, res) =>
+		res.send(process.env.PAYPAL_CLIENT_ID ?? "Key not added to .env as PAYPAL_CLIENT_ID")
+	);
+	app.get("/api/config/stripe/publishable", (_, res) =>
+		res.send(process.env.STRIPE_PUBLISHABLE_KEY ?? "Key not added to .env as STRIPE_PUBLISHABLE_KEY")
+	);
 
 	const __dirname = path.resolve();
 	app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
