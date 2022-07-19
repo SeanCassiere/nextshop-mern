@@ -11,7 +11,6 @@ const OrderSummary: React.FC<{
 	totalPrice?: number;
 	children?: React.ReactNode;
 }> = ({ error, subtotalPrice, shippingPrice, taxPrice, totalPrice, children }) => {
-	console.log(children);
 	return (
 		<div className='bg-gray-50 rounded-md py-6 px-4 sm:px-6'>
 			<h2 id='summary-heading' className='text-lg font-medium text-gray-900'>

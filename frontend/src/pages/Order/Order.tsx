@@ -1,21 +1,21 @@
-import React, { useMemo, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import React, { useEffect, useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navigate, useMatch, useNavigate } from "@tanstack/react-location";
 import { Helmet } from "react-helmet-async";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
+import Header from "../../components/Header";
+import OrderSummary from "../../components/OrderSummary";
+import OrderItemList from "../../components/OrderItemList";
+import Button from "../../components/Button";
 
 import { LocationGenerics } from "../../App";
 import { useAuth } from "../../context/AuthContext";
 import { getOrderById, MakePayPalPaymentDTO, payOrder } from "../../api/order";
 import { getPaypalClientId } from "../../api/config";
 import { Order } from "../../types/Order";
-
-import Header from "../../components/Header";
-import OrderSummary from "../../components/OrderSummary";
-import OrderItemList from "../../components/OrderItemList";
 import { formatShortDate, formatTextDate } from "../../utils/format";
 import { ResponseParsed } from "../../api/base";
-import Button from "../../components/Button";
 import { adminOrderDelivered, AdminOrderDeliveredDTO } from "../../api/admin";
 
 const OrderPage = () => {
@@ -28,24 +28,27 @@ const OrderPage = () => {
 	const { user } = useAuth();
 	const token = user?.token ?? "";
 
+	const [mounted, setMounted] = useState(false);
 	const [paypalLoadingPending, setPaypalLoadingPending] = useState(true);
+
+	const orderQuery = useQuery<ResponseParsed<Order>, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
+		onError: () => {
+			navigate({ to: "/account" });
+		},
+		enabled: mounted,
+	});
 
 	const { data: paypalClientId } = useQuery<string, any>(["config", "paypal"], getPaypalClientId, {
 		onSuccess: () => {
 			setPaypalLoadingPending(false);
 		},
+		enabled: orderQuery?.data?.data?.paymentMethod?.toLowerCase()?.trim() === "paypal" ? true : false,
 	});
 
 	const { mutate: storePayment } = useMutation<Order, any, MakePayPalPaymentDTO>(payOrder, {
 		onSuccess: () => {
 			queryClient.invalidateQueries(["orders", orderId]);
 			queryClient.invalidateQueries(["orders"]);
-		},
-	});
-
-	const orderQuery = useQuery<ResponseParsed<Order>, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
-		onError: () => {
-			navigate({ to: "/account" });
 		},
 	});
 
@@ -74,6 +77,10 @@ const OrderPage = () => {
 			qty: item.qty,
 		}));
 	}, [orderQuery.data]);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	if (orderId.trim() === "/" || orderId.trim() === "") {
 		return <Navigate to='/' replace />;

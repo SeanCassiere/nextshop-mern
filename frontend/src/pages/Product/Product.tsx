@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useMatch, useLocation, Navigate, useNavigate } from "@tanstack/react-location";
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 import { Helmet } from "react-helmet-async";
 
 import Header from "../../components/Header";

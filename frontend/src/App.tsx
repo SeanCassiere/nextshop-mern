@@ -10,8 +10,8 @@ import {
 	Navigate,
 	createBrowserHistory,
 } from "@tanstack/react-location";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { HelmetProvider } from "react-helmet-async";
 
 import { decodeFromBinary, encodeToBinary } from "./utils/parse";
@@ -21,6 +21,7 @@ import { getOrderById } from "./api/order";
 
 import ContextProvider from "./context/ContextProvider";
 import { useAuth } from "./context/AuthContext";
+import { getUserByIdForAdmin } from "./api/admin";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
@@ -32,7 +33,6 @@ import Checkout from "./pages/Checkout";
 import Order from "./pages/Order";
 import Admin from "./pages/Admin";
 import ProductEdit from "./pages/Admin/ProductEdit";
-import { getUserByIdForAdmin } from "./api/admin";
 import UserEdit from "./pages/Admin/UserEdit";
 
 export type LocationGenerics = MakeGenerics<{

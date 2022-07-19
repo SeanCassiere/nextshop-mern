@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useSearch } from "@tanstack/react-location";
-import { useMutation } from "react-query";
+import { useMutation } from '@tanstack/react-query';
 import { Helmet } from "react-helmet-async";
 
 import { LoginDTO, loginUser } from "../../api/user";

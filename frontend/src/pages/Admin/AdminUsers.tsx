@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useSearch } from "@tanstack/react-location";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from "@tanstack/react-table";
 import { MdCheck, MdClose, MdEdit, MdDelete } from "react-icons/md";
 

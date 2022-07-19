@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useMatch, useNavigate } from "@tanstack/react-location";
 import { Helmet } from "react-helmet-async";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import Header from "../../components/Header";
 import Input from "../../components/Input";

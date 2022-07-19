@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Navigate, useNavigate } from "@tanstack/react-location";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { RadioGroup } from "@headlessui/react";
 import { BsCheckCircleFill } from "react-icons/bs";
 
+import { ResponseParsed } from "../../api/base";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { AuthUser } from "../../types/User";
@@ -17,7 +18,6 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import OrderItemList from "../../components/OrderItemList";
 import OrderSummary from "../../components/OrderSummary";
-import { ResponseParsed } from "../../api/base";
 
 type StepOption = "shipping-address" | "payment-selection" | "confirmation";
 
@@ -48,7 +48,7 @@ const Checkout = () => {
 		setCurrentStep(step);
 	}, []);
 
-	if (items.length === 0) {
+	if (items.length === 0 && currentStep !== "confirmation") {
 		return <Navigate to='/' />;
 	}
 
@@ -289,8 +289,9 @@ const PlaceOrderForm: React.FC<{ user: AuthUser } & CommonSubFormProps> = ({ use
 			},
 			onSuccess: (data) => {
 				if (data?.data?._id) {
+					const path = `/order/${data?.data?._id}`;
+					navigate({ to: path });
 					clearItems();
-					navigate({ to: `/order/${data?.data?._id}` });
 				} else {
 					setMutationError(`Something happened, the _id was not returned.`);
 				}

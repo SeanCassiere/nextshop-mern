@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useQuery, useQueryClient, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 import Header from "../../components/Header";
 import Button from "../../components/Button";
