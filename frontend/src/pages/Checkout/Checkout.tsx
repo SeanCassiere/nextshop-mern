@@ -218,9 +218,9 @@ const PaymentSelectionForm: React.FC<CommonSubFormProps> = ({ changeStep }) => {
 				changeStep("confirmation");
 			}}
 		>
-			<h2 className='text-xl font-medium tracking-tight text-gray-700'>Choose your payment method</h2>
+			<h2 className='text-xl font-medium tracking-tight text-gray-700'>Choose your payment facilitator</h2>
 			<RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
-				<RadioGroup.Label className='text-md'>Available payment method(s)</RadioGroup.Label>
+				<RadioGroup.Label className='text-md'>Available payment gateways(s)</RadioGroup.Label>
 				<div className='mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4'>
 					{paymentMethods.map((paymentProvider) => (
 						<RadioGroup.Option
@@ -242,7 +242,8 @@ const PaymentSelectionForm: React.FC<CommonSubFormProps> = ({ changeStep }) => {
 												{paymentProvider}
 											</RadioGroup.Label>
 											<RadioGroup.Description as='span' className='mt-1 flex items-center text-sm text-gray-500'>
-												{paymentProvider === "PayPal" && "PayPal account or credit card"}
+												{paymentProvider === "PayPal" && "PayPal account or a credit card"}
+												{paymentProvider === "Stripe" && "Google Pay or a credit card"}
 											</RadioGroup.Description>
 										</div>
 									</div>
@@ -272,8 +273,7 @@ const PaymentSelectionForm: React.FC<CommonSubFormProps> = ({ changeStep }) => {
 
 const PlaceOrderForm: React.FC<{ user: AuthUser } & CommonSubFormProps> = ({ user }) => {
 	const token = user?.token ?? "";
-	const { itemsPrice, taxPrice, shippingPrice, totalPrice, shippingAddress, paymentMethod, items, clearItems } =
-		useCart();
+	const { itemsPrice, taxPrice, shippingPrice, totalPrice, shippingAddress, paymentMethod, items } = useCart();
 	const navigate = useNavigate();
 
 	const [mutationError, setMutationError] = useState<string | null>(null);
@@ -290,8 +290,7 @@ const PlaceOrderForm: React.FC<{ user: AuthUser } & CommonSubFormProps> = ({ use
 			onSuccess: (data) => {
 				if (data?.data?._id) {
 					const path = `/order/${data?.data?._id}`;
-					navigate({ to: path });
-					clearItems();
+					navigate({ to: path, search: { from: "checkout" } });
 				} else {
 					setMutationError(`Something happened, the _id was not returned.`);
 				}

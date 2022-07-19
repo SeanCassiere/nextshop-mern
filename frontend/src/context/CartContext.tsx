@@ -11,7 +11,7 @@ export type ContextCartItem = {
 	qty: number;
 };
 
-const paymentMethods = ["PayPal"] as const;
+const paymentMethods = ["PayPal", "Stripe"] as const;
 type PaymentMethod = typeof paymentMethods[number];
 
 type CartAddress = {

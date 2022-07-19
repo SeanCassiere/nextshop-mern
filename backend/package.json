@@ -1,0 +1,52 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node dist/server",
+		"server": "nodemon",
+		"build:server": "tsc",
+		"dev": "npm run server",
+		"data:import": "ts-node src/seeder",
+		"data:destroy": "ts-node src/seeder -d",
+		"productData:import": "ts-node src/seederProducts",
+		"productData:destroy": "ts-node src/seederProducts -d"
+	},
+	"keywords": [],
+	"author": "Sean Cassiere",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"colors": "^1.4.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"express-async-handler": "^1.1.4",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.10.16",
+		"morgan": "^1.10.0",
+		"multer": "^1.4.2",
+		"stripe": "^9.14.0",
+		"swagger-jsdoc": "6.1.0",
+		"swagger-ui-express": "^4.1.6"
+	},
+	"devDependencies": {
+		"@types/bcryptjs": "^2.4.2",
+		"@types/colors": "^1.2.1",
+		"@types/cors": "^2.8.12",
+		"@types/express": "^4.17.11",
+		"@types/jsonwebtoken": "^8.5.1",
+		"@types/mongoose": "^5.10.5",
+		"@types/morgan": "^1.9.2",
+		"@types/multer": "^1.4.5",
+		"@types/node": "^15.6.0",
+		"@types/swagger-jsdoc": "^6.0.0",
+		"@types/swagger-ui": "^3.47.0",
+		"@types/swagger-ui-express": "^4.1.2",
+		"nodemon": "^2.0.6",
+		"ts-node": "^9.1.1",
+		"typescript": "^4.2.4"
+	}
+}

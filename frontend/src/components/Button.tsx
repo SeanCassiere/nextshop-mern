@@ -3,12 +3,12 @@ import React from "react";
 type ButtonSize = "sm" | "md" | "lg" | "xl";
 
 const Button: React.FC<
-	{ fullWidth?: true; size?: ButtonSize } & React.DetailedHTMLProps<
+	{ fullWidth?: true; size?: ButtonSize; loading?: boolean } & React.DetailedHTMLProps<
 		React.ButtonHTMLAttributes<HTMLButtonElement>,
 		HTMLButtonElement
 	>
 > = (props) => {
-	const { children, className, fullWidth, size = "md", ...buttonProps } = props;
+	const { children, className, fullWidth, size = "md", loading = false, ...buttonProps } = props;
 	return (
 		<button
 			className={`
@@ -25,7 +25,13 @@ const Button: React.FC<
     `}
 			{...buttonProps}
 		>
-			{children}
+			{loading ? (
+				<div className='flex gap-2 justify-center items-center p-2'>
+					<span className='loader-spinner'></span>
+				</div>
+			) : (
+				children
+			)}
 		</button>
 	);
 };
