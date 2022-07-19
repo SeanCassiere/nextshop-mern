@@ -10,8 +10,8 @@ import { CustomRequest } from "../utils/CustomInterfaces";
 const authUser = asyncHandler(async (req: CustomRequest<UserDocument>, res) => {
 	const { email, password } = req.body;
 
-	const user = await User.findOne({ email: email });
-
+	const user = await User.findOne({ email: email.toLowerCase() });
+	console.log("user", user);
 	if (user && (await user.matchPassword(password))) {
 		res.json({
 			_id: user._id,
@@ -32,7 +32,7 @@ const authUser = asyncHandler(async (req: CustomRequest<UserDocument>, res) => {
 const registerUser = asyncHandler(async (req: CustomRequest<UserDocument>, res) => {
 	const { name, email, password } = req.body;
 
-	const userExists = await User.findOne({ email: email });
+	const userExists = await User.findOne({ email: email.toLowerCase() });
 
 	if (userExists) {
 		res.status(400);
@@ -86,7 +86,7 @@ const updateUserProfile = asyncHandler(async (req: CustomRequest<UserDocument>, 
 
 	if (user) {
 		user.name = req.body.name || user.name;
-		user.email = req.body.email || user.email;
+		user.email = req.body.email.toLowerCase() || user.email;
 		if (req.body.password) {
 			user.password = req.body.password;
 		}
@@ -161,7 +161,7 @@ const updateUser = asyncHandler(async (req: CustomRequest<UserDocument>, res) =>
 
 	if (user) {
 		user.name = req.body.name || user.name;
-		user.email = req.body.email || user.email;
+		user.email = req.body.email.toLowerCase() || user.email;
 
 		if (String(req.user._id) === String(user._id) && user.isAdmin !== req.body.isAdmin) {
 			res.status(401);
