@@ -11,7 +11,7 @@ const authUser = asyncHandler(async (req: CustomRequest<UserDocument>, res) => {
 	const { email, password } = req.body;
 
 	const user = await User.findOne({ email: email.toLowerCase() });
-	console.log("user", user);
+
 	if (user && (await user.matchPassword(password))) {
 		res.json({
 			_id: user._id,
