@@ -1,14 +1,10 @@
 import mongoose from "mongoose";
 import colors from "colors";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const MONGO_URI = process.env.MONGO_URI || "";
+import { env } from "./env";
 
 const connectDB = async () => {
 	try {
-		const conn = await mongoose.connect(MONGO_URI, {
+		const conn = await mongoose.connect(env.MONGO_URI, {
 			useUnifiedTopology: true,
 			useNewUrlParser: true,
 			useCreateIndex: true,

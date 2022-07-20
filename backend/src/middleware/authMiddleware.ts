@@ -1,15 +1,14 @@
 import dotenv from "dotenv";
-import { verify, Secret } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { Response, NextFunction } from "express";
 import asyncHandler from "express-async-handler";
 
-import UserModel, { UserDocument } from "../models/userModel";
+import UserModel from "../models/userModel";
 import type { UserModel as UserInt } from "../models/userModel";
 import { CustomRequest, TokenInterface } from "../utils/CustomInterfaces";
+import { env } from "../config/env";
 
 dotenv.config();
-
-const JWT_SECRET: Secret = process.env.JWT_SECRET || "";
 
 const protect = asyncHandler(async (req: CustomRequest<UserInt>, res: Response, next: NextFunction) => {
 	let token: string = "";
@@ -17,7 +16,7 @@ const protect = asyncHandler(async (req: CustomRequest<UserInt>, res: Response, 
 	if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
 		try {
 			token = req.headers.authorization.split(" ")[1];
-			const decoded = verify(token, JWT_SECRET) as TokenInterface;
+			const decoded = verify(token, env.JWT_SECRET) as TokenInterface;
 
 			const userFound = await UserModel.findById(decoded.id).select("-password");
 

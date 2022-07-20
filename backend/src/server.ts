@@ -12,6 +12,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import type { UserDocument } from "./models/userModel";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware";
+import { env } from "./config/env";
 
 import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
@@ -20,7 +21,7 @@ import uploadRoutes from "./routes/uploadRoutes";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = Number(env.PORT) || 5000;
 
 const swaggerOptions = {
 	definition: {
@@ -71,7 +72,7 @@ async function main() {
 		})
 	);
 
-	if (process.env.NODE_ENV === "development") {
+	if (env.NODE_ENV === "development") {
 		app.use(morgan("dev"));
 	}
 
@@ -94,10 +95,10 @@ async function main() {
 	app.use("/api/upload", uploadRoutes);
 
 	app.get("/api/config/paypal", (_, res) =>
-		res.send(process.env.PAYPAL_CLIENT_ID ?? "Key not added to .env as PAYPAL_CLIENT_ID")
+		res.send(env.PAYPAL_CLIENT_ID ?? "Key not added to .env as PAYPAL_CLIENT_ID")
 	);
 	app.get("/api/config/stripe/publishable", (_, res) =>
-		res.send(process.env.STRIPE_PUBLISHABLE_KEY ?? "Key not added to .env as STRIPE_PUBLISHABLE_KEY")
+		res.send(env.STRIPE_PUBLISHABLE_KEY ?? "Key not added to .env as STRIPE_PUBLISHABLE_KEY")
 	);
 
 	const __dirname = path.resolve();
@@ -106,9 +107,7 @@ async function main() {
 	app.use(notFound);
 	app.use(errorHandler);
 
-	app.listen(PORT, () =>
-		console.log(colors.yellow.bold(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`))
-	);
+	app.listen(PORT, () => console.log(colors.yellow.bold(`Server running in ${env.NODE_ENV} mode on port ${PORT}`)));
 }
 
 main();
