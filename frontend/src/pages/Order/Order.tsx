@@ -256,16 +256,7 @@ const OrderPage = () => {
 													>
 														<input type='hidden' name='order_id' value={orderId} readOnly />
 														<input type='hidden' name='origin_url' value={`${window.location.href}`} readOnly />
-														<Button
-															type='submit'
-															size='sm'
-															fullWidth
-															loading={isPaymentProcessing}
-															disabled={isPaymentProcessing}
-															onClick={() => {
-																setIsPaymentProcessing(true);
-															}}
-														>
+														<Button type='submit' size='sm' fullWidth>
 															<div className='text-center flex gap-2 justify-center items-center'>
 																<span>Pay via</span>
 																<FaStripe className='text-5xl' />
