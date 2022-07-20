@@ -24,7 +24,7 @@ const OrderPage = () => {
 	const {
 		params: { orderId },
 	} = useMatch<LocationGenerics>();
-	const queryFrom = useSearch<LocationGenerics>().redirect;
+	const queryFrom = useSearch<LocationGenerics>().from;
 	const fromQ = queryFrom || "/";
 
 	const navigate = useNavigate();
@@ -36,7 +36,6 @@ const OrderPage = () => {
 
 	const [mounted, setMounted] = useState(false);
 	const [paypalLoadingPending, setPaypalLoadingPending] = useState(true);
-	const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
 
 	const orderQuery = useQuery<ResponseParsed<Order>, any>(["orders", orderId], () => getOrderById({ token, orderId }), {
 		onError: () => {
@@ -86,11 +85,11 @@ const OrderPage = () => {
 	}, [orderQuery.data]);
 
 	useEffect(() => {
-		if (fromQ === "checkout") {
+		if (fromQ === "checkout" && mounted === false) {
 			clearCartItems();
 		}
 		setMounted(true);
-	}, [clearCartItems, fromQ]);
+	}, [clearCartItems, fromQ, mounted]);
 
 	if (orderId.trim() === "/" || orderId.trim() === "") {
 		return <Navigate to='/' replace />;
