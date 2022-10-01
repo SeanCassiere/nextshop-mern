@@ -1359,17 +1359,17 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
-"@tanstack/match-sorter-utils@^8.0.0-alpha.82":
+"@tanstack/match-sorter-utils@^8.1.1":
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/@tanstack/match-sorter-utils/-/match-sorter-utils-8.1.1.tgz#895f407813254a46082a6bbafad9b39b943dc834"
   integrity sha512-IdmEekEYxQsoLOR0XQyw3jD1GujBpRRYaGJYQUw1eOT1eUugWxdc7jomh1VQ1EKHcdwDLpLaCz/8y4KraU4T9A==
   dependencies:
     remove-accents "0.4.2"
 
-"@tanstack/query-core@^4.0.0-beta.1":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.0.3.tgz#21347676c45b73aec3ed0107613e5b963bc86fa5"
-  integrity sha512-Z0harJHTf051ICqyqy1BE/3B1BGKAyKD6di4x/BW2HfAkNS3c3RoLV3eZMLwcw1A+sRay634ZfBqlWJafizZog==
+"@tanstack/query-core@4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.8.0.tgz#8a7d0a0495c92ab82a49de5c4393dc7b40080d66"
+  integrity sha512-PVcSqAWboFA86eNgtHTOjfHjBkNuFGAM6kPH82p1ibx1R76f7EjedZ+LZi4ZnW4ppoSl/+hUtCgWsiNQ2ViLTw==
 
 "@tanstack/react-location@^3.7.4":
   version "3.7.4"
@@ -1379,22 +1379,20 @@
     "@babel/runtime" "^7.16.7"
     history "^5.2.0"
 
-"@tanstack/react-query-devtools@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-4.0.3.tgz#cc9b2fb23953a9144494223112e4f678c0a7fa09"
-  integrity sha512-1qB41W/6rRhWOiC5t6Yl/tMJupZ2mNc9AwkyJA/M/nAWuMpzlel1ZWoh/1RPGIB257k2JtXgD6TtUpNcoHpavg==
+"@tanstack/react-query-devtools@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-4.8.0.tgz#f6aae17677e670880e49c35900127a98e59e1e06"
+  integrity sha512-PJNAuUFOVfv/8FDjpL8O0DmXGkS5hONhSE9Ciyn/ewkqpAgbZOnwQ3nYj/9HKxNyciBzNx/54nPxQfe/smqoLw==
   dependencies:
-    "@tanstack/match-sorter-utils" "^8.0.0-alpha.82"
-    "@types/use-sync-external-store" "^0.0.3"
+    "@tanstack/match-sorter-utils" "^8.1.1"
     use-sync-external-store "^1.2.0"
 
-"@tanstack/react-query@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.0.3.tgz#2b5534965f6f79eac79bdb503f644acb3c0d311e"
-  integrity sha512-8Fg0KaZEki2VvksWD8RhEmUVrBWE10Vi9MiWrDtVc/Wy6u8Wzf+Qy7SzuUZNvMSZ7gbWZR9BdSDqlAFz4jg7mw==
+"@tanstack/react-query@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.8.0.tgz#30dbbb9efeb28c66a40ef0bf68b89952dce66ed2"
+  integrity sha512-e3QzL/S8XeA5MYqOUUABet4oZDBc1MbeUIo32r0cxEDoDJS+9oqx0az9AbBxacZ7SjM/Fy4u/eXQFBjsKGFQ6A==
   dependencies:
-    "@tanstack/query-core" "^4.0.0-beta.1"
-    "@types/use-sync-external-store" "^0.0.3"
+    "@tanstack/query-core" "4.8.0"
     use-sync-external-store "^1.2.0"
 
 "@tanstack/react-table@^8.2.6":
@@ -1471,11 +1469,6 @@
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
-
-"@types/use-sync-external-store@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
-  integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
 
 "@typescript-eslint/eslint-plugin@^5.5.0":
   version "5.30.5"
